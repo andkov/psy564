@@ -1,0 +1,16 @@
+{
+    "contents" : "\n<div class=\"navbar navbar-fixed-top\">\n  <div class=\"navbar-inner\">\n    <div class=\"container\">\n      <button type=\"button\" class=\"btn btn-navbar\" data-toggle=\"collapse\" data-target=\".nav-collapse\">\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"brand\" href=\"/\">Longitudinal Modeling (PSY-513)</a>\n      \n      <div class=\"nav-collapse collapse\">\n        <ul class=\"nav\"> <!-- MAIN NAV BAIR -->\n    \n        </ul><!-- MAIN NAV BAIR -->\n        \n        <ul class=\"nav pull-right\">\n          <a class=\"btn btn-primary\" href=\"https://https://github.com/andkov/modelingTime/index.html\">\n            <i class=\"fa fa-github fa-lg\"></i>\n            GitHub\n          </a>\n        </ul> \n      </div><!--/.nav-collapse collapse -->\n    </div><!--/.container -->\n  </div><!--/.navbar-inner -->\n</div><!--/.navbar navbar-default navbar-fixed-top -->\n\n",
+    "created" : 1417215103956.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3123411663",
+    "id" : "8F6FB06C",
+    "lastKnownWriteTime" : 1417215221,
+    "path" : "~/GitHub/modelingTime/include/before_body.html",
+    "project_path" : "include/before_body.html",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "html"
+}

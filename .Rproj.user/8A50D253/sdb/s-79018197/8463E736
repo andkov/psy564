@@ -1,0 +1,16 @@
+{
+    "contents" : "\n<!-- some extra javascript for older browsers -->\n<script type=\"text/javascript\" src=\"libs/polyfill.js\"></script>\n\n<script>\n\n// manage active state of menu based on current page\n$(document).ready(function () {\n\n    // active menu\n    href = window.location.pathname\n    href = href.substr(href.lastIndexOf('/') + 1)\n    $('a[href=\"' + href + '\"]').parent().addClass('active');\n\n    // manage active menu header\n    if (href.startsWith('authoring_'))\n      $('a[href=\"' + 'authoring' + '\"]').parent().addClass('active');\n    else if (href.endsWith('_format.html'))\n      $('a[href=\"' + 'formats' + '\"]').parent().addClass('active');\n    else if (href.startsWith('developer_'))\n      $('a[href=\"' + 'developer' + '\"]').parent().addClass('active');\n\n});\n\n</script>\n\n<!-- disqus -->\n      \n        \n<!-- Google Analytics -->\n\n\n\n\n</script> <!-- Close javascript for older browsers -->\n    ",
+    "created" : 1417215163452.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4072417763",
+    "id" : "8463E736",
+    "lastKnownWriteTime" : 1417215180,
+    "path" : "~/GitHub/modelingTime/include/after_body.html",
+    "project_path" : "include/after_body.html",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "html"
+}
