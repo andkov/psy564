@@ -1,85 +1,13 @@
 ---
-title: "iLifespan lab log"
+title: "Longitudinal Modeling (PSY-513)"
 output:
   html_document:
     toc: yes
 ---
 
 
-#2014
+## Course Description
 
-## September
-
-### September 12
-Topic: [Basic line graphs][20140912]  
-Study: OCTO TWIN  
-In focus: Hypertension and Cognition    
-</br>
-
-
-### September 19
-Topic: [From Raw to Draw][20140919] 
-Study: OCTO TWIN
-In focus: Hypertension and Cognition
-
-Session introduced the concept of datastages. Basic map of dataflow is introduced.
-
-### September 26 
-Topic: [Part 1 : Reshaping Data][20140926] 
-Study: OCTO TWIN
-In focus: Personality and Dementia
-
-
-## October
-
-### October 3 
-Topic: [Part 2: Graphing Data][20141003] 
-Study: OCTO TWIN
-In focus: Personality and Dementia
-
-
-### October 10
-Topic: [Intro to RR (Demo)][20141010]  
-Study: OCTO TWIN  
-In focus: Personality and Dementia  
-
-### October 17   
-Topic: [Data Manipulation (Demo)][20141017]   
-Study: [NLSY](https://www.nlsinfo.org/investigator/pages/login.jsp)    
-In focus: Religiosity in Young Adults    
-
-### October 31   
-Topic: [Graph Production (Demo)][20141031]   
-Study: [NLSY](https://www.nlsinfo.org/investigator/pages/login.jsp)    
-In focus: Religiosity in Young Adults 
-
-
-### November 7   
-Topic: [Establishing Data Access: Curating a Study][20141107]   
-Study: multiple    
-In focus: NA
-
-
-### November 14   
-Topic: [Demo: Statistical Modeling][20141114]   
-Study: multiple    
-In focus: NA
-
-### November 28   
-Topic: [Demo: Dynamic Reporting][20141128]   
-Study: NLSY97    
-In focus: production of dynamic documents for analyzing sequences of statistical models   
-
-
-[20140912]:./2014-12-09-Line-graphs-OCTO.html
-[20140919]:./2014-19-09-From-Raw-to-Draw.html
-[20140926]:./2014-26-09-Dementia-Personality-OCTO.html
-[20141003]:./2014-03-10-Dementia-Personality-OCTO-Part2.html
-[20141010]:./2014-10-10-Intro-to-RR-Demo.html
-[20141017]:./2014-10-21-Data-Manipulation-firstDraft.html
-[20141031]:./2014-10-31-Producing-Graphs-Demo.html
-[20141107]:./2014-11-07-Curating-a-Study.html
-[20141114]:./2014-11-14-Statistical-Modeling-Demo.html
-[20141128]:./2014-11-28-Dynamic-Reporting-Demo.html
+This course will provide an overview of current statistical approaches for the analysis of variation and change. Conceptual and research design issues will be discussed throughout with an emphasis on alternative models for explaining and predicting individual-level change. Hands-on training in analysis of longitudinal data will focus on use of Mplus (www.statmodel.com), a statistical program that has many features of both traditional MLM and SEM approaches. A variety of models will be examined and applied to actual data including models with time invariant and time-varying covariates, factor-level outcomes, alternative time structures, and joint models of variation and change. Substantive examples will be used throughout the course based on published and unpublished results from several major longitudinal studies on developmental and aging-related change.  
 
 
