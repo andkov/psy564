@@ -1,7 +1,7 @@
 html_document:
   self_contained: false
-  theme: spacelab
-  highlight: textmate
+  theme: readable
+  highlight: tango
   mathjax: null
   toc_depth: 2
   lib_dir: libs
@@ -9,4 +9,5 @@ html_document:
     in_header: include/in_header.html
     before_body: include/before_body.html
     after_body: include/after_body.html
+
 

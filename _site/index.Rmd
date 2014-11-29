@@ -1,12 +1,3 @@
----
-title: "Longitudinal Modeling"
-output:
-  html_document:
-    toc: yes
-    keep_md: false
----
-
-
 **Session**:  	Spring 2015 (Jan 6 - Apr 2)  
 **Meeting Time**:		TF 12:30 a.m. -12:20 p.m.   
 **Meeting Place**:		HSD A150  

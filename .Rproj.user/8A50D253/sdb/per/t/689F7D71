@@ -1,0 +1,16 @@
+{
+    "contents" : "html_document:\n  self_contained: false\n  theme: readable\n  highlight: tango\n  mathjax: null\n  toc_depth: 2\n  lib_dir: libs\n  includes:\n    in_header: include/in_header.html\n    before_body: include/before_body.html\n    after_body: include/after_body.html\n\n\n",
+    "created" : 1417219792850.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2482083086",
+    "id" : "689F7D71",
+    "lastKnownWriteTime" : 1417221424,
+    "path" : "~/GitHub/modelingTime/_output.yaml",
+    "project_path" : "_output.yaml",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "yaml"
+}
