@@ -1,0 +1,39 @@
+---
+title: "Introduction to Modeling Change"
+output:
+  html_document:
+    toc: yes
+    keep_md: false
+    highlight: pygments
+    theme: spacelab
+---
+
+**Admission requirements** 
+##### CHAPTER 1: *Introduction to the Analysis of Longitudinal Data*  [slides]() , [video]()   
+
+## Week overview
+
+## 
+
+## Tuesday Session
+
+#### In the Literature
+
+## Friday Session
+
+What sesssion will be about
+
+## Skill development 
+
+#### Survival
+ - install R
+ - input data
+ - creat a basic graph
+
+#### Essential
+ - modify graph axis
+ - produce dynamic report
+ - source files
+
+#### Ahead of the curve
+ - modify sequences
