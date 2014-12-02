@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Modeling Change"
+title: "1 week"
 output:
   html_document:
     toc: yes

@@ -1,5 +1,5 @@
 ---
-title: "Multilevel Modeling of Change"
+title: "2 week"
 output:
   html_document:
     toc: yes
@@ -8,12 +8,6 @@ output:
     theme: spacelab
 ---
 
-```{r child, child = 'index.md'}
+```{r child, child = '2.md'}
 
 ```
-
-
-
-
-
-
