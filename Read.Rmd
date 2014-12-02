@@ -1,0 +1,13 @@
+---
+title: "Reading week"
+output:
+  html_document:
+    toc: yes
+    keep_md: false
+    highlight: pygments
+    theme: spacelab
+---
+
+```{r child, child = 'Read.md'}
+
+```
