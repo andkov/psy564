@@ -11,9 +11,21 @@ Email | smhofer at uvic dot ca | andkov at uvic dot ca
 Phone | 853-3862 | 853-3862
 
 
-Text (Required):	Hoffman, L. (2014,  Longitudinal Analysis: Modeling Within-Person Variation and Change)   
+Text. 
 
-Version 6 Mplus User’s Guide.  www.statmodel.com
+Required. 
+
+    [Longitudinal Analysis: Modeling Within-Person Variation and Change](http://www.pilesofvariance.com/) ( Lesa Hoffman, 2014). 
+
+Recommended  
+           [Data Analysis Using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/)  
+           
+          [Multilevel Analysis: An Introduction to Basic and Advanced Multilevel Modeling](http://www.stats.ox.ac.uk/~snijders/mlbook.htm) (Snijders, Tom A.B., and Bosker, Roel J., 2011, second edition).  
+    
+     [Latent Curve Models: A Structural Equation Perspective](http://ca.wiley.com/WileyCDA/WileyTitle/productCd-047145592X.html) (Kenneth A. Bollen and Patrick J. Curran, 2006). 
+
+
+Version 6 Mplus Users Guide.  www.statmodel.com
 
 ## Course Description
 
