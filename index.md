@@ -30,7 +30,7 @@ Phone | 853-3862 | 853-3862
            
 - [Multilevel Analysis: An Introduction to Basic and Advanced Multilevel Modeling](http://www.stats.ox.ac.uk/~snijders/mlbook.htm) (Snijders, Tom A.B., and Bosker, Roel J., 2011).  
     
-- [Latent Curve Models: A Structural Equation Perspective](http://ca.wiley.com/WileyCDA/WileyTitle/productCd-047145592X.html) (Kenneth A. Bollen and Patrick J. Curran, 2006). [zip archive of materials used in the book](http://www.ats.ucla.edu/stat/examples/lcm/LCM.zip)
+- [Latent Curve Models: A Structural Equation Perspective](http://www.ats.ucla.edu/stat/examples/lcm/) (Kenneth A. Bollen and Patrick J. Curran, 2006).
 
 
 Version 6 Mplus Users Guide.  www.statmodel.com
