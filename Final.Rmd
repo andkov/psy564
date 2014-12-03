@@ -1,0 +1,13 @@
+---
+title: "Final week"
+output:
+  html_document:
+    toc: yes
+    keep_md: false
+    theme: spacelab
+---
+
+```{r child, child = 'Final.md'}
+
+```
+
