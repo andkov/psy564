@@ -1,6 +1,6 @@
 ----
 
-**NOTICE**: page under construction. Stable version will be published by *January 6, 2015* [edit page](https://github.com/andkov/MLMtime/edit/gh-pages/index.md)
+**NOTICE**: page under construction. Stable version will be published by *January 6, 2015* | [edit page](https://github.com/andkov/MLMtime/edit/gh-pages/index.md)
 
 ----
 
