@@ -15,7 +15,7 @@ Text.
 
 Required. 
 
-    [Longitudinal Analysis: Modeling Within-Person Variation and Change](http://www.pilesofvariance.com/) ( Lesa Hoffman, 2014). 
+    [Longitudinal Analysis: Modeling Within-Person Variation and Change](http://www.pilesofvariance.com) (Lesa Hoffman, 2014). 
 
 Recommended  
            [Data Analysis Using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/)  
