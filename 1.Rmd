@@ -1,5 +1,5 @@
 ---
-title: "1 week"
+title: "week 1"
 output:
   html_document:
     toc: yes
