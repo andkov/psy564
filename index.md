@@ -19,11 +19,11 @@ Phone | 853-3862 | 853-3862
 
 ### Recommended  text 
 
-- [Data Analysis Using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/)  
+- [Data Analysis Using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/) ( Andrew Gelman and Jennifer Hill, 2006)  
            
-- [Multilevel Analysis: An Introduction to Basic and Advanced Multilevel Modeling](http://www.stats.ox.ac.uk/~snijders/mlbook.htm) (Snijders, Tom A.B., and Bosker, Roel J., 2011, second edition).  
+- [Multilevel Analysis: An Introduction to Basic and Advanced Multilevel Modeling](http://www.stats.ox.ac.uk/~snijders/mlbook.htm) (Snijders, Tom A.B., and Bosker, Roel J., 2011).  
     
-- [Latent Curve Models: A Structural Equation Perspective](http://ca.wiley.com/WileyCDA/WileyTitle/productCd-047145592X.html) (Kenneth A. Bollen and Patrick J. Curran, 2006). 
+- [Latent Curve Models: A Structural Equation Perspective](http://ca.wiley.com/WileyCDA/WileyTitle/productCd-047145592X.html) (Kenneth A. Bollen and Patrick J. Curran, 2006). [zip archive of materials used in the book](http://www.ats.ucla.edu/stat/examples/lcm/LCM.zip)
 
 
 Version 6 Mplus Users Guide.  www.statmodel.com
