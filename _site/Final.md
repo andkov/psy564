@@ -1,16 +1,12 @@
 ----
 
-**NOTICE**: page under construction. Stable version will be published by *Feburay 3, 2015*
+**NOTICE**: page under construction. Stable version will be published by *March 31, 2015* [edit page](https://github.com/andkov/MLMtime/edit/gh-pages/1.md)
 
 ----
 
 **Admission requirements** *What you need to read before coming to class on Tuesday* 
 
-##### Chapter NN: *Title*   
-
-##### Lecture: *Optional Title* [slides](http://) [video](http://)   
-
----- 
+----
 
 ## Plan for the week 
 
