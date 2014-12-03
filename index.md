@@ -1,3 +1,10 @@
+----
+
+**NOTICE**: page under construction. Stable version will be published by *January 6, 2015* [edit page](https://github.com/andkov/MLMtime/edit/gh-pages/index.md)
+
+----
+
+
 
 **Session**:  	Spring 2015 (Jan 6 - Apr 2)  
 **Meeting Time**:		TF 12:30 a.m. -12:20 p.m.   
