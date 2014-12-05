@@ -17,6 +17,8 @@ Hours | By appointment	  | By appointment
 Email | smhofer at uvic dot ca | andkov at uvic dot ca
 Phone | 853-3862 | 853-3862
 
+Video | Length | Slides | Topic 
+------|--------|--------|------
 
 
 
