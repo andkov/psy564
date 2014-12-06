@@ -17,8 +17,21 @@ Hours | By appointment	  | By appointment
 Email | smhofer at uvic dot ca | andkov at uvic dot ca
 Phone | 853-3862 | 853-3862
 
-Video | Length | Slides | Topic 
-------|--------|--------|------
+Week  | Session | Topic  | Reading | Slides | Examples | Due 
+------|---------|--------|---------|--------|----------|-----------
+1  |1 | Syllabus. What is modeling? Software review and skill development plans | [What is modeling?](tba), [COAG Colloquium 2014F](http://ialsa.github.io/COAG-Colloquium-2014F/) | - | - 
+1  |2 |  
+2  |3 |  Introduction to Multilevel Models for Longitudinal and Repeated Measures Data | Hoffman(2014) Ch.1 | [Lecture 1](http://www.lesahoffman.com/944/944_Lecture01_Intro_MLM.pdf) | - | -
+2  |4 |  - | - | - | -| Content report with markdown 
+3  |5 |  - | - | - | -| quiz question, page number, slide number  
+3  |6 |  - | - | - | -| R cheat sheet in markdown  
+4  |7 |  - | - | - | -| quiz question, page number, slide number      
+4  |8 |  - | - | - | -| Model reporting with Rmarkdown  
+5  |9 |  - | - | - | -|quiz question, page number, slide number    
+5  |10 | - | - | - | -| -  
+Read  | - | - | - | - | -| -    
+Read  | - | - | - | - | -| -   
+7 | 11 - | - | - | -| -  
 
 
 
