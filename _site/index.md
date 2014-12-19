@@ -19,12 +19,48 @@ Phone | 853-3862 | 853-3862
 
 
 
-### Text
+Meeting |Week|Class| Topics  | Chapter | Report due (23:59) |
+-------|----|------|---------|---------|--------------------|      
+06 Jan |1 |1 |[Introduction to Multilevel Models for Longitudinal and Repeated Measures Data](http://www.lesahoffman.com/944/944_Lecture01_Intro_MLM.pdf) |H-1|  |     
+09 Jan |	|2 |  |  |  |  
+13 Jan |2 |3 |[Interpreting General Linear Models](http://www.lesahoffman.com/944/944_Lecture02_Interactions.pdf)  |H-2|  |      
+16 Jan |	|4 |  |  |Markdown chapters review|  
+20 Jan |3	|5 |[Introduction to Within-Person Analysis and RM ANOVA](http://www.lesahoffman.com/944/944_Lecture03_Within-Person.pdf) 	                       |H-3|  |  
+23 Jan |	|6 |  |  |R-Cheatsheet|  
+27 Jan |4	|7 |[Introduction to Random Effects of Time and Model Estimation](http://www.lesahoffman.com/944/944_Lecture05_Random_Effects.pdf)                     |H-5|  |   	
+30 Jan |	|8 |  |  |Reporting models|
+03 Feb |5	|9 |[Introduction to Random Effects of Time and Model Estimation](http://www.lesahoffman.com/944/944_Lecture05_Random_Effects.pdf)                     |H-5|  |  	
+06 Feb |	|10|  |  |Random Coefficients Models |
+10 Feb |6	|  |Reading Week	|  | |  	
+13 Feb | 	|  |Reading Week  |  | |  				
+17 Feb |7	|11|[Describing Within-Person Change](http://www.lesahoffman.com/944/944_Lecture06_Describing_Change.)                                                 |H-6|  |  
+20 Jan |	|12|  |  |Describing shape of WP change|  
+24 Feb |8	|13|[Time-Invariant Predictors in Longitudinal Models](http://www.lesahoffman.com/944/944_Lecture07_Time-Invariant.pdf)                                |H-7|  |  	
+27 Feb |	|14|  |  |Time invariant predictors|  
+03 Mar |9	|15|[Analysis of Repeated Measures Designs not Involving Time](http://www.lesahoffman.com/944/944_Lecture08_Crossed.pdf)                        |H-8|  |  	
+06 Mar |	|16|  |  |Daily diary studies|  
+10 Mar |10|17|[Time-Varying Predictors in Models of Within-Person Fluctuation](http://www.lesahoffman.com/944/944_Lecture09_TVPredictors_Fluctuation.pdf)                  |H-9|  |  	
+13 Mar |	|18|  |  |Time variant predictors|  
+17 Mar |11|19|[Multilevel Models for Clustered Data](http://www.lesahoffman.com/944/944_Lecture10_Clustered.pdf)                                          |RB-5|  |  	
+20 Mar |	|20|  |  |Hierarchical structures|  
+24 Mar |12|21|[Evaluating Alternative Metrics of Time](http://www.lesahoffman.com/944/944_Lecture11_Alt_Time.pdf)                                         |H-10|  |  	
+27 Mar |	|22|  |  |Alternative metrics of time|  
+31 Mar |13|23|Final  |  |  |  	
+03 Apr |  |24|Wrap Up  |  |  |  
+
+
+Note: H - Hoffman, RB - Raudenbush & Bryk  
+
+
+### Texts
 
 **Required**  
 - [Longitudinal Analysis: Modeling Within-Person Variation and Change](http://www.pilesofvariance.com) (Lesa Hoffman, 2014). 
 
 **Recommended**  
+
+ - [Hierarchical linear models: Applications and data analysis methods](http://www.amazon.ca/Hierarchical-Linear-Models-Applications-Analysis/dp/076191904X) (Raudenbush, S. W., and Bryk, A. S., 2002).    
+ 
 
 - [Data Analysis Using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/) ( Andrew Gelman and Jennifer Hill, 2006)  
            
@@ -33,7 +69,7 @@ Phone | 853-3862 | 853-3862
 - [Latent Curve Models: A Structural Equation Perspective](http://www.ats.ucla.edu/stat/examples/lcm/) (Kenneth A. Bollen and Patrick J. Curran, 2006).
 
 
-Version 6 Mplus Users Guide.  www.statmodel.com
+- [Version 6 Mplus Users Guide](http://www.statmodel.com).  
 
 ## Description
 
@@ -41,13 +77,39 @@ This course will provide an overview of current statistical approaches for the a
 
 ## Organization and Philosophy
 
+The course has been design in the "flipped classroom" format. Instead of lecturing during the class periods, 
+## Evaluation and Grading Policy
+
+Course evaluation will be based on the ability to independently analyze data, correctly interpret model estimates, and effectively communicate and discuss results. The assignments are designed to provide experience with model conception and specification, evaluation of model fit and nested models, interpretation of results, and communication of research findings.
 
 
+Throughout the semester you will be earning **course points** which will be used to compute the total percent score. The total of **200** points will come from participating in the class **activities**, producing dynamic **reports**, and  taking the **final** examination.  
 
-Week  | Session | Topic  | Must Read | Resources 
-------|---------|--------|-----------|----------
+what  | when | number of | points each | total points  
+--- | --- | --- | --- | --- 
+In-classs activities | Tuesdays| 10 | 8 | 80
+Report| Fridays | 10 | 10 | 100
+Final | March 31 | 1 | 20 | 20
+Total |  |  |  | **200**
 
+In addition, each week learners will have the opportunity to earn up to two (2) points of **extra credit**:  
+- 1 point will be awared on competitive basis (e.g. only top 3 persons get the point)  
+- 1 point will be awared on noncompetitive basis (e.g. all-or-nothing getting the answer correct)  
 
+The final letter grade in the course will be based on total percent score rounded to the third decimal point as shown in the table:    
+
+Grade | Lowest | Highest | Description
+------|--------|---------|------------
+A+|90|100|exceptional
+A |85|89 |excellent
+A-|80|84 |strongly competent     
+B+|77|79 |competent
+B |73|76 |barely competent
+B-|70|72 |incompetent
+C+|65|69 |incompetent
+C |60|64 |incompetent
+D |50|59 |incompetent  
+F  | 0|49 |incompetent 
 
 ## Prerequisites
 
@@ -55,40 +117,13 @@ This is an advanced course on research methodology and statistical analysis. Stu
 
 ## Software
 
-**SAS**   - Support for SAS
+The course will be using three programming languages: SAS, Mplus, and R. 
+
+**SAS**   - used in slides and textbooks
 
 **Mplus** The University of Victoria manages a statistical server with 25 Mplus licenses available for faculty and student use. In addition, each of you will be identified with a particular license that will permit you to have direct consulting with the Muthen’s should this be of use during or after the course. If you are interested in this course and using Mplus, please familiarize yourself with the Mplus website as it contains many features that will be useful to you (www.statmodel.com). 
 
 **R**  - support for R
-
-## Evaluation and Grading Policy
-
-Course evaluation will be based on the ability to independently analyze data, correctly interpret model estimates, and effectively communicate and discuss results. The assignments are designed to provide experience with model conception and specification, evaluation of model fit and nested models, interpretation of results, and communication of research findings.
-
-Your grade will be based on four type of assessments:  
-
-assessment | date | total points | notes  
---- | --- | --- | ---
-Quiz | daily | 10 | each quiz counts as .5 pts    
-Projects | ~ weekly | 60 | best 6 out of 8, 10 pts each    
-Midterm | due Feb 13, 23:59 | 15 | guided literature review   
-Final | due Apr 3, 23:59 | 15 | independent model extention  
-
-The final letter grade in the course will be based on total percent score rounded to the third decimal point as shown:    
-
-A+   =    [90 , 100]     	 
-A    =  	[85 , 89]	  
-A-   =  	[80 , 84]	  
-B+	 =  	[77 , 79]  
-B    =  	[73 , 76]  
-B-   =	  [70 , 72 ] 	
-C+	 =	  [65 ,69]	  
-C    =	  [60 , 64]  
-D    =  	[50 , 59]	  
-F	   = 	  [0 , 49]  
-
-
-
 
 ## Important Course Policy Information  
 
