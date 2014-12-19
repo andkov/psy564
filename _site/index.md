@@ -75,9 +75,19 @@ Note: H - Hoffman, RB - Raudenbush & Bryk
 
 This course will provide an overview of current statistical approaches for the analysis of variation and change. Conceptual and research design issues will be discussed throughout with an emphasis on alternative models for explaining and predicting individual-level change. Hands-on training in analysis of longitudinal data will focus on use of Mplus, SAS, and R  a statistical program that has many features of both traditional MLM and SEM approaches. A variety of models will be examined and applied to actual data including models with time invariant and time-varying covariates, factor-level outcomes, alternative time structures, and joint models of variation and change. Substantive examples will be used throughout the course based on published and unpublished results from several major longitudinal studies on developmental and aging-related change.  
 
-## Organization and Philosophy
+## Organization 
 
-The course has been design in the "flipped classroom" format. Instead of lecturing during the class periods, 
+The course has been design in the "flipped classroom" format. Instead of listening to lectures during class periods, the learners will work through lectures (prepared in advance) on their own. The course content for each week will be availible via three media:
+ 
+ - Textbook   
+ - Lecture slides  
+ - Video  
+ 
+ All three media were produced by Lesa Hoffman. This course will closely follow her [course](http://www.lesahoffman.com/944/index.html).
+ 
+The class meets twice a week. On **Tuesday**s the focus will be on **conceptual** understanding of the processed material, whereas **Friday**s will be dedicated to development of **practical** skills in reporting statistical models.
+
+
 ## Evaluation and Grading Policy
 
 Course evaluation will be based on the ability to independently analyze data, correctly interpret model estimates, and effectively communicate and discuss results. The assignments are designed to provide experience with model conception and specification, evaluation of model fit and nested models, interpretation of results, and communication of research findings.
@@ -92,13 +102,14 @@ Report| Fridays | 10 | 10 | 100
 Final | March 31 | 1 | 20 | 20
 Total |  |  |  | **200**
 
-In addition, each week learners will have the opportunity to earn up to two (2) points of **extra credit**:  
-- 1 point will be awared on competitive basis (e.g. only top 3 persons get the point)  
-- 1 point will be awared on noncompetitive basis (e.g. all-or-nothing getting the answer correct)  
+In addition, each week learners will have the opportunity to earn up to two (2) points of **extra credit**:   
+
+- 1 point will be awared on competitive basis (e.g. only top 3 persons get the point)    
+- 1 point will be awared on noncompetitive basis (e.g. all-or-nothing getting the answer correct)    
 
 The final letter grade in the course will be based on total percent score rounded to the third decimal point as shown in the table:    
 
-Grade | Lowest | Highest | Description
+Grade | Lowest  | Highest | Description
 ------|--------|---------|------------
 A+|90|100|exceptional
 A |85|89 |excellent
@@ -114,16 +125,6 @@ F  | 0|49 |incompetent
 ## Prerequisites
 
 This is an advanced course on research methodology and statistical analysis. Students should have familiarity with multivariate statistical methods (e.g., multiple regression, factor analysis). Experience with Mplus, SAS, or R is beneficial, but not expected. Please contact the instructor if you have questions about these prerequisites.
-
-## Software
-
-The course will be using three programming languages: SAS, Mplus, and R. 
-
-**SAS**   - used in slides and textbooks
-
-**Mplus** The University of Victoria manages a statistical server with 25 Mplus licenses available for faculty and student use. In addition, each of you will be identified with a particular license that will permit you to have direct consulting with the Muthen’s should this be of use during or after the course. If you are interested in this course and using Mplus, please familiarize yourself with the Mplus website as it contains many features that will be useful to you (www.statmodel.com). 
-
-**R**  - support for R
 
 ## Important Course Policy Information  
 
