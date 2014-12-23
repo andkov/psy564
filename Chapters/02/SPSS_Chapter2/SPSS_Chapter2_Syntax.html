@@ -1,0 +1,465 @@
+<!DOCTYPE html><html><head><title>C:\Dropbox\PilesOfVariance\Chapter2\SPSS\SPSS_Chapter2_Syntax.sps formatted</title><style type="text/css">
+body, pre { font-family: "Courier New", Courier, monospace; }
+.comment { color: #808080; font-weight: 700; }
+.keywords1 { color: #339966; font-weight: 700; }
+.keywords2 { color: #000080; font-weight: 700; }
+.keywords3 { color: #A50021; font-weight: 700; }
+.keywords4 { color: #FF9933; font-weight: 700; }
+</style>
+</head><body><pre>
+<html><head></head><body><span class="comment">* Stop syntax and large titles from printing to output.</span>
+<span class="keywords2">SET</span> <span class="keywords3">PRINTBACK</span><span class="keywords4"><span class="keywords4">=NO</span>NE</span> <span class="keywords3">HEADER</span><span class="keywords4">=NO</span>.
+
+<span class="comment">***********************************************************************************.</span>
+<span class="comment">*******            BEGIN DATA MANIPULATION FOR CHAPTER 2 EXAMPLE            *******.</span>
+<span class="comment">*******                CHANGE &quot;filesave&quot; to your directory                  *******.</span>
+<span class="comment">***********************************************************************************.</span>
+
+<span class="comment">* Define location of files used in code below.</span>
+<span class="keywords2">FILE HANDLE</span> filesave /<span class="keywords3">NAME</span> = &quot;C:\Dropbox\PilesOfVariance\Chapter2\SPSS&quot;.
+
+<span class="comment">* Import chapter 2 example data and center predictors.</span>
+<span class="keywords2">GET</span><span class="keywords3"> FILE</span> = &quot;filesave/SPSS_Chapter2.sav&quot;.
+<span class="keywords2">DATASET NAME</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+
+<span class="comment">* Centering age at different points.</span>
+<span class="keywords2">COMPUTE</span> age80 = age - 80.
+<span class="keywords2">COMPUTE</span> age85 = age - 85.
+<span class="keywords2">COMPUTE</span> age90 = age - 90.
+<span class="comment">* Centering grip at different points.</span>
+<span class="keywords2">COMPUTE</span> grip6 = grip - 6.
+<span class="keywords2">COMPUTE</span> grip9 = grip - 9.
+<span class="keywords2">COMPUTE</span> grip12 = grip - 12.
+
+<span class="comment">* Re-coding sex so women are reference.</span>
+<span class="keywords2">IF</span> (sexMW=0) sexWM=1. 
+<span class="keywords2">IF</span> (sexMW=1) sexWM=0.
+ 
+<span class="comment">* Creating all possible contrasts for dementia groups.</span>
+<span class="keywords2">DO</span><span class="keywords2">IF</span> (demgroup=1).
+<span class="keywords2">COMPUTE</span> demNF=0.
+<span class="keywords2">COMPUTE</span> demNC=0.
+<span class="keywords2">COMPUTE</span> demFN=1.
+<span class="keywords2">COMPUTE</span> demFC=0.
+<span class="keywords2">COMPUTE</span> demCN=1.
+<span class="keywords2">COMPUTE</span> demCF=0.  
+<span class="keywords2">END</span> <span class="keywords2">IF</span>.
+<span class="keywords2">DO</span><span class="keywords2">IF</span> (demgroup=2).
+<span class="keywords2">COMPUTE</span> demNF=1.
+<span class="keywords2">COMPUTE</span> demNC=0.
+<span class="keywords2">COMPUTE</span> demFN=0.
+<span class="keywords2">COMPUTE</span> demFC=0.
+<span class="keywords2">COMPUTE</span> demCN=0.
+<span class="keywords2">COMPUTE</span> demCF=1.  
+<span class="keywords2">END</span> <span class="keywords2">IF</span>.
+<span class="keywords2">DO</span><span class="keywords2">IF</span> (demgroup=3).
+<span class="keywords2">COMPUTE</span> demNF=0.
+<span class="keywords2">COMPUTE</span> demNC=1.
+<span class="keywords2">COMPUTE</span> demFN=0.
+<span class="keywords2">COMPUTE</span> demFC=1.
+<span class="keywords2">COMPUTE</span> demCN=0.
+<span class="keywords2">COMPUTE</span> demCF=0.  
+<span class="keywords2">END</span> <span class="keywords2">IF</span>.
+<span class="comment">* Add value labels to demgroup.</span>
+<span class="keywords2">VALUE LABELS</span> demgroup 1 &quot;1None&quot; 2 &quot;2Future&quot; 3 &quot;3Current&quot;.
+<span class="comment">* Labeling new variables.</span>
+<span class="keywords2">VARIABLE LABELS</span>
+age80  &quot;age80: Age in Years (0=80)&quot;
+age85  &quot;age85: Age in Years (0=85)&quot;
+age90  &quot;age85: Age in Years (0=90)&quot;
+grip6  &quot;grip6: Grip Strength in Pounds (0=6)&quot;
+grip9  &quot;grip9: Grip Strength in Pounds (0=9)&quot;
+grip12 &quot;grip12: Grip Strength in Pounds (0=12)&quot;
+sexWM  &quot;sexWM: Sex (0=Women, 1=Men)&quot;
+demNF  &quot;demNF: Dementia Contrast for None=0 vs Future=1&quot;
+demNC  &quot;demNC: Dementia Contrast for None=0 vs Current=1&quot;
+demFN  &quot;demFN: Dementia Contrast for Future=0 vs None=1&quot;
+demFC  &quot;demFC: Dementia Contrast for Future=0 vs Current=1&quot;
+demCN  &quot;demCN: Dementia Contrast for Current=0 vs None=1&quot;
+demCF  &quot;demCF: Dementia Contrast for Current=0 vs Future=1&quot;. 
+<span class="keywords2">EXECUTE</span>.
+
+<span class="comment">* Creating 'fake people' to show age*grip interaction.</span>
+<span class="comment">* Each row is a fake person for which to create a predicted outcome.</span>
+<span class="keywords2">DATA LIST</span> <span class="keywords3">FREE</span> / PersonID grip9 age85 sexMW demNF demNC. 
+<span class="keywords2">BEGIN DATA</span>.
+-99  3 -5  0  0  0 
+-99  3  0  0  0  0 
+-99  3  5  0  0  0 
+-99  0 -5  0  0  0 
+-99  0  0  0  0  0 
+-99  0  5  0  0  0 
+-99 -3 -5  0  0  0 
+-99 -3  0  0  0  0 
+-99 -3  5  0  0  0 
+<span class="keywords2">END DATA</span>.
+<span class="keywords2">DATASET NAME</span> FakeAgeGrip.
+<span class="comment">* Merge with real data.</span>
+<span class="keywords2">ADD FILES</span><span class="keywords3"> FILE</span>=Chapter2 <span class="keywords1">/FILE</span>=FakeAgeGrip.
+<span class="keywords2">DATASET NAME</span> PlotAgeGrip.
+<span class="keywords2">SORT CASES</span><span class="keywords3"> BY</span> PersonID.
+<span class="keywords2">DATASET CLOSE</span> FakeAgeGrip.
+
+<span class="comment">* Creating 'fake people' to show age*grip*sex interaction.</span>
+<span class="comment">* Each row is a fake person for which to create a predicted outcome.</span>
+<span class="keywords2">DATA LIST</span> <span class="keywords3">FREE</span> / PersonID grip9 age85 sexMW demNF demNC. 
+<span class="keywords2">BEGIN DATA</span>.
+-99   3  -5  0  0  0 
+-99   3   0  0  0  0 
+-99   3   5  0  0  0 
+-99   0  -5  0  0  0 
+-99   0   0  0  0  0 
+-99   0   5  0  0  0 
+-99  -3  -5  0  0  0 
+-99  -3   0  0  0  0 
+-99  -3   5  0  0  0 
+-99   3  -5  1  0  0 
+-99   3   0  1  0  0 
+-99   3   5  1  0  0 
+-99   0  -5  1  0  0 
+-99   0   0  1  0  0 
+-99   0   5  1  0  0 
+-99  -3  -5  1  0  0 
+-99  -3   0  1  0  0 
+-99  -3   5  1  0  0 
+<span class="keywords2">END DATA</span>.
+<span class="keywords2">DATASET NAME</span> FakeAgeGripSex.
+<span class="comment">* Merge with real data.</span>
+<span class="keywords2">ADD FILES</span><span class="keywords3"> FILE</span>=Chapter2 <span class="keywords1">/FILE</span>=FakeAgeGripSex.
+<span class="keywords2">DATASET NAME</span> PlotAgeGripSex.
+<span class="keywords2">SORT CASES</span><span class="keywords3"> BY</span> PersonID.
+<span class="keywords2">DATASET CLOSE</span> FakeAgeGripSex.
+
+<span class="comment">***********************************************************************************.</span>
+<span class="comment">*******                       BEGIN CHAPTER 2 MODELS                        *******.</span>
+<span class="comment">***********************************************************************************.</span>
+
+<span class="comment">* Open output directory.</span>
+<span class="keywords2">OUTPUT</span> <span class="keywords3">NAME</span> SPSS_Chapter2_Output.
+
+<span class="keywords2">ECHO</span> &quot;Chapter 2: Descriptive Statistics for Example Variables&quot;.
+<span class="keywords2">DESCRIPTIVES</span> <span class="keywords3">VARIABLES</span>= age grip cognition.
+<span class="keywords2">CROSSTABS</span><span class="keywords3"> TABLES</span>= sexMW<span class="keywords3"> BY</span> demgroup.
+<span class="keywords2">CORRELATIONS</span> <span class="keywords3">VARIABLES</span>= age grip sexMW cognition.
+
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.3: Empty Means Model'.
+<span class="keywords2">MIXED</span> cognition
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    =  
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.4: Adding Age (0=85)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.4: Adding Original Age Instead'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age 
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.6: Adding Grip (0=9)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 
+     <span class="keywords1">/TEST</span>     = 'Model R2 Test' age85 1; grip9 1
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.7: Adding Sex (0=M, 1=W)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexMW
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW 
+     <span class="keywords1">/TEST</span>     = 'Model R2 Test' age85 1; grip9 1; sexMW 1
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.7: Adding Sex (1=M 0=W)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexWM
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexWM 
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.8: Adding Dementia Group;'.
+<span class="keywords2">ECHO</span> 'Using Manual Group Contrasts so Reference=None'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexMW demNF demNC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demNF demNC 
+     <span class="keywords1">/TEST</span>     = 'Model R2 Test' age85 1; grip9 1; sexMW 1; demNF 1; demNC 1
+     <span class="keywords1">/TEST</span>     = 'Omnibus Dementia Group Test' demNF 1; demNC 1
+     <span class="keywords1">/TEST</span>     = 'Future vs Current' demNF -1 demNC 1
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.8: Adding Dementia Group;'.
+<span class="keywords2">ECHO</span> 'Categorical Predictor for Dementia Group'.
+<span class="keywords2">MIXED</span> cognition<span class="keywords3"> BY</span> demgroup <span class="keywords3">WITH</span> age85 grip9 sexMW
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demgroup 
+     <span class="keywords1">/EMMEANS</span>  =<span class="keywords3"> TABLES</span>(demgroup) <span class="keywords3">COMPARE</span>(demgroup) <span class="keywords3">WITH</span>(age85=0 grip9=0 sexMW=0)
+.
+ 
+<span class="comment">* Estimate model on data with fake people to make predictions.</span>
+<span class="keywords2">DATASET ACTIVATE</span> PlotAgeGrip <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.9: Adding Age by Grip Interaction;'.
+<span class="keywords2">ECHO</span> 'Age (0=85), Grip (0=9)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexMW demNF demNC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> <span class="keywords3">COVB</span>
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demNF demNC
+                 age85*grip9 
+     <span class="keywords1">/TEST</span>     = 'Model R2 Test' age85 1; grip9 1; sexMW 1; demNF 1; demNC 1; age85*grip9 1
+     <span class="keywords1">/TEST</span>     = 'Future vs Current'                  demNF -1 demNC 1
+     <span class="keywords1">/TEST</span>     = 'Age Slope at Grip Strength =  6'    age85 1 age85*grip9 -3
+     <span class="keywords1">/TEST</span>     = 'Age Slope at Grip Strength =  9'    age85 1 age85*grip9 0
+     <span class="keywords1">/TEST</span>     = 'Age Slope at Grip Strength = 12'    age85 1 age85*grip9 3
+     <span class="keywords1">/TEST</span>     = 'Grip Strength Slope at Age = 80'    grip9 1 age85*grip9 -5
+     <span class="keywords1">/TEST</span>     = 'Grip Strength Slope at Age = 85'    grip9 1 age85*grip9 0
+     <span class="keywords1">/TEST</span>     = 'Grip Strength Slope at Age = 90'    grip9 1 age85*grip9 5
+     <span class="keywords1">/TEST</span>     = 'Cognition at Grip = 12 Age = 80'    intercept 1 age85 -5 grip9 3  age85*grip9 -15
+     <span class="keywords1">/TEST</span>     = 'Cognition at Grip = 12 Age = 85'    intercept 1 age85 0  grip9 3  age85*grip9 0
+     <span class="keywords1">/TEST</span>     = 'Cognition at Grip = 12 Age = 90'    intercept 1 age85 5  grip9 3  age85*grip9 15
+     <span class="keywords1">/TEST</span>     = 'Cognition at Grip =  9 Age = 80'    intercept 1 age85 -5 grip9 0  age85*grip9 0
+     <span class="keywords1">/TEST</span>     = 'Cognition at Grip =  9 Age = 85'    intercept 1 age85 0  grip9 0  age85*grip9 0
+     <span class="keywords1">/TEST</span>     = 'Cognition at Grip =  9 Age = 90'    intercept 1 age85 5  grip9 0  age85*grip9 0
+     <span class="keywords1">/TEST</span>     = 'Cognition at Grip =  6 Age = 80'    intercept 1 age85 -5 grip9 -3 age85*grip9 15
+     <span class="keywords1">/TEST</span>     = 'Cognition at Grip =  6 Age = 85'    intercept 1 age85 0  grip9 -3 age85*grip9 0
+     <span class="keywords1">/TEST</span>     = 'Cognition at Grip =  6 Age = 90'    intercept 1 age85 5  grip9 -3 age85*grip9 -15
+     <span class="keywords1">/SAVE</span>     = <span class="keywords3">FIXPRED</span>(PredAgeGrip)
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.9: Adding Age by Grip Interaction;'.
+<span class="keywords2">ECHO</span> 'Age (0=80), Grip (0=12)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age80 grip12 sexMW demNF demNC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age80 grip12 sexMW demNF demNC
+                 age80*grip12 
+     <span class="keywords1">/TEST</span>     = 'Future vs Current' demNF -1 demNC 1
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.9: Adding Age by Grip Interaction;'.
+<span class="keywords2">ECHO</span> 'Age (0=90), Grip (0=6)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age90 grip6 sexMW demNF demNC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age90 grip6 sexMW demNF demNC
+                 age90*grip6 
+     <span class="keywords1">/TEST</span>     = 'Future vs Current' demNF -1 demNC 1
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.13: Adding Sex by Dementia Interaction;'.
+<span class="keywords2">ECHO</span> 'Sex (0=Men), Dementia (0=None)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexMW demNF demNC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> <span class="keywords3">COVB</span>
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demNF demNC
+                 age85*grip9 sexMW*demNF sexMW*demNC 
+     <span class="keywords1">/TEST</span>     = 'Model R2 Test' age85 1; grip9 1; sexMW 1; demNF 1; demNC 1; age85*grip9 1; sexMW*demNF 1; sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Omnibus Dementia*Sex Interaction Test' sexMW*demNF 1; sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Cognition for Men   None'                intercept 1 sexMW 0 demNF 0 demNC 0 sexMW*demNF 0 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Cognition for Women None'                intercept 1 sexMW 1 demNF 0 demNC 0 sexMW*demNF 0 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Cognition for Men   Future'              intercept 1 sexMW 0 demNF 1 demNC 0 sexMW*demNF 0 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Cognition for Women Future'              intercept 1 sexMW 1 demNF 1 demNC 0 sexMW*demNF 1 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Cognition for Men   Current'             intercept 1 sexMW 0 demNF 0 demNC 1 sexMW*demNF 0 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Cognition for Women Current'             intercept 1 sexMW 1 demNF 0 demNC 1 sexMW*demNF 0 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Sex Difference for No Dementia'          sexMW 1 sexMW*demNF 0 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Sex Difference for Future Dementia'      sexMW 1 sexMW*demNF 1 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Sex Difference for Current Dementia'     sexMW 1 sexMW*demNF 0 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'None-Future Difference for Men'          demNF 1 sexMW*demNF 0
+     <span class="keywords1">/TEST</span>     = 'None-Future Difference for Women'        demNF 1 sexMW*demNF 1
+     <span class="keywords1">/TEST</span>     = 'None-Current Difference for Men'         demNC 1 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'None-Current Difference for Women'       demNC 1 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Future-Current Difference for Men'       demNF -1 demNC 1 sexMW*demNF 0  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Future-Current Difference for Women'     demNF -1 demNC 1 sexMW*demNF -1 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'None-Future Sex Difference'              sexMW*demNF 1
+     <span class="keywords1">/TEST</span>     = 'None-Current Sex Difference'             sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Future-Current Sex Difference'           sexMW*demNF -1 sexMW*demNC 1
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.13: Adding Sex by Dementia Interaction;'.
+<span class="keywords2">ECHO</span> 'Sex (0=Women), Dementia (0=None)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexwm demNF demNC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexwm demNF demNC
+                 age85*grip9 sexwm*demNF sexwm*demNC 
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.15: Adding Sex by Dementia Interaction;'.
+<span class="keywords2">ECHO</span> 'Sex (0=Men), Dementia (0=Future)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexMW demFN demFC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demFN demFC
+                 age85*grip9 sexMW*demFN sexMW*demFC 
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.15: Adding Sex by Dementia Interaction;'.
+<span class="keywords2">ECHO</span> 'Sex (0=Women), Dementia (0=Future)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexwm demFN demFC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexwm demFN demFC
+                 age85*grip9 sexwm*demFN sexwm*demFC 
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.16: Adding Sex by Dementia Interaction;'.
+<span class="keywords2">ECHO</span> 'Sex (0=Men), Dementia (0=Current)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexMW demCN demCF
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demCN demCF
+                 age85*grip9 sexMW*demCN sexMW*demCF 
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.16: Adding Sex by Dementia Interaction;'.
+<span class="keywords2">ECHO</span> 'Sex (0=Women), Dementia (0=Current)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexwm demCN demCF
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexwm demCN demCF
+                 age85*grip9 sexwm*demCN sexwm*demCF 
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.16: Adding Sex by Dementia Interaction;'.
+<span class="keywords2">ECHO</span> 'Categorical Sex and Dementia'.
+<span class="keywords2">MIXED</span> cognition<span class="keywords3"> BY</span> sexMW demgroup <span class="keywords3">WITH</span> age85 grip9
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demgroup
+                 age85*grip9 sexMW*demgroup 
+     <span class="keywords1">/EMMEANS</span>  =<span class="keywords3"> TABLES</span>(sexMW*demgroup) <span class="keywords3">COMPARE</span>(demgroup) <span class="keywords3">WITH</span>(age85=0 grip9=0)
+     <span class="keywords1">/EMMEANS</span>  =<span class="keywords3"> TABLES</span>(sexMW*demgroup) <span class="keywords3">COMPARE</span>(sexMW)    <span class="keywords3">WITH</span>(age85=0 grip9=0)
+     <span class="keywords1">/TEST</span>     = 'Sex by None-Future    Interaction'  sexMW*demgroup -1  1  0  1 -1  0
+     <span class="keywords1">/TEST</span>     = 'Sex by None-Current   Interaction'  sexMW*demgroup -1  0  1  1  0 -1
+     <span class="keywords1">/TEST</span>     = 'Sex by Future-Current Interaction'  sexMW*demgroup  0 -1  1  0  1 -1
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.17: Adding Sex by Age and Sex by Grip Interactions;'.
+<span class="keywords2">ECHO</span> 'Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexMW demNF demNC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demNF demNC
+                 age85*grip9 sexMW*demNF sexMW*demNC
+                 age85*sexMW grip9*sexMW 
+     <span class="keywords1">/TEST</span>     = 'Age for Men'              age85 1 age85*sexMW 0
+     <span class="keywords1">/TEST</span>     = 'Age for Women'            age85 1 age85*sexMW 1
+     <span class="keywords1">/TEST</span>     = 'Grip for Men'             grip9 1 grip9*sexMW 0
+     <span class="keywords1">/TEST</span>     = 'Grip for Women'           grip9 1 grip9*sexMW 1
+     <span class="keywords1">/TEST</span>     = 'Sex for None'             sexMW 1 sexMW*demNF 0 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Sex for Future'           sexMW 1 sexMW*demNF 1 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Sex for Current'          sexMW 1 sexMW*demNF 0 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Men: None vs Future'      demNF 1  demNC 0 sexMW*demNF 0  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Men: None vs Current'     demNF 0  demNC 1 sexMW*demNF 0  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Men: Future vs Current'   demNF -1 demNC 1 sexMW*demNF 0  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Women: None vs Future'    demNF 1  demNC 0 sexMW*demNF 1  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Women: None vs Current'   demNF 0  demNC 1 sexMW*demNF 0  sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Women: Future vs Current' demNF -1 demNC 1 sexMW*demNF -1 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Sex by None vs Future'    demNF*sexMW 1  demNC*sexMW 0
+     <span class="keywords1">/TEST</span>     = 'Sex by None vs Current'   demNF*sexMW 0  demNC*sexMW 1
+     <span class="keywords1">/TEST</span>     = 'Sex by Future vs Current' demNF*sexMW -1 demNC*sexMW 1
+.
+ 
+<span class="comment">* Estimate model on data with fake people to make predictions.</span>
+<span class="keywords2">DATASET ACTIVATE</span> PlotAgeGripSex <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.18: Adding Sex by Age by Grip Three-Way Interaction;'.
+<span class="keywords2">ECHO</span> 'Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexMW demNF demNC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demNF demNC
+                 age85*grip9 sexMW*demNF sexMW*demNC
+                 age85*sexMW grip9*sexMW age85*grip9*sexMW 
+     <span class="keywords1">/TEST</span>     = 'Age for Men'              age85 1  age85*sexMW 0
+     <span class="keywords1">/TEST</span>     = 'Age for Women'            age85 1  age85*sexMW 1
+     <span class="keywords1">/TEST</span>     = 'Grip for Men'             grip9 1  grip9*sexMW 0
+     <span class="keywords1">/TEST</span>     = 'Grip for Women'           grip9 1  grip9*sexMW 1
+     <span class="keywords1">/TEST</span>     = 'Sex for None'             sexMW 1  sexMW*demNF 0 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Sex for Future'           sexMW 1  sexMW*demNF 1 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Sex for Current'          sexMW 1  sexMW*demNF 0 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Men: None vs Future'      demNF 1  demNC 0 sexMW*demNF 0  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Men: None vs Current'     demNF 0  demNC 1 sexMW*demNF 0  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Men: Future vs Current'   demNF -1 demNC 1 sexMW*demNF 0  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Women: None vs Future'    demNF 1  demNC 0 sexMW*demNF 1  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Women: None vs Current'   demNF 0  demNC 1 sexMW*demNF 0  sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Women: Future vs Current' demNF -1 demNC 1 sexMW*demNF -1 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Sex by None vs Future'    demNF*sexMW 1  demNC*sexMW 0
+     <span class="keywords1">/TEST</span>     = 'Sex by None vs Current'   demNF*sexMW 0  demNC*sexMW 1
+     <span class="keywords1">/TEST</span>     = 'Sex by Future vs Current' demNF*sexMW -1 demNC*sexMW 1
+     <span class="keywords1">/TEST</span>     = 'Age by Grip for Men'      age85*grip9 1  age85*grip9*sexMW 0
+     <span class="keywords1">/TEST</span>     = 'Age by Grip for Women'    age85*grip9 1  age85*grip9*sexMW 1
+     <span class="keywords1">/SAVE</span>     = <span class="keywords3">FIXPRED</span>(Pred3AgeSexGrip)
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.13: Final Reported Model;'.
+<span class="keywords2">ECHO</span> 'Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)'.
+<span class="keywords2">MIXED</span> cognition <span class="keywords3">WITH</span> age85 grip9 sexMW demNF demNC
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demNF demNC
+                 age85*grip9 sexMW*demNF sexMW*demNC 
+     <span class="keywords1">/TEST</span>     = 'Model R2 Test' age85 1; grip9 1; sexMW 1; demNF 1; demNC 1; age85*grip9 1; sexMW*demNF 1; sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Omnibus Dementia*Sex Interaction Test' sexMW*demNF 1; sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Sex Difference for No Dementia'          sexMW 1  sexMW*demNF 0 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Sex Difference for Future Dementia'      sexMW 1  sexMW*demNF 1 sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Sex Difference for Current Dementia'     sexMW 1  sexMW*demNF 0 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'None-Future Difference for Men'          demNF 1  sexMW*demNF 0
+     <span class="keywords1">/TEST</span>     = 'None-Future Difference for Women'        demNF 1  sexMW*demNF 1
+     <span class="keywords1">/TEST</span>     = 'None-Current Difference for Men'         demNC 1  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'None-Current Difference for Women'       demNC 1  sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Future-Current Difference for Men'       demNF -1 demNC 1 sexMW*demNF 0  sexMW*demNC 0
+     <span class="keywords1">/TEST</span>     = 'Future-Current Difference for Women'     demNF -1 demNC 1 sexMW*demNF -1 sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'None-Future Sex Difference'              sexMW*demNF 1
+     <span class="keywords1">/TEST</span>     = 'None-Current Sex Difference'             sexMW*demNC 1
+     <span class="keywords1">/TEST</span>     = 'Future-Current Sex Difference'           sexMW*demNF -1 sexMW*demNC 1
+.
+ 
+<span class="keywords2">DATASET ACTIVATE</span> Chapter2 <span class="keywords3">WINDOW</span><span class="keywords4">=FRONT</span>.
+<span class="keywords2">ECHO</span> 'Eq 2.13: Final Reported Model;'.
+<span class="keywords2">ECHO</span> 'Categorical Variables for Sex and Dementia'.
+<span class="keywords2">MIXED</span> cognition<span class="keywords3"> BY</span> sexMW demgroup <span class="keywords3">WITH</span> age85 grip9
+     <span class="keywords1">/METHOD</span>   =<span class="keywords3"> REML</span>
+     <span class="keywords1">/PRINT</span>    = <span class="keywords3">SOLUTION</span> <span class="keywords3">TESTCOV</span> 
+     <span class="keywords1">/FIXED</span>    = age85 grip9 sexMW demgroup
+                 age85*grip9 sexMW*demgroup 
+     <span class="keywords1">/EMMEANS</span>  =<span class="keywords3"> TABLES</span>(sexMW*demgroup) <span class="keywords3">COMPARE</span>(demgroup) <span class="keywords3">WITH</span>(age85=0 grip9=0)
+     <span class="keywords1">/EMMEANS</span>  =<span class="keywords3"> TABLES</span>(sexMW*demgroup) <span class="keywords3">COMPARE</span>(sexMW)    <span class="keywords3">WITH</span>(age85=0 grip9=0)
+.
+ 
+<span class="comment">****** END CHAPTER 2 MODELS ******.</span>
+
+<span class="comment">* Close output directory.</span>
+<span class="keywords2">OUTPUT</span> <span class="keywords3">EXPORT</span> <span class="keywords3">NAME</span>=SPSS_Chapter2_Output
+     <span class="keywords1">/CONTENTS</span> <span class="keywords3">EXPORT</span><span class="keywords4">=VISIBLE</span> <span class="keywords3">LAYERS</span><span class="keywords4">=VISIBLE</span> <span class="keywords3">MODELVIEWS</span><span class="keywords4">=VISIBLE</span>
+     <span class="keywords1">/HTML</span> <span class="keywords3">DOCUMENTFILE</span>='C:\Dropbox\PilesOfVariance\Chapter2\SPSS\SPSS_Chapter2_Output.html'
+           <span class="keywords3">IMAGEFORMAT</span><span class="keywords4">=PNG</span> <span class="keywords3">STYLING</span><span class="keywords4">=YES</span>.
+</body></html>
+</pre></body></html>

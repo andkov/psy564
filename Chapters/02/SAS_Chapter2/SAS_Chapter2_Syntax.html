@@ -1,0 +1,500 @@
+<!DOCTYPE html><html><head><title>C:\Dropbox\PilesOfVariance\Chapter2\SAS\SAS_Chapter2_Syntax.sas formatted</title><style type="text/css">
+body, pre { font-family: "Courier New", Courier, monospace; }
+.comment { color: #008000; font-weight: 700; }
+.string { color: #800080; font-weight: 700; }
+.number { color: #008080; font-weight: 700; }
+.macro { color: #008080; font-weight: 700; }
+.command { color: #000080; font-weight: 700; }
+.keywords { color: #0000ff; font-weight: 700; }
+.data-line { background-color: #ffffcc; font-weight: 400; }
+</style>
+</head><body><pre>
+<html><head></head><body><span class="comment">* Output options: all can be turned on/off by adding or removing the NO;</span>
+<span class="comment">* page number, date, centering, or page breaks, page length and width;</span>
+<span class="keywords">OPTIONS</span> NOnumber NOdate NOcenter FormDlim=<span class="string">' '</span> PageSize=<span class="keywords">MAX</span> LineSize=<span class="keywords">MAX</span>;
+<span class="comment">* Eliminate SAS default titles and names of tables in output (TRACE ON to show);</span>
+<span class="keywords">TITLE</span>; <span class="keywords">ODS</span> <span class="keywords">TRACE</span> <span class="keywords">OFF</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******   MACRO PROGRAMS TO AUTOMATE CALCULATIONS FOR CHAPTER 2 EXAMPLE     *******;</span>
+<span class="comment">*******               NOTHING IN HERE NEEDS TO BE CHANGED                   *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* To use ModelR2 macro for chapter 2 cross-sectional models;</span>
+<span class="comment">* CovFewer = name of covparms table for baseline empty model;</span>
+<span class="comment">* CovFewer = name of covparms table for nested model;</span>
+<span class="comment">* CovMore  = name of covparms table for comparison model;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> ModelR2(CovBase=,CovFewer=,CovMore=);
+<span class="command">DATA</span> <span class="macro">&amp;CovBase.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovBase.</span>;  Name=<span class="string">&quot;<span class="string">&amp;CovBase.</span>&quot;</span> ;  
+     CALL SYMPUT(<span class="string">'EmptyEst'</span>,estimate);  <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;CovFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;CovFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;CovMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;CovMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovBase.</span> <span class="macro">&amp;CovFewer.</span> <span class="macro">&amp;CovMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare;  
+     R2_from_Base=(<span class="macro">&amp;EmptyEst.</span>-Estimate)/<span class="macro">&amp;EmptyEst.</span>;
+     R2_Increment=R2_from_Base-LAG1(R2_from_Base); 
+     <span class="keywords">IF</span> _N_=<span class="number">2</span> <span class="keywords">THEN</span> R2_Increment=.; <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare; 
+     <span class="keywords">IF</span> CovParm IN(<span class="string">&quot;UN(2,1)&quot;</span>,<span class="string">&quot;UN(3,1)&quot;</span>,<span class="string">&quot;UN(4,1)&quot;</span>,<span class="string">&quot;UN(3,2)&quot;</span>,<span class="string">&quot;UN(4,2)&quot;</span>,<span class="string">&quot;UN(4,3)&quot;</span>) 
+     <span class="keywords">THEN</span> <span class="keywords">DELETE</span>; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;R2 (% Reduction) Overall and for <span class="string">&amp;CovFewer.</span> vs. <span class="string">&amp;CovMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=CovCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> ModelR2;
+
+<span class="comment">* To use Regions Macro, enter;</span>
+<span class="comment">*   FixData =   Name of dataset that stores fixed effects for model (SolutionF on ODS);</span>
+<span class="comment">*   CovBData =  Name of dataset that stores XTX inv matrix for model (CovB on ODS);</span>
+<span class="comment">*   Pred =      Case-sensitive name of predictor effect regions are for; </span>
+<span class="comment">*   Mod =       Case-sensitive name of moderator effect (for region values);</span>
+<span class="comment">*   ModCenter = Centering point of moderator predictor;</span>
+<span class="comment">*   Interact =  Case-sensitive name of interaction effect; </span>
+<span class="comment">*   Order =     Order of entry of interaction in MODEL statement;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> Regions(FixData=,CovBData=, Pred=,Mod=,ModCenter=,Interact=,Order=);
+<span class="command">DATA</span> _NULL_; <span class="keywords">SET</span> <span class="macro">&amp;FixData.</span>; <span class="keywords">WHERE</span> Effect=<span class="string">&quot;<span class="string">&amp;Pred.</span>&quot;</span>;
+     CALL SYMPUT(<span class="string">'Bpred'</span>, Estimate); 
+     CALL SYMPUT(<span class="string">'SEpred'</span>, StdErr); <span class="command">RUN</span>; 
+<span class="command">DATA</span> _NULL_; <span class="keywords">SET</span> <span class="macro">&amp;FixData.</span>; <span class="keywords">WHERE</span> Effect=<span class="string">&quot;<span class="string">&amp;Interact.</span>&quot;</span>;
+     CALL SYMPUT(<span class="string">'Binter'</span>, Estimate); 
+     CALL SYMPUT(<span class="string">'SEinter'</span>, StdErr); <span class="command">RUN</span>; 
+<span class="keywords">%LET</span> order=<span class="keywords">%EVAL</span>(<span class="macro">&amp;order.</span>+1);
+<span class="command">DATA</span> _NULL_; <span class="keywords">SET</span> <span class="macro">&amp;CovBData.</span>; 
+     <span class="keywords">WHERE</span> INDEX(Effect,<span class="string">&quot;<span class="string">&amp;Pred.</span>&quot;</span>)&gt;0 AND INDEX(Effect,<span class="string">&quot;*&quot;</span>)=<span class="number">0</span>;
+     CALL SYMPUT(<span class="string">'CovPredInt'</span>, ROUND(Col<span class="macro">&amp;order.</span>,.0001)); <span class="command">RUN</span>;    
+<span class="keywords">%PUT</span> Bpred=<span class="macro">&amp;Bpred.</span> SEpred=<span class="macro">&amp;SEpred.</span> Binter=<span class="macro">&amp;Binter.</span> 
+     SEinter=<span class="macro">&amp;SEinter.</span> CovPredInt=<span class="macro">&amp;CovPredInt.</span>;
+<span class="command">DATA</span> Regions;
+     A=(1.96*1.96)*(<span class="macro">&amp;SEinter.</span>*<span class="macro">&amp;SEinter.</span>)-(<span class="macro">&amp;Binter.</span>*<span class="macro">&amp;Binter.</span>);
+     B=<span class="number">2</span>*((1.96*1.96)*<span class="macro">&amp;CovPredInt.</span>-(<span class="macro">&amp;Bpred.</span>*<span class="macro">&amp;Binter.</span>));
+     C=(1.96*1.96*<span class="macro">&amp;SEpred.</span>*<span class="macro">&amp;SEpred.</span>)-(<span class="macro">&amp;Bpred.</span>*<span class="macro">&amp;Bpred.</span>);
+     CenteredLower=((-<span class="number">1</span>*B)+SQRT((B*B)-<span class="number">4</span>*A*C))/(2*A); 
+        CALL SYMPUT(<span class="string">'cenlower'</span>,ROUND(CenteredLower,.001));
+     CenteredUpper=((-<span class="number">1</span>*B)-SQRT((B*B)-<span class="number">4</span>*A*C))/(2*A); 
+        CALL SYMPUT(<span class="string">'cenupper'</span>,ROUND(CenteredUpper,.001));
+     UncenteredLower=CenteredLower+<span class="macro">&amp;ModCenter.</span>; 
+        CALL SYMPUT(<span class="string">'uncenlower'</span>,ROUND(UncenteredLower,.001));
+     UncenteredUpper=CenteredUpper+<span class="macro">&amp;ModCenter.</span>; 
+        CALL SYMPUT(<span class="string">'uncenupper'</span>,ROUND(UncenteredUpper,.001));
+<span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>7</span> <span class="string">&quot;Regions of significance for <span class="string">&amp;interact.</span> interaction:&quot;</span>;
+<span class="keywords"><span class="keywords">TITLE</span>8</span> <span class="string">&quot;The effect of <span class="string">&amp;pred.</span> will be significant at centered values of <span class="string">&amp;mod.</span> BELOW the lower bound&quot;</span>; 
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;and ABOVE the upper bound, which translate to these uncentered lower and upper bounds.&quot;</span>; 
+<span class="command">PROC PRINT</span> <span class="command">DATA</span>=Regions <span class="keywords">NOOBS</span>; <span class="keywords">VAR</span> CenteredLower--UncenteredUpper; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>7</span>; <span class="keywords"><span class="keywords">TITLE</span>8</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> Regions;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******             BEGIN DATA MANIPULATION FOR CHAPTER 2 EXAMPLE           *******;</span>
+<span class="comment">*******                  CHANGE &quot;filesave&quot; to your directory                *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Defining global variable for file location to be replaced in code below;</span>
+<span class="keywords">%LET</span> filesave= C:\Dropbox\PilesOfVariance\Chapter2\SAS;
+<span class="comment">* Location for SAS files for these models (uses macro variable filesave);</span>
+<span class="keywords">LIBNAME</span> filesave <span class="string">&quot;<span class="string">&amp;filesave.</span>&quot;</span>;
+
+<span class="comment">* Create format for demgroup;</span>
+<span class="command">PROC <span class="keywords">FORMAT</span></span>; <span class="keywords">VALUE</span> FDemGroup <span class="number">1</span>=<span class="string">&quot;1None&quot;</span> <span class="number">2</span>=<span class="string">&quot;2Future&quot;</span> <span class="number">3</span>=<span class="string">&quot;3Current&quot;</span>; <span class="command">RUN</span>;
+
+<span class="comment">* Import chapter 2 example data into work library and center predictors;</span>
+<span class="command">DATA</span> work.Chapter2; <span class="keywords">SET</span> filesave.SAS_Chapter2;
+<span class="comment">* Centering age at different points;</span>
+age80 = age - <span class="number">80</span>;
+age85 = age - <span class="number">85</span>;
+age90 = age - <span class="number">90</span>;
+<span class="comment">* Centering grip at different points;</span>
+grip6 = grip - <span class="number">6</span>;
+grip9 = grip - <span class="number">9</span>;
+grip12 = grip - <span class="number">12</span>;
+<span class="comment">* Re-coding sex so women are reference;</span>
+     <span class="keywords">IF</span> sexMW=<span class="number">0</span> <span class="keywords">THEN</span> sexWM=<span class="number">1</span>; 
+<span class="keywords">ELSE</span> <span class="keywords">IF</span> sexMW=<span class="number">1</span> <span class="keywords">THEN</span> sexWM=<span class="number">0</span>; 
+<span class="comment">* Creating all possible contrasts for dementia groups;</span>
+     <span class="keywords">IF</span> demgroup=<span class="number">1</span> <span class="keywords">THEN</span> <span class="keywords">DO</span>; demNF=<span class="number">0</span>; demNC=<span class="number">0</span>; demFN=<span class="number">1</span>; demFC=<span class="number">0</span>; demCN=<span class="number">1</span>; demCF=<span class="number">0</span>; <span class="keywords">END</span>;
+<span class="keywords">ELSE</span> <span class="keywords">IF</span> demgroup=<span class="number">2</span> <span class="keywords">THEN</span> <span class="keywords">DO</span>; demNF=<span class="number">1</span>; demNC=<span class="number">0</span>; demFN=<span class="number">0</span>; demFC=<span class="number">0</span>; demCN=<span class="number">0</span>; demCF=<span class="number">1</span>; <span class="keywords">END</span>;
+<span class="keywords">ELSE</span> <span class="keywords">IF</span> demgroup=<span class="number">3</span> <span class="keywords">THEN</span> <span class="keywords">DO</span>; demNF=<span class="number">0</span>; demNC=<span class="number">1</span>; demFN=<span class="number">0</span>; demFC=<span class="number">1</span>; demCN=<span class="number">0</span>; demCF=<span class="number">0</span>; <span class="keywords">END</span>;
+<span class="comment">* Labeling new variables;</span>
+<span class="keywords">LABEL</span>   
+age80=  <span class="string">&quot;age80: Age in Years (0=<span class="string">80</span>)&quot;</span>
+age85=  <span class="string">&quot;age85: Age in Years (0=<span class="string">85</span>)&quot;</span>
+age90=  <span class="string">&quot;age85: Age in Years (0=<span class="string">90</span>)&quot;</span>
+grip6=  <span class="string">&quot;grip6: Grip Strength in Pounds (0=<span class="string">6</span>)&quot;</span>
+grip9=  <span class="string">&quot;grip9: Grip Strength in Pounds (0=<span class="string">9</span>)&quot;</span>
+grip12= <span class="string">&quot;grip12: Grip Strength in Pounds (0=<span class="string">12</span>)&quot;</span>
+sexWM=  <span class="string">&quot;sexwm: Sex (0=Women, <span class="string">1</span>=Men)&quot;</span>
+demNF=  <span class="string">&quot;demNF: Dementia Contrast for None=<span class="string">0</span> vs Future=<span class="string">1</span>&quot;</span>
+demNC=  <span class="string">&quot;demNC: Dementia Contrast for None=<span class="string">0</span> vs Current=<span class="string">1</span>&quot;</span>
+demFN=  <span class="string">&quot;demFN: Dementia Contrast for Future=<span class="string">0</span> vs None=<span class="string">1</span>&quot;</span>
+demFC=  <span class="string">&quot;demFC: Dementia Contrast for Future=<span class="string">0</span> vs Current=<span class="string">1</span>&quot;</span>
+demCN=  <span class="string">&quot;demCN: Dementia Contrast for Current=<span class="string">0</span> vs None=<span class="string">1</span>&quot;</span>
+demCF=  <span class="string">&quot;demCF: Dementia Contrast for Current=<span class="string">0</span> vs Future=<span class="string">1</span>&quot;</span>;
+<span class="comment">* Add format to demgroup to display in later output;</span>
+<span class="keywords">FORMAT</span> demgroup Fdemgroup.;
+<span class="command">RUN</span>;
+
+<span class="comment">* Creating 'fake people' to show age*grip interaction;</span>
+<span class="comment">* Each row is a fake person for which to create a predicted outcome;</span>
+<span class="command">DATA</span> work.FakeAgeGrip; <span class="keywords">INPUT</span> PersonID grip9 age85 sexMW demNF demNC; 
+<span class="keywords">DATALINES</span>;
+<span class="data-line">-99  3 -5  0  0  0 </span>
+<span class="data-line">-99  3  0  0  0  0 </span>
+<span class="data-line">-99  3  5  0  0  0 </span>
+<span class="data-line">-99  0 -5  0  0  0 </span>
+<span class="data-line">-99  0  0  0  0  0 </span>
+<span class="data-line">-99  0  5  0  0  0 </span>
+<span class="data-line">-99 -3 -5  0  0  0 </span>
+<span class="data-line">-99 -3  0  0  0  0 </span>
+<span class="data-line">-99 -3  5  0  0  0 </span>
+; <span class="command">RUN</span>;
+<span class="comment">* Merge with real data;</span>
+<span class="command">DATA</span> work.PlotAgeGrip; <span class="keywords">MERGE</span> work.Chapter2 work.FakeAgeGrip;<span class="keywords"> BY</span> PersonID; <span class="command">RUN</span>;
+
+<span class="comment">* Creating 'fake people' to show age*grip*sex interaction;</span>
+<span class="comment">* Each row is a fake person for which to create a predicted outcome;</span>
+<span class="command">DATA</span> work.FakeAgeGripSex; <span class="keywords">INPUT</span> PersonID grip9 age85 sexMW demNF demNC; 
+<span class="keywords">DATALINES</span>;
+<span class="data-line">-99   3  -5  0  0  0 </span>
+<span class="data-line">-99   3   0  0  0  0 </span>
+<span class="data-line">-99   3   5  0  0  0 </span>
+<span class="data-line">-99   0  -5  0  0  0 </span>
+<span class="data-line">-99   0   0  0  0  0 </span>
+<span class="data-line">-99   0   5  0  0  0 </span>
+<span class="data-line">-99  -3  -5  0  0  0 </span>
+<span class="data-line">-99  -3   0  0  0  0 </span>
+<span class="data-line">-99  -3   5  0  0  0 </span>
+<span class="data-line">-99   3  -5  1  0  0 </span>
+<span class="data-line">-99   3   0  1  0  0 </span>
+<span class="data-line">-99   3   5  1  0  0 </span>
+<span class="data-line">-99   0  -5  1  0  0 </span>
+<span class="data-line">-99   0   0  1  0  0 </span>
+<span class="data-line">-99   0   5  1  0  0 </span>
+<span class="data-line">-99  -3  -5  1  0  0 </span>
+<span class="data-line">-99  -3   0  1  0  0 </span>
+<span class="data-line">-99  -3   5  1  0  0 </span>
+; <span class="command">RUN</span>;
+<span class="comment">* Merge with real data;</span>
+<span class="command">DATA</span> work.PlotAgeGripSex; <span class="keywords">MERGE</span> work.Chapter2 work.FakeAgeGripSex;<span class="keywords"> BY</span> PersonID; <span class="command">RUN</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******                       BEGIN CHAPTER 2 MODELS                        *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Open output directory to save results to;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">FILE</span>=<span class="string">&quot;<span class="string">&amp;filesave.</span>\SAS_Chapter2_Output.html&quot;</span>
+         (<span class="keywords">URL</span>=<span class="string">&quot;SAS_Chapter2_Output.html&quot;</span>) <span class="keywords">STYLE</span>=HTMLBlue;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">2</span>: Descriptive Statistics for Example Variables&quot;</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="command">DATA</span>=work.Chapter2; <span class="keywords">VAR</span> age grip cognition; <span class="command">RUN</span>;
+<span class="command">PROC FREQ</span>  <span class="command">DATA</span>=work.Chapter2; <span class="keywords">TABLE</span> sexMW*demgroup; <span class="command">RUN</span>;
+<span class="command">PROC CORR</span>  <span class="command">DATA</span>=work.Chapter2; <span class="keywords">VAR</span> age grip sexMW cognition; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.3</span>: Empty Means Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovEmpty;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.4</span>: Adding Age (0=<span class="string">85</span>)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovAge;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate R2 for overall model;</span>
+     %ModelR2(CovBase=CovEmpty, CovFewer=CovEmpty, CovMore=CovAge);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.4</span>: Adding Original Age Instead'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.6</span>: Adding Grip (0=<span class="string">9</span>)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovGrip;
+     <span class="keywords">CONTRAST</span> <span class="string">'Model R2 Test'</span> age85 <span class="number">1</span>, grip9 <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate R2 for overall model;</span>
+     %ModelR2(CovBase=CovEmpty, CovFewer=CovAge, CovMore=CovGrip);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.7</span>: Adding Sex (0=M, <span class="string">1</span>=W)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovSex;
+     <span class="keywords">CONTRAST</span> <span class="string">'Model R2 Test'</span> age85 <span class="number">1</span>, grip9 <span class="number">1</span>, sexMW <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate R2 for overall model;</span>
+     %ModelR2(CovBase=CovEmpty, CovFewer=CovGrip, CovMore=CovSex);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.7</span>: Adding Sex (1=M <span class="string">0</span>=W)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexWM / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.8</span>: Adding Dementia Group'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Manual Group Contrasts so Reference=None'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demNF demNC / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovDem;
+     <span class="keywords">CONTRAST</span> <span class="string">'Model R2 Test'</span> age85 <span class="number">1</span>, grip9 <span class="number">1</span>, sexMW <span class="number">1</span>, demNF <span class="number">1</span>, demNC <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">CONTRAST</span> <span class="string">'Omnibus Dementia Group Test'</span> demNF <span class="number">1</span>, demNC <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future vs Current'</span> demNF -<span class="number">1</span> demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate R2 for overall model;</span>
+     %ModelR2(CovBase=CovEmpty, CovFewer=CovSex, CovMore=CovDem);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.8</span>: Adding Dementia Group'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Categorical Predictor for Dementia Group'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> demgroup;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demgroup / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">LS<span class="keywords">MEAN</span>S</span> demgroup / <span class="keywords">D<span class="keywords">IF</span>F</span><span class="keywords">=ALL</span><span class="keywords"> AT</span>(age85 grip9 sexMW) = (0 <span class="number">0</span> <span class="number">0</span>)<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.9</span>: Adding Age by Grip Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Age (0=<span class="string">85</span>), Grip (0=<span class="string">9</span>)'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotAgeGrip <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demNF demNC
+                       age85*grip9
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW <span class="keywords">COVB</span> <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredAgeGrip;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovAgeGrip SolutionF=FixAgeGrip <span class="keywords">COVB</span>=CovBAgeGrip;
+     <span class="keywords">CONTRAST</span> <span class="string">'Model R2 Test'</span> age85 <span class="number">1</span>, grip9 <span class="number">1</span>, sexMW <span class="number">1</span>, demNF <span class="number">1</span>, demNC <span class="number">1</span>, age85*grip9 <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future vs Current'</span>                     demNF -<span class="number">1</span> demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope at Grip Strength =  <span class="string">6</span>'</span>       age85 <span class="number">1</span> age85*grip9 -<span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope at Grip Strength =  <span class="string">9</span>'</span>       age85 <span class="number">1</span> age85*grip9 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope at Grip Strength = <span class="string">12</span>'</span>       age85 <span class="number">1</span> age85*grip9 <span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Grip Strength Slope at Age = <span class="string">80</span>'</span>       grip9 <span class="number">1</span> age85*grip9 -<span class="number">5</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Grip Strength Slope at Age = <span class="string">85</span>'</span>       grip9 <span class="number">1</span> age85*grip9 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Grip Strength Slope at Age = <span class="string">90</span>'</span>       grip9 <span class="number">1</span> age85*grip9 <span class="number">5</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition at Grip = <span class="string">12</span> Age = <span class="string">80</span>'</span>       intercept <span class="number">1</span> age85 -<span class="number">5</span> grip9 <span class="number">3</span>  age85*grip9 -<span class="number">15</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition at Grip = <span class="string">12</span> Age = <span class="string">85</span>'</span>       intercept <span class="number">1</span> age85 <span class="number">0</span>  grip9 <span class="number">3</span>  age85*grip9 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition at Grip = <span class="string">12</span> Age = <span class="string">90</span>'</span>       intercept <span class="number">1</span> age85 <span class="number">5</span>  grip9 <span class="number">3</span>  age85*grip9 <span class="number">15</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition at Grip =  <span class="string">9</span> Age = <span class="string">80</span>'</span>       intercept <span class="number">1</span> age85 -<span class="number">5</span> grip9 <span class="number">0</span>  age85*grip9 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition at Grip =  <span class="string">9</span> Age = <span class="string">85</span>'</span>       intercept <span class="number">1</span> age85 <span class="number">0</span>  grip9 <span class="number">0</span>  age85*grip9 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition at Grip =  <span class="string">9</span> Age = <span class="string">90</span>'</span>       intercept <span class="number">1</span> age85 <span class="number">5</span>  grip9 <span class="number">0</span>  age85*grip9 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition at Grip =  <span class="string">6</span> Age = <span class="string">80</span>'</span>       intercept <span class="number">1</span> age85 -<span class="number">5</span> grip9 -<span class="number">3</span> age85*grip9 <span class="number">15</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition at Grip =  <span class="string">6</span> Age = <span class="string">85</span>'</span>       intercept <span class="number">1</span> age85 <span class="number">0</span>  grip9 -<span class="number">3</span> age85*grip9 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition at Grip =  <span class="string">6</span> Age = <span class="string">90</span>'</span>       intercept <span class="number">1</span> age85 <span class="number">5</span>  grip9 -<span class="number">3</span> age85*grip9 -<span class="number">15</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate R2 for overall model;</span>
+     %ModelR2(CovBase=CovEmpty, CovFewer=CovDem, CovMore=CovAgeGrip);
+<span class="comment">     * Call macro for regions of significance for main effects of interaction;</span>
+     %Regions(FixData=FixAgeGrip, CovBData=CovBAgeGrip, Pred=grip9, Mod=age85,
+              ModCenter=<span class="number">85</span>, Interact=age85*grip9, Order=<span class="number">6</span>);
+     %Regions(FixData=FixAgeGrip, CovBData=CovBAgeGrip, Pred=age85, Mod=grip9,
+              ModCenter=<span class="number">9</span>, Interact=age85*grip9, Order=<span class="number">6</span>);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> PredAgeGrip; <span class="keywords">SET</span> PredAgeGrip; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=PredAgeGrip; <span class="keywords">VAR</span> age85 grip9 sexMW demNF demNC pred; <span class="command">RUN</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.9</span>: Adding Age by Grip Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Age (0=<span class="string">80</span>), Grip (0=<span class="string">12</span>)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age80 grip12 sexMW demNF demNC
+                       age80*grip12
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future vs Current'</span> demNF -<span class="number">1</span> demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.9</span>: Adding Age by Grip Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Age (0=<span class="string">90</span>), Grip (0=<span class="string">6</span>)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age90 grip6 sexMW demNF demNC
+                       age90*grip6
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future vs Current'</span> demNF -<span class="number">1</span> demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>3: Adding Sex by Dementia Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Sex (0=Men), Dementia (0=None)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demNF demNC
+                       age85*grip9 sexMW*demNF sexMW*demNC
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW <span class="keywords">COVB</span>;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovSexDem SolutionF=FixAgeGrip <span class="keywords">COVB</span>=CovBAgeGrip;
+     <span class="keywords">CONTRAST</span> <span class="string">'Model R2 Test'</span> age85 <span class="number">1</span>, grip9 <span class="number">1</span>, sexMW <span class="number">1</span>, demNF <span class="number">1</span>, demNC <span class="number">1</span>, age85*grip9 <span class="number">1</span>, sexMW*demNF <span class="number">1</span>, sexMW*demNC <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">CONTRAST</span> <span class="string">'Omnibus Dementia*Sex Interaction Test'</span> sexMW*demNF <span class="number">1</span>, sexMW*demNC <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition for Men   None'</span>                   intercept <span class="number">1</span> sexMW <span class="number">0</span> demNF <span class="number">0</span> demNC <span class="number">0</span> sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition for Women None'</span>                   intercept <span class="number">1</span> sexMW <span class="number">1</span> demNF <span class="number">0</span> demNC <span class="number">0</span> sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition for Men   Future'</span>                 intercept <span class="number">1</span> sexMW <span class="number">0</span> demNF <span class="number">1</span> demNC <span class="number">0</span> sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition for Women Future'</span>                 intercept <span class="number">1</span> sexMW <span class="number">1</span> demNF <span class="number">1</span> demNC <span class="number">0</span> sexMW*demNF <span class="number">1</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition for Men   Current'</span>                intercept <span class="number">1</span> sexMW <span class="number">0</span> demNF <span class="number">0</span> demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Cognition for Women Current'</span>                intercept <span class="number">1</span> sexMW <span class="number">1</span> demNF <span class="number">0</span> demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex Difference for No Dementia'</span>             sexMW <span class="number">1</span> sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex Difference for Future Dementia'</span>         sexMW <span class="number">1</span> sexMW*demNF <span class="number">1</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex Difference for Current Dementia'</span>        sexMW <span class="number">1</span> sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Future Difference for Men'</span>             demNF <span class="number">1</span> sexMW*demNF <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Future Difference for Women'</span>           demNF <span class="number">1</span> sexMW*demNF <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Current Difference for Men'</span>            demNC <span class="number">1</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Current Difference for Women'</span>          demNC <span class="number">1</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future-Current Difference for Men'</span>          demNF -<span class="number">1</span> demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future-Current Difference for Women'</span>        demNF -<span class="number">1</span> demNC <span class="number">1</span> sexMW*demNF -<span class="number">1</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Future Sex Difference'</span>                 sexMW*demNF <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Current Sex Difference'</span>                sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future-Current Sex Difference'</span>              sexMW*demNF -<span class="number">1</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate R2 for overall model;</span>
+     %ModelR2(CovBase=CovEmpty, CovFewer=CovAgeGrip, CovMore=CovSexDem);
+<span class="comment">     * Call macro for regions of significance for main effects of interaction;</span>
+     %Regions(FixData=FixAgeGrip, CovBData=CovBAgeGrip, Pred=grip9, Mod=age85,
+              ModCenter=<span class="number">85</span>, Interact=age85*grip9, Order=<span class="number">6</span>);
+     %Regions(FixData=FixAgeGrip, CovBData=CovBAgeGrip, Pred=age85, Mod=grip9,
+              ModCenter=<span class="number">9</span>, Interact=age85*grip9, Order=<span class="number">6</span>);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>3: Adding Sex by Dementia Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Sex (0=Women), Dementia (0=None)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexwm demNF demNC
+                       age85*grip9 sexwm*demNF sexwm*demNC
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>5: Adding Sex by Dementia Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Sex (0=Men), Dementia (0=Future)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demFN demFC
+                       age85*grip9 sexMW*demFN sexMW*demFC
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>5: Adding Sex by Dementia Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Sex (0=Women), Dementia (0=Future)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexwm demFN demFC
+                       age85*grip9 sexwm*demFN sexwm*demFC
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>6: Adding Sex by Dementia Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Sex (0=Men), Dementia (0=Current)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demCN demCF
+                       age85*grip9 sexMW*demCN sexMW*demCF
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>6: Adding Sex by Dementia Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Sex (0=Women), Dementia (0=Current)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexwm demCN demCF
+                       age85*grip9 sexwm*demCN sexwm*demCF
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>6: Adding Sex by Dementia Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Categorical Sex and Dementia'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> sexMW demgroup;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demgroup
+                       age85*grip9 sexMW*demgroup
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">LS<span class="keywords">MEAN</span>S</span> sexMW*demgroup / <span class="keywords">SLICE</span>=demgroup <span class="keywords">SLICE</span>=sexMW <span class="keywords">D<span class="keywords">IF</span>F</span><span class="keywords">=ALL</span><span class="keywords"> AT</span>(age85 grip9) = (0 <span class="number">0</span>)<span class="keywords"> CL</span>;
+     <span class="keywords">CONTRAST</span> <span class="string">'Sex by None-Future    Interaction'</span>     sexMW*demgroup -<span class="number">1</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">1</span> -<span class="number">1</span>  <span class="number">0</span>;
+     <span class="keywords">CONTRAST</span> <span class="string">'Sex by None-Current   Interaction'</span>     sexMW*demgroup -<span class="number">1</span>  <span class="number">0</span>  <span class="number">1</span>  <span class="number">1</span>  <span class="number">0</span> -<span class="number">1</span>;
+     <span class="keywords">CONTRAST</span> <span class="string">'Sex by Future-Current Interaction'</span>     sexMW*demgroup  <span class="number">0</span> -<span class="number">1</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">1</span> -<span class="number">1</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>7: Adding Sex by Age and Sex by Grip Interactions'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Age (0=<span class="string">85</span>), Grip (0=<span class="string">9</span>), Sex (0=Men), Dementia (0=None)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demNF demNC
+                       age85*grip9 sexMW*demNF sexMW*demNC
+                       age85*sexMW grip9*sexMW
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=Cov2AgeSexGrip;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age for Men'</span>                 age85 <span class="number">1</span> age85*sexMW <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age for Women'</span>               age85 <span class="number">1</span> age85*sexMW <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Grip for Men'</span>                grip9 <span class="number">1</span> grip9*sexMW <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Grip for Women'</span>              grip9 <span class="number">1</span> grip9*sexMW <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex for None'</span>                sexMW <span class="number">1</span> sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex for Future'</span>              sexMW <span class="number">1</span> sexMW*demNF <span class="number">1</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex for Current'</span>             sexMW <span class="number">1</span> sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Men: None vs Future'</span>         demNF <span class="number">1</span>  demNC <span class="number">0</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Men: None vs Current'</span>        demNF <span class="number">0</span>  demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Men: Future vs Current'</span>      demNF -<span class="number">1</span> demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Women: None vs Future'</span>       demNF <span class="number">1</span>  demNC <span class="number">0</span> sexMW*demNF <span class="number">1</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Women: None vs Current'</span>      demNF <span class="number">0</span>  demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Women: Future vs Current'</span>    demNF -<span class="number">1</span> demNC <span class="number">1</span> sexMW*demNF -<span class="number">1</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex by None vs Future'</span>       demNF*sexMW <span class="number">1</span>  demNC*sexMW <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex by None vs Current'</span>      demNF*sexMW <span class="number">0</span>  demNC*sexMW <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex by Future vs Current'</span>    demNF*sexMW -<span class="number">1</span> demNC*sexMW <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate R2 for overall model;</span>
+     %ModelR2(CovBase=CovEmpty, CovFewer=CovSexDem, CovMore=Cov2AgeSexGrip);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>8: Adding Sex by Age by Grip Three-Way Interaction'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Age (0=<span class="string">85</span>), Grip (0=<span class="string">9</span>), Sex (0=Men), Dementia (0=None)'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotAgeGripSex <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demNF demNC
+                       age85*grip9 sexMW*demNF sexMW*demNC
+                       age85*sexMW grip9*sexMW age85*grip9*sexMW
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW <span class="keywords"><span class="keywords">OUTP</span>M</span>=Pred3AgeSexGrip;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=Cov3AgeSexGrip;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age for Men'</span>                 age85 <span class="number">1</span>  age85*sexMW <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age for Women'</span>               age85 <span class="number">1</span>  age85*sexMW <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Grip for Men'</span>                grip9 <span class="number">1</span>  grip9*sexMW <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Grip for Women'</span>              grip9 <span class="number">1</span>  grip9*sexMW <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex for None'</span>                sexMW <span class="number">1</span>  sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex for Future'</span>              sexMW <span class="number">1</span>  sexMW*demNF <span class="number">1</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex for Current'</span>             sexMW <span class="number">1</span>  sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Men: None vs Future'</span>         demNF <span class="number">1</span>  demNC <span class="number">0</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Men: None vs Current'</span>        demNF <span class="number">0</span>  demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Men: Future vs Current'</span>      demNF -<span class="number">1</span> demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Women: None vs Future'</span>       demNF <span class="number">1</span>  demNC <span class="number">0</span> sexMW*demNF <span class="number">1</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Women: None vs Current'</span>      demNF <span class="number">0</span>  demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Women: Future vs Current'</span>    demNF -<span class="number">1</span> demNC <span class="number">1</span> sexMW*demNF -<span class="number">1</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex by None vs Future'</span>       demNF*sexMW <span class="number">1</span>  demNC*sexMW <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex by None vs Current'</span>      demNF*sexMW <span class="number">0</span>  demNC*sexMW <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex by Future vs Current'</span>    demNF*sexMW -<span class="number">1</span> demNC*sexMW <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age by Grip for Men'</span>         age85*grip9 <span class="number">1</span>  age85*grip9*sexMW <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age by Grip for Women'</span>       age85*grip9 <span class="number">1</span>  age85*grip9*sexMW <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate R2 for overall model;</span>
+     %ModelR2(CovBase=CovEmpty, CovFewer=Cov2AgeSexGrip, CovMore=Cov3AgeSexGrip);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> Pred3AgeSexGrip; <span class="keywords">SET</span> Pred3AgeSexGrip; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=Pred3AgeSexGrip; <span class="keywords">VAR</span> age85 grip9 sexMW demNF demNC pred; <span class="command">RUN</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>3: Final Reported Model'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Age (0=<span class="string">85</span>), Grip (0=<span class="string">9</span>), Sex (0=Men), Dementia (0=None)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demNF demNC
+                       age85*grip9 sexMW*demNF sexMW*demNC
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovSexDem;
+     <span class="keywords">CONTRAST</span> <span class="string">'Model R2 Test'</span> age85 <span class="number">1</span>, grip9 <span class="number">1</span>, sexMW <span class="number">1</span>, demNF <span class="number">1</span>, demNC <span class="number">1</span>, age85*grip9 <span class="number">1</span>, sexMW*demNF <span class="number">1</span>, sexMW*demNC <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">CONTRAST</span> <span class="string">'Omnibus Dementia*Sex Interaction Test'</span> sexMW*demNF <span class="number">1</span>, sexMW*demNC <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex Difference for No Dementia'</span>             sexMW <span class="number">1</span>  sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex Difference for Future Dementia'</span>         sexMW <span class="number">1</span>  sexMW*demNF <span class="number">1</span> sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Sex Difference for Current Dementia'</span>        sexMW <span class="number">1</span>  sexMW*demNF <span class="number">0</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Future Difference for Men'</span>             demNF <span class="number">1</span>  sexMW*demNF <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Future Difference for Women'</span>           demNF <span class="number">1</span>  sexMW*demNF <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Current Difference for Men'</span>            demNC <span class="number">1</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Current Difference for Women'</span>          demNC <span class="number">1</span>  sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future-Current Difference for Men'</span>          demNF -<span class="number">1</span> demNC <span class="number">1</span> sexMW*demNF <span class="number">0</span>  sexMW*demNC <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future-Current Difference for Women'</span>        demNF -<span class="number">1</span> demNC <span class="number">1</span> sexMW*demNF -<span class="number">1</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Future Sex Difference'</span>                 sexMW*demNF <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'None-Current Sex Difference'</span>                sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Future-Current Sex Difference'</span>              sexMW*demNF -<span class="number">1</span> sexMW*demNC <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate R2 for overall model;</span>
+     %ModelR2(CovBase=CovEmpty, CovFewer=CovEmpty, CovMore=CovSexDem);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">2.1</span>3: Final Reported Model'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Categorical Variables for Sex and Dementia'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter2 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> sexMW demgroup;
+     <span class="keywords">MODEL</span> cognition = age85 grip9 sexMW demgroup
+                       age85*grip9 sexMW*demgroup
+                        / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">LS<span class="keywords">MEAN</span>S</span> sexMW*demgroup / <span class="keywords">SLICE</span>=demgroup <span class="keywords">SLICE</span>=sexMW <span class="keywords">D<span class="keywords">IF</span>F</span><span class="keywords">=ALL</span><span class="keywords"> AT</span>(age85 grip9) = (0 <span class="number">0</span>)<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="comment">****** END CHAPTER 2 MODELS ******;</span>
+
+<span class="comment">* Close output directory;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">CLOSE</span>;
+</body></html>
+</pre></body></html>

@@ -1,0 +1,2673 @@
+
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css">
+BODY{background-color: ffffff;
+    font-family: monaco, "courier new", monospace;
+     color: #000000}
+.input {color: #CC6600}
+.result{color: #000099}
+.error{color: #dd0000}
+</style>
+</head>
+<body>
+<pre>
+------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <span class=result>STATA_Chapter2</span>
+<span class=result>       </span>log:  <span class=result>C:\Dropbox\PilesOfVariance\Chapter2\STATA\STATA_Chapter2_Output.smcl</span>
+<span class=result>  </span>log type:  <span class=result>smcl</span>
+<span class=result> </span>opened on:  <span class=result>21 Oct 2014, 09:16:17</span>
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Chapter 2: Descriptive Statistics for Example Variables"</span>
+<span class=result>Chapter 2: Descriptive Statistics for Example Variables</span>
+<br><br>
+<span class=input>. summarize age grip cognition</span>
+<br><br>
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+         age |<span class=result>       550    84.92679    3.430029   80.01649   96.96728</span>
+        grip |<span class=result>       550    9.112727    2.982954          0         19</span>
+   cognition |<span class=result>       550    24.82182    10.98903          0         44</span>
+<br><br>
+<span class=input>. tabulate sexmw demgroup</span>
+<br><br>
+sexMW: Sex |   demgroup: Dementia Diagnosis
+   (0=Men, |  (1=None, 2=Future, 3=Current)
+  1=Women) |         1          2          3 |     Total
+-----------+---------------------------------+----------
+         0 |<span class=result>       168         40         19 </span>|<span class=result>       227 </span>
+         1 |<span class=result>       231         69         23 </span>|<span class=result>       323 </span>
+-----------+---------------------------------+----------
+     Total |<span class=result>       399        109         42 </span>|<span class=result>       550 </span>
+<br><br>
+<br><br>
+<span class=input>. corr age grip sexmw cognition </span>
+(obs=550)
+<br><br>
+             |      age     grip    sexmw cognit~n
+-------------+------------------------------------
+         age |<span class=result>   1.0000</span>
+<span class=result>        </span>grip |<span class=result>  -0.1841   1.0000</span>
+<span class=result>       </span>sexmw |<span class=result>   0.0456  -0.4032   1.0000</span>
+<span class=result>   </span>cognition |<span class=result>  -0.1705   0.2418  -0.2363   1.0000</span>
+<br><br>
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.3: Empty Means Model"</span>
+<span class=result>Eq 2.3: Empty Means Model</span>
+<br><br>
+<span class=input>. mixed cognition , ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>0</span>)       = <span class=result>        .</span>
+Log restricted-likelihood = <span class=result>-2098.0488          </span>Prob &gt; chi2        =    <span class=result>     .</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       _cons |<span class=result>   24.82182   .4685737    52.97   0.000     23.90343    25.74021</span>
+------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   120.7587   7.282025      107.2974    135.9089</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -2098.049      2     4200.098    4208.717</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.4: Adding Age (0=85)"</span>
+<span class=result>Eq 2.4: Adding Age (0=85)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>1</span>)       = <span class=result>    16.40</span>
+Log restricted-likelihood = <span class=result>-2091.0404          </span>Prob &gt; chi2        =    <span class=result>0.0001</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       age85 |<span class=result>  -.5460905   .1348555    -4.05   0.000    -.8104025   -.2817786</span>
+       _cons |<span class=result>   24.78184   .4622431    53.61   0.000     23.87586    25.68782</span>
+------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   117.4642   7.083355      104.3701     132.201</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .    -2091.04      3     4188.081    4201.011</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.4: Adding Original Age Instead"</span>
+<span class=result>Eq 2.4: Adding Original Age Instead</span>
+<br><br>
+<span class=input>. mixed cognition c.age, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>1</span>)       = <span class=result>    16.40</span>
+Log restricted-likelihood = <span class=result>-2091.0404          </span>Prob &gt; chi2        =    <span class=result>0.0001</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         age |<span class=result>  -.5460905   .1348555    -4.05   0.000    -.8104025   -.2817786</span>
+       _cons |<span class=result>   71.19953   11.46217     6.21   0.000      48.7341    93.66497</span>
+------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   117.4642   7.083355      104.3701     132.201</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .    -2091.04      3     4188.081    4201.011</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.6: Adding Grip (0=9)"</span>
+<span class=result>Eq 2.6: Adding Grip (0=9)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>2</span>)       = <span class=result>    44.28</span>
+Log restricted-likelihood = <span class=result>-2078.7399          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       age85 |<span class=result>  -.4175853   .1340458    -3.12   0.002    -.6803104   -.1548603</span>
+       grip9 |<span class=result>   .8024817   .1541361     5.21   0.000     .5003804    1.104583</span>
+       _cons |<span class=result>   24.70078   .4518795    54.66   0.000     23.81512    25.58645</span>
+------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   112.1228   6.761261      99.62415    126.1896</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .    -2078.74      4      4165.48    4182.719</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       * Model R2 Test</span>
+<span class=input>.       test (c.age85=0) (c.grip9=0)</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 = 0</span>
+<span class=result> </span>( 2)<span class=result>  [cognition]grip9 = 0</span>
+<br><br>
+           chi2(  2) =<span class=result>   44.28</span>
+         Prob &gt; chi2 =  <span class=result>  0.0000</span>
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.7: Adding Sex (0=M, 1=W)"</span>
+<span class=result>Eq 2.7: Adding Sex (0=M, 1=W)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>3</span>)       = <span class=result>    60.11</span>
+Log restricted-likelihood = <span class=result>-2070.5586          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       age85 |<span class=result>  -.4337719   .1324638    -3.27   0.001    -.6933962   -.1741477</span>
+       grip9 |<span class=result>   .5460019   .1662766     3.28   0.001     .2201058    .8718981</span>
+       sexmw |<span class=result>   -3.79878   .9903591    -3.84   0.000    -5.739848   -1.857712</span>
+       _cons |<span class=result>   26.95943   .7388729    36.49   0.000     25.51127    28.40759</span>
+------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   109.3807   6.595904       97.1877    123.1034</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -2070.559      5     4151.117    4172.667</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       * Model R2 Test</span>
+<span class=input>.       test (c.age85=0) (c.grip9=0) (c.sexmw=0)</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 = 0</span>
+<span class=result> </span>( 2)<span class=result>  [cognition]grip9 = 0</span>
+<span class=result> </span>( 3)<span class=result>  [cognition]sexmw = 0</span>
+<br><br>
+           chi2(  3) =<span class=result>   60.11</span>
+         Prob &gt; chi2 =  <span class=result>  0.0000</span>
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.7: Adding Sex (1=M 0=W)"</span>
+<span class=result>Eq 2.7: Adding Sex (1=M 0=W)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexwm, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>3</span>)       = <span class=result>    60.11</span>
+Log restricted-likelihood = <span class=result>-2070.5586          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       age85 |<span class=result>  -.4337719   .1324638    -3.27   0.001    -.6933962   -.1741477</span>
+       grip9 |<span class=result>   .5460019   .1662766     3.28   0.001     .2201058    .8718981</span>
+       sexwm |<span class=result>    3.79878   .9903591     3.84   0.000     1.857712    5.739848</span>
+       _cons |<span class=result>   23.16065   .6003492    38.58   0.000     21.98399    24.33731</span>
+------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   109.3807   6.595904       97.1877    123.1034</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -2070.559      5     4151.117    4172.667</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.8: Adding Dementia Group"</span>
+<span class=result>Eq 2.8: Adding Dementia Group</span>
+<br><br>
+<span class=input>. display as result "Using Manual Group Contrasts so Reference=None"</span>
+<span class=result>Using Manual Group Contrasts so Reference=None</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw c.demnf c.demnc, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>5</span>)       = <span class=result>   208.76</span>
+Log restricted-likelihood = <span class=result>-2008.1345          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       age85 |<span class=result>   -.405734   .1188972    -3.41   0.001    -.6387681   -.1726998</span>
+       grip9 |<span class=result>   .6042256   .1497757     4.03   0.000     .3106706    .8977805</span>
+       sexmw |<span class=result>  -3.657374   .8914326    -4.10   0.000     -5.40455   -1.910198</span>
+       demnf |<span class=result>  -5.721971   1.019078    -5.61   0.000    -7.719328   -3.724614</span>
+       demnc |<span class=result>  -16.47981   1.522754   -10.82   0.000    -19.46436   -13.49527</span>
+       _cons |<span class=result>   29.26433   .6985079    41.90   0.000     27.89528    30.63338</span>
+------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   88.07088   5.310874      78.25335     99.1201</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -2008.134      7     4030.269    4060.438</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       * Model R2 Test</span>
+<span class=input>.       test (c.age85=0) (c.grip9=0) (c.sexmw=0) (c.demnf=0) (c.demnc=0)</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 = 0</span>
+<span class=result> </span>( 2)<span class=result>  [cognition]grip9 = 0</span>
+<span class=result> </span>( 3)<span class=result>  [cognition]sexmw = 0</span>
+<span class=result> </span>( 4)<span class=result>  [cognition]demnf = 0</span>
+<span class=result> </span>( 5)<span class=result>  [cognition]demnc = 0</span>
+<br><br>
+           chi2(  5) =<span class=result>  208.76</span>
+         Prob &gt; chi2 =  <span class=result>  0.0000</span>
+<br><br>
+<span class=input>.       * Omnibus Dementia Group Test</span>
+<span class=input>.       test (c.demnf=0) (c.demnc=0)</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf = 0</span>
+<span class=result> </span>( 2)<span class=result>  [cognition]demnc = 0</span>
+<br><br>
+           chi2(  2) =<span class=result>  134.11</span>
+         Prob &gt; chi2 =  <span class=result>  0.0000</span>
+<br><br>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 // Future vs Current</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -10.75784   1.707957    -6.30   0.000    -14.10538   -7.410308</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.8: Adding Dementia Group"</span>
+<span class=result>Eq 2.8: Adding Dementia Group</span>
+<br><br>
+<span class=input>. display as result "Categorical Predictor for Dementia Group"</span>
+<span class=result>Categorical Predictor for Dementia Group</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw i.demgroup, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>5</span>)       = <span class=result>   208.76</span>
+Log restricted-likelihood = <span class=result>-2008.1345          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       age85 |<span class=result>   -.405734   .1188972    -3.41   0.001    -.6387681   -.1726998</span>
+       grip9 |<span class=result>   .6042256   .1497757     4.03   0.000     .3106706    .8977805</span>
+       sexmw |<span class=result>  -3.657374   .8914326    -4.10   0.000     -5.40455   -1.910198</span>
+             |
+    demgroup |
+          2  |<span class=result>  -5.721971   1.019078    -5.61   0.000    -7.719328   -3.724614</span>
+          3  |<span class=result>  -16.47981   1.522754   -10.82   0.000    -19.46436   -13.49527</span>
+             |
+       _cons |<span class=result>   29.26433   .6985079    41.90   0.000     27.89528    30.63338</span>
+------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   88.07088   5.310874      78.25335     99.1201</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -2008.134      7     4030.269    4060.438</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       contrast i.demgroup, </span>
+<br><br>
+Contrasts of marginal linear predictions
+<br><br>
+Margins      : <span class=result>asbalanced</span>
+<br><br>
+------------------------------------------------
+             |         df        chi2     P&gt;chi2
+-------------+----------------------------------
+<span class=result>cognition    </span>|
+    demgroup |<span class=result>          2      134.11     0.0000</span>
+------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.demgroup, at(c.age85=0 c.grip9=0 c.sexmw=0)</span>
+<br><br>
+Adjusted predictions                              Number of obs   = <span class=result>       550</span>
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+at           : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+<br><br>
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    demgroup |
+          1  |<span class=result>   29.26433   .6985079    41.90   0.000     27.89528    30.63338</span>
+          2  |<span class=result>   23.54235    1.07853    21.83   0.000     21.42847    25.65623</span>
+          3  |<span class=result>   12.78451   1.530193     8.35   0.000     9.785388    15.78364</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.demgroup, pwcompare(pveffects)</span>
+<br><br>
+Pairwise comparisons of predictive margins
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+<br><br>
+-----------------------------------------------------
+             |            Delta-method    Unadjusted
+             |   Contrast   Std. Err.      z    P&gt;|z|
+-------------+---------------------------------------
+    demgroup |
+     2 vs 1  |<span class=result>  -5.721971   1.019078    -5.61   0.000</span>
+     3 vs 1  |<span class=result>  -16.47981   1.522754   -10.82   0.000</span>
+     3 vs 2  |<span class=result>  -10.75784   1.707957    -6.30   0.000</span>
+-----------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.9: Adding Age by Grip Interaction"</span>
+<span class=result>Eq 2.9: Adding Age by Grip Interaction</span>
+<br><br>
+<span class=input>. display as result "Age (0=85), Grip (0=9)"</span>
+<span class=result>Age (0=85), Grip (0=9)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw c.demnf c.demnc ///</span>
+<span class=input>&gt;                 c.age85#c.grip9, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>6</span>)       = <span class=result>   221.12</span>
+Log restricted-likelihood = <span class=result>-2005.8468          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3339606   .1203566    -2.77   0.006    -.5698551   -.0980661</span>
+          grip9 |<span class=result>   .6194186   .1487424     4.16   0.000     .3278889    .9109484</span>
+          sexmw |<span class=result>  -3.455637   .8872749    -3.89   0.000    -5.194664    -1.71661</span>
+          demnf |<span class=result>  -5.922543   1.013632    -5.84   0.000    -7.909225   -3.935862</span>
+          demnc |<span class=result>   -16.3004   1.512547   -10.78   0.000    -19.26494   -13.33587</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1230185   .0405363     3.03   0.002     .0435689    .2024681</span>
+                |
+          _cons |<span class=result>    29.4078   .6949062    42.32   0.000     28.04581    30.76979</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>    86.7615   5.231916      77.08994    97.64645</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -2005.847      8     4027.694    4062.173</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       estat vce,</span>
+<br><br>
+Covariance matrix of coefficients of <span class=result>mixed</span> model
+<br><br>
+             |<span class=result> cognition  </span>                                                                        |<span class=result> lnsig_e    </span>
+             |                                                                c.age85#            |            
+        e(V) |      age85       grip9       sexmw       demnf       demnc     c.grip9       _cons |      _cons 
+-------------+------------------------------------------------------------------------------------+------------
+<span class=result>cognition    </span>|                                                                                    |            
+       age85 | <span class=result>  .0144857</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+       grip9 | <span class=result> .00331698</span>  <span class=result>  .0221243</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+       sexmw | <span class=result>   .005024</span>  <span class=result> .05374269</span>  <span class=result> .78725672</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+       demnf | <span class=result>-.00413095</span>  <span class=result>-.01338766</span>  <span class=result>-.07101552</span>  <span class=result>  1.027449</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+       demnc | <span class=result>-.00115115</span>  <span class=result>-.00030106</span>  <span class=result> .02370811</span>  <span class=result> .21291169</span>  <span class=result> 2.2877993</span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+     c.age85#|                                                                                    |            
+     c.grip9 | <span class=result>  .0009587</span>  <span class=result> .00020294</span>  <span class=result> .00269465</span>  <span class=result>-.00267909</span>  <span class=result>  .0023964</span>  <span class=result> .00164319</span>  <span class=result>          </span> | <span class=result>          </span> 
+       _cons | <span class=result> .00045357</span>  <span class=result>-.03075328</span>  <span class=result>-.45067156</span>  <span class=result>-.18202858</span>  <span class=result>-.22634698</span>  <span class=result> .00191647</span>  <span class=result> .48289456</span> | <span class=result>          </span> 
+-------------+------------------------------------------------------------------------------------+------------
+<span class=result>lnsig_e      </span>|                                                                                    |            
+       _cons | <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span> | <span class=result> .00090909</span> 
+<br><br>
+<span class=input>.       * Model R2 Test</span>
+<span class=input>.       test (c.age85=0) (c.grip9=0) (c.sexmw=0) (c.demnf=0) (c.demnc=0) (c.age85#c.grip9=0)</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 = 0</span>
+<span class=result> </span>( 2)<span class=result>  [cognition]grip9 = 0</span>
+<span class=result> </span>( 3)<span class=result>  [cognition]sexmw = 0</span>
+<span class=result> </span>( 4)<span class=result>  [cognition]demnf = 0</span>
+<span class=result> </span>( 5)<span class=result>  [cognition]demnc = 0</span>
+<span class=result> </span>( 6)<span class=result>  [cognition]c.age85#c.grip9 = 0</span>
+<br><br>
+           chi2(  6) =<span class=result>  221.12</span>
+         Prob &gt; chi2 =  <span class=result>  0.0000</span>
+<br><br>
+<span class=input>.       * Future vs Current</span>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -10.37786   1.699831    -6.11   0.000    -13.70947   -7.046254</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Age Slope at Grip Strength =  6</span>
+<span class=input>.       lincom c.age85*1 + c.age85#c.grip9*-3</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 - 3*[cognition]c.age85#c.grip9 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   -.703016   .1533696    -4.58   0.000    -1.003615   -.4024172</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Age Slope at Grip Strength =  9</span>
+<span class=input>.       lincom c.age85*1 + c.age85#c.grip9*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -.3339606   .1203566    -2.77   0.006    -.5698551   -.0980661</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Age Slope at Grip Strength = 12</span>
+<span class=input>.       lincom c.age85*1 + c.age85#c.grip9*3</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 + 3*[cognition]c.age85#c.grip9 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   .0350949   .1871539     0.19   0.851      -.33172    .4019097</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Grip Strength Slope at Age = 80</span>
+<span class=input>.       lincom c.grip9*1 + c.age85#c.grip9*-5</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]grip9 - 5*[cognition]c.age85#c.grip9 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   .0043262   .2473351     0.02   0.986    -.4804416    .4890941</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Grip Strength Slope at Age = 85</span>
+<span class=input>.       lincom c.grip9*1 + c.age85#c.grip9*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]grip9 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   .6194186   .1487424     4.16   0.000     .3278889    .9109484</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Grip Strength Slope at Age = 90</span>
+<span class=input>.       lincom c.grip9*1 + c.age85#c.grip9*5</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]grip9 + 5*[cognition]c.age85#c.grip9 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   1.234511   .2554083     4.83   0.000       .73392    1.735102</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition at Grip = 12 Age = 80</span>
+<span class=input>.       lincom _cons*1 + c.age85*-5 + c.grip9*3  + c.age85#c.grip9*-15</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- 5*[cognition]age85 + 3*[cognition]grip9 - 15*[cognition]c.age85#c.grip9 + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   31.09058   1.092408    28.46   0.000     28.94951    33.23166</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition at Grip = 12 Age = 85</span>
+<span class=input>.       lincom _cons*1 + c.age85*0  + c.grip9*3  + c.age85#c.grip9*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>3*[cognition]grip9 + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   31.26606   .7053323    44.33   0.000     29.88363    32.64848</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition at Grip = 12 Age = 90</span>
+<span class=input>.       lincom _cons*1 + c.age85*5  + c.grip9*3  + c.age85#c.grip9*15</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>5*[cognition]age85 + 3*[cognition]grip9 + 15*[cognition]c.age85#c.grip9 + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   31.44153   1.246179    25.23   0.000     28.99907      33.884</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition at Grip =  9 Age = 80</span>
+<span class=input>.       lincom _cons*1 + c.age85*-5 + c.grip9*0  + c.age85#c.grip9*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- 5*[cognition]age85 + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   31.07761   .9167886    33.90   0.000     29.28073    32.87448</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition at Grip =  9 Age = 85</span>
+<span class=input>.       lincom _cons*1 + c.age85*0  + c.grip9*0  + c.age85#c.grip9*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>    29.4078   .6949062    42.32   0.000     28.04581    30.76979</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition at Grip =  9 Age = 90</span>
+<span class=input>.       lincom _cons*1 + c.age85*5  + c.grip9*0  + c.age85#c.grip9*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>5*[cognition]age85 + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>     27.738   .9217228    30.09   0.000     25.93146    29.54454</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition at Grip =  6 Age = 80</span>
+<span class=input>.       lincom _cons*1 + c.age85*-5 + c.grip9*-3 + c.age85#c.grip9*15</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- 5*[cognition]age85 - 3*[cognition]grip9 + 15*[cognition]c.age85#c.grip9 + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   31.06463   1.260473    24.65   0.000     28.59415    33.53511</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition at Grip =  6 Age = 85</span>
+<span class=input>.       lincom _cons*1 + c.age85*0  + c.grip9*-3 + c.age85#c.grip9*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- 3*[cognition]grip9 + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   27.54955   .9308775    29.60   0.000     25.72506    29.37403</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition at Grip =  6 Age = 90</span>
+<span class=input>.       lincom _cons*1 + c.age85*5  + c.grip9*-3 + c.age85#c.grip9*-15</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>5*[cognition]age85 - 3*[cognition]grip9 - 15*[cognition]c.age85#c.grip9 + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   24.03447    1.14908    20.92   0.000     21.78231    26.28662</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       margins, at (c.age85=(-5(5)5) c.grip9=(-3(3)3) c.sexmw=0 c.demnf=0 c.demnc=0) vsquish,</span>
+<br><br>
+Adjusted predictions                              Number of obs   = <span class=result>       550</span>
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+1._at        : age85<span class=result>           </span>=<span class=result>          -5</span>
+               grip9<span class=result>           </span>=<span class=result>          -3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+2._at        : age85<span class=result>           </span>=<span class=result>          -5</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+3._at        : age85<span class=result>           </span>=<span class=result>          -5</span>
+               grip9<span class=result>           </span>=<span class=result>           3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+4._at        : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>          -3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+5._at        : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+6._at        : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+7._at        : age85<span class=result>           </span>=<span class=result>           5</span>
+               grip9<span class=result>           </span>=<span class=result>          -3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+8._at        : age85<span class=result>           </span>=<span class=result>           5</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+9._at        : age85<span class=result>           </span>=<span class=result>           5</span>
+               grip9<span class=result>           </span>=<span class=result>           3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+<br><br>
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |<span class=result>   31.06463   1.260473    24.65   0.000     28.59415    33.53511</span>
+          2  |<span class=result>   31.07761   .9167886    33.90   0.000     29.28073    32.87448</span>
+          3  |<span class=result>   31.09058   1.092408    28.46   0.000     28.94951    33.23166</span>
+          4  |<span class=result>   27.54955   .9308775    29.60   0.000     25.72506    29.37403</span>
+          5  |<span class=result>    29.4078   .6949062    42.32   0.000     28.04581    30.76979</span>
+          6  |<span class=result>   31.26606   .7053323    44.33   0.000     29.88363    32.64848</span>
+          7  |<span class=result>   24.03447    1.14908    20.92   0.000     21.78231    26.28662</span>
+          8  |<span class=result>     27.738   .9217228    30.09   0.000     25.93146    29.54454</span>
+          9  |<span class=result>   31.44153   1.246179    25.23   0.000     28.99907      33.884</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.9: Adding Age by Grip Interaction"</span>
+<span class=result>Eq 2.9: Adding Age by Grip Interaction</span>
+<br><br>
+<span class=input>. display as result "Age (0=80), Grip (0=12)"</span>
+<span class=result>Age (0=80), Grip (0=12)</span>
+<br><br>
+<span class=input>. mixed cognition c.age80 c.grip12 c.sexmw c.demnf c.demnc ///</span>
+<span class=input>&gt;                 c.age80#c.grip12, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>6</span>)       = <span class=result>   221.12</span>
+Log restricted-likelihood = <span class=result>-2005.8468          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+----------------------------------------------------------------------------------
+       cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-----------------+----------------------------------------------------------------
+           age80 |<span class=result>   .0350949   .1871539     0.19   0.851      -.33172    .4019097</span>
+          grip12 |<span class=result>   .0043263   .2473351     0.02   0.986    -.4804416    .4890941</span>
+           sexmw |<span class=result>  -3.455637   .8872749    -3.89   0.000    -5.194664    -1.71661</span>
+           demnf |<span class=result>  -5.922543   1.013632    -5.84   0.000    -7.909225   -3.935862</span>
+           demnc |<span class=result>   -16.3004   1.512547   -10.78   0.000    -19.26494   -13.33587</span>
+                 |
+c.age80#c.grip12 |<span class=result>   .1230185   .0405363     3.03   0.002     .0435689    .2024681</span>
+                 |
+           _cons |<span class=result>   31.09058   1.092408    28.46   0.000     28.94951    33.23166</span>
+----------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>    86.7615   5.231916      77.08994    97.64645</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -2005.847      8     4027.694    4062.173</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 // Future vs Current</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -10.37786   1.699831    -6.11   0.000    -13.70947   -7.046254</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.9: Adding Age by Grip Interaction"</span>
+<span class=result>Eq 2.9: Adding Age by Grip Interaction</span>
+<br><br>
+<span class=input>. display as result "Age (0=90), Grip (0=6)"</span>
+<span class=result>Age (0=90), Grip (0=6)</span>
+<br><br>
+<span class=input>. mixed cognition c.age90 c.grip6 c.sexmw c.demnf c.demnc ///</span>
+<span class=input>&gt;                 c.age90#c.grip6, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>6</span>)       = <span class=result>   221.12</span>
+Log restricted-likelihood = <span class=result>-2005.8468          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age90 |<span class=result>   -.703016   .1533696    -4.58   0.000    -1.003615   -.4024171</span>
+          grip6 |<span class=result>   1.234511   .2554083     4.83   0.000       .73392    1.735102</span>
+          sexmw |<span class=result>  -3.455637   .8872749    -3.89   0.000    -5.194664    -1.71661</span>
+          demnf |<span class=result>  -5.922543   1.013632    -5.84   0.000    -7.909225   -3.935862</span>
+          demnc |<span class=result>   -16.3004   1.512547   -10.78   0.000    -19.26494   -13.33587</span>
+                |
+c.age90#c.grip6 |<span class=result>   .1230185   .0405363     3.03   0.002     .0435689    .2024681</span>
+                |
+          _cons |<span class=result>   24.03447    1.14908    20.92   0.000     21.78231    26.28662</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>    86.7615   5.231916      77.08994    97.64645</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -2005.847      8     4027.694    4062.173</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 // Future vs Current</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -10.37786   1.699831    -6.11   0.000    -13.70947   -7.046254</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.13: Adding Sex by Dementia Interaction"</span>
+<span class=result>Eq 2.13: Adding Sex by Dementia Interaction</span>
+<br><br>
+<span class=input>. display as result "Sex (0=Men), Dementia (0=None)"</span>
+<span class=result>Sex (0=Men), Dementia (0=None)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw c.demnf c.demnc ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 c.sexmw#c.demnf c.sexmw#c.demnc, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>8</span>)       = <span class=result>   230.14</span>
+Log restricted-likelihood = <span class=result>-1998.7039          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3347988   .1198875    -2.79   0.005    -.5697741   -.0998235</span>
+          grip9 |<span class=result>   .6178929   .1480794     4.17   0.000     .3276625    .9081232</span>
+          sexmw |<span class=result>  -2.875594   1.011237    -2.84   0.004    -4.857583   -.8936056</span>
+          demnf |<span class=result>  -6.055901   1.635126    -3.70   0.000     -9.26069   -2.851113</span>
+          demnc |<span class=result>  -11.97073   2.244954    -5.33   0.000    -16.37076   -7.570702</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1221516   .0403529     3.03   0.002     .0430614    .2012418</span>
+                |
+c.sexmw#c.demnf |<span class=result>     .16427   2.070475     0.08   0.937    -3.893787    4.222327</span>
+                |
+c.sexmw#c.demnc |<span class=result>    -7.8751   3.024536    -2.60   0.009    -13.80308   -1.947117</span>
+                |
+          _cons |<span class=result>   29.07015   .7484992    38.84   0.000     27.60311    30.53718</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.97242   5.184332      76.38881    96.75836</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1998.704     10     4017.408    4060.507</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       estat vce,</span>
+<br><br>
+Covariance matrix of coefficients of <span class=result>mixed</span> model
+<br><br>
+             |<span class=result> cognition  </span>                                                                                                |<span class=result> lnsig_e    </span>
+             |                                                                c.age85#    c.sexmw#    c.sexmw#            |            
+        e(V) |      age85       grip9       sexmw       demnf       demnc     c.grip9     c.demnf     c.demnc       _cons |      _cons 
+-------------+------------------------------------------------------------------------------------------------------------+------------
+<span class=result>cognition    </span>|                                                                                                            |            
+       age85 | <span class=result> .01437302</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+       grip9 | <span class=result> .00327817</span>  <span class=result> .02192752</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+       sexmw | <span class=result> .00298878</span>  <span class=result> .05401984</span>  <span class=result> 1.0226007</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+       demnf | <span class=result>-.00967686</span>  <span class=result>-.01063331</span>  <span class=result> .48531945</span>  <span class=result> 2.6736373</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+       demnc | <span class=result>-.00295691</span>  <span class=result>-.00064138</span>  <span class=result> .51432961</span>  <span class=result> .51105727</span>  <span class=result> 5.0398171</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+     c.age85#|                                                                                                            |            
+     c.grip9 | <span class=result> .00095028</span>  <span class=result> .00020119</span>  <span class=result> .00257807</span>  <span class=result>-.00269673</span>  <span class=result> .00182362</span>  <span class=result> .00162835</span>  <span class=result>          </span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+     c.sexmw#|                                                                                                            |            
+     c.demnf | <span class=result> .00899367</span>  <span class=result>-.00422662</span>  <span class=result> -.8986672</span>  <span class=result>-2.6639161</span>  <span class=result>-.51427819</span>  <span class=result> .00007386</span>  <span class=result> 4.2868677</span>  <span class=result>          </span>  <span class=result>          </span> | <span class=result>          </span> 
+     c.sexmw#|                                                                                                            |            
+     c.demnc | <span class=result> .00319883</span>  <span class=result> .00067264</span>  <span class=result>-.88217344</span>  <span class=result>-.51491208</span>  <span class=result>-5.0362444</span>  <span class=result> .00100108</span>  <span class=result> .88566905</span>  <span class=result> 9.1478209</span>  <span class=result>          </span> | <span class=result>          </span> 
+       _cons | <span class=result> .00160396</span>  <span class=result>-.03091776</span>  <span class=result>-.58737144</span>  <span class=result>-.50277776</span>  <span class=result>-.50976733</span>  <span class=result>  .0019526</span>  <span class=result> .52140496</span>  <span class=result> .51310134</span>  <span class=result> .56025105</span> | <span class=result>          </span> 
+-------------+------------------------------------------------------------------------------------------------------------+------------
+<span class=result>lnsig_e      </span>|                                                                                                            |            
+       _cons | <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span>  <span class=result>         0</span> | <span class=result> .00090909</span> 
+<br><br>
+<span class=input>.       * Model R2 Test</span>
+<span class=input>.       test (c.age85=0) (c.grip9=0) (c.sexmw=0) (c.demnf=0) (c.demnc=0) (c.age85#c.grip9=0) (c.sexmw#c.demnf=0) (c.sexmw#c.demnc=0)</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 = 0</span>
+<span class=result> </span>( 2)<span class=result>  [cognition]grip9 = 0</span>
+<span class=result> </span>( 3)<span class=result>  [cognition]sexmw = 0</span>
+<span class=result> </span>( 4)<span class=result>  [cognition]demnf = 0</span>
+<span class=result> </span>( 5)<span class=result>  [cognition]demnc = 0</span>
+<span class=result> </span>( 6)<span class=result>  [cognition]c.age85#c.grip9 = 0</span>
+<span class=result> </span>( 7)<span class=result>  [cognition]c.sexmw#c.demnf = 0</span>
+<span class=result> </span>( 8)<span class=result>  [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+           chi2(  8) =<span class=result>  230.14</span>
+         Prob &gt; chi2 =  <span class=result>  0.0000</span>
+<br><br>
+<span class=input>.       * Omnibus Dementia*Sex Interaction Test</span>
+<span class=input>.       test (c.sexmw#c.demnf=0) (c.sexmw#c.demnc=0)</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnf = 0</span>
+<span class=result> </span>( 2)<span class=result>  [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+           chi2(  2) =<span class=result>    6.98</span>
+         Prob &gt; chi2 =  <span class=result>  0.0304</span>
+<br><br>
+<span class=input>.       * Cognition for Men   None</span>
+<span class=input>.       lincom _cons*1 + c.sexmw*0 + c.demnf*0 + c.demnc*0 + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   29.07015   .7484992    38.84   0.000     27.60311    30.53718</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition for Women None</span>
+<span class=input>.       lincom _cons*1 + c.sexmw*1 + c.demnf*0 + c.demnc*0 + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   26.19455    .638834    41.00   0.000     24.94246    27.44664</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition for Men   Future</span>
+<span class=input>.       lincom _cons*1 + c.sexmw*0 + c.demnf*1 + c.demnc*0 + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   23.01424    1.49276    15.42   0.000     20.08849       25.94</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition for Women Future</span>
+<span class=input>.       lincom _cons*1 + c.sexmw*1 + c.demnf*1 + c.demnc*0 + c.sexmw#c.demnf*1 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]demnf + [cognition]c.sexmw#c.demnf + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   20.30292   1.118633    18.15   0.000     18.11044     22.4954</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition for Men   Current</span>
+<span class=input>.       lincom _cons*1 + c.sexmw*0 + c.demnf*0 + c.demnc*1 + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnc + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   17.09942   2.140218     7.99   0.000     12.90467    21.29417</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Cognition for Women Current</span>
+<span class=input>.       lincom _cons*1 + c.sexmw*1 + c.demnf*0 + c.demnc*1 + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]demnc + [cognition]c.sexmw#c.demnc + [cognition]_cons = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   6.348722    1.94788     3.26   0.001     2.530947     10.1665</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex Difference for No Dementia</span>
+<span class=input>.       lincom c.sexmw*1 + c.sexmw#c.demnf*0 + c.sexmw#demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -2.875594   1.011237    -2.84   0.004    -4.857583   -.8936056</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex Difference for Future Dementia</span>
+<span class=input>.       lincom c.sexmw*1 + c.sexmw#c.demnf*1 + c.sexmw#demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -2.711324   1.874069    -1.45   0.148    -6.384431    .9617833</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex Difference for Current Dementia</span>
+<span class=input>.       lincom c.sexmw*1 + c.sexmw#c.demnf*0 + c.sexmw#demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -10.75069   2.899323    -3.71   0.000    -16.43326   -5.068125</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Future Difference for Men</span>
+<span class=input>.       lincom c.demnf*1 + c.sexmw#c.demnf*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -6.055901   1.635126    -3.70   0.000     -9.26069   -2.851113</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Future Difference for Women</span>
+<span class=input>.       lincom c.demnf*1 + c.sexmw#c.demnf*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf + [cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -5.891631   1.277761    -4.61   0.000    -8.395997   -3.387266</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Current Difference for Men</span>
+<span class=input>.       lincom c.demnc*1 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -11.97073   2.244954    -5.33   0.000    -16.37076   -7.570702</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Current Difference for Women</span>
+<span class=input>.       lincom c.demnc*1 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnc + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -19.84583   2.028583    -9.78   0.000    -23.82178   -15.86988</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Future-Current Difference for Men</span>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 + c.sexmw#c.demnf*0  + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -5.914829   2.586762    -2.29   0.022    -10.98479   -.8448679</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Future-Current Difference for Women</span>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 + c.sexmw#c.demnf*-1 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc - [cognition]c.sexmw#c.demnf + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   -13.9542   2.238917    -6.23   0.000     -18.3424   -9.566002</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Future Sex Difference</span>
+<span class=input>.       lincom c.sexmw#c.demnf*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>     .16427   2.070475     0.08   0.937    -3.893787    4.222327</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Current Sex Difference</span>
+<span class=input>.       lincom c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>    -7.8751   3.024536    -2.60   0.009    -13.80308   -1.947117</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Future-Current Sex Difference</span>
+<span class=input>.       lincom c.sexmw#c.demnf*-1 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]c.sexmw#c.demnf + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   -8.03937   3.415165    -2.35   0.019    -14.73297    -1.34577</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.13: Adding Sex by Dementia Interaction"</span>
+<span class=result>Eq 2.13: Adding Sex by Dementia Interaction</span>
+<br><br>
+<span class=input>. display as result "Sex (0=Women), Dementia (0=None)"</span>
+<span class=result>Sex (0=Women), Dementia (0=None)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexwm c.demnf c.demnc ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 sexwm#c.demnf c.sexwm#c.demnc, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>8</span>)       = <span class=result>   230.14</span>
+Log restricted-likelihood = <span class=result>-1998.7039          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3347988   .1198875    -2.79   0.005    -.5697741   -.0998235</span>
+          grip9 |<span class=result>   .6178929   .1480794     4.17   0.000     .3276625    .9081232</span>
+          sexwm |<span class=result>   2.875594   1.011237     2.84   0.004     .8936056    4.857583</span>
+          demnf |<span class=result>  -5.891631   1.277761    -4.61   0.000    -8.395997   -3.387266</span>
+          demnc |<span class=result>  -19.84583   2.028583    -9.78   0.000    -23.82178   -15.86988</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1221516   .0403529     3.03   0.002     .0430614    .2012418</span>
+                |
+  sexwm#c.demnf |
+             1  |<span class=result>    -.16427   2.070475    -0.08   0.937    -4.222327    3.893787</span>
+                |
+c.sexwm#c.demnc |<span class=result>     7.8751   3.024536     2.60   0.009     1.947117    13.80308</span>
+                |
+          _cons |<span class=result>   26.19455    .638834    41.00   0.000     24.94246    27.44664</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.97242   5.184332      76.38881    96.75836</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1998.704     10     4017.408    4060.507</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.15: Adding Sex by Dementia Interaction"</span>
+<span class=result>Eq 2.15: Adding Sex by Dementia Interaction</span>
+<br><br>
+<span class=input>. display as result "Sex (0=Men), Dementia (0=Future)"</span>
+<span class=result>Sex (0=Men), Dementia (0=Future)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw c.demfn c.demfc ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 c.sexmw#c.demfn c.sexmw#c.demfc, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>8</span>)       = <span class=result>   230.14</span>
+Log restricted-likelihood = <span class=result>-1998.7039          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3347988   .1198875    -2.79   0.005    -.5697741   -.0998235</span>
+          grip9 |<span class=result>   .6178929   .1480794     4.17   0.000     .3276625    .9081232</span>
+          sexmw |<span class=result>  -2.711324   1.874069    -1.45   0.148    -6.384431    .9617833</span>
+          demfn |<span class=result>   6.055901   1.635126     3.70   0.000     2.851113     9.26069</span>
+          demfc |<span class=result>  -5.914829   2.586762    -2.29   0.022    -10.98479   -.8448679</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1221516   .0403529     3.03   0.002     .0430614    .2012418</span>
+                |
+c.sexmw#c.demfn |<span class=result>    -.16427   2.070475    -0.08   0.937    -4.222327    3.893787</span>
+                |
+c.sexmw#c.demfc |<span class=result>   -8.03937   3.415165    -2.35   0.019    -14.73297    -1.34577</span>
+                |
+          _cons |<span class=result>   23.01424    1.49276    15.42   0.000     20.08849       25.94</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.97242   5.184332      76.38881    96.75836</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1998.704     10     4017.408    4060.507</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.15: Adding Sex by Dementia Interaction"</span>
+<span class=result>Eq 2.15: Adding Sex by Dementia Interaction</span>
+<br><br>
+<span class=input>. display as result "Sex (0=Women), Dementia (0=Future)"</span>
+<span class=result>Sex (0=Women), Dementia (0=Future)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexwm c.demfn c.demfc ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 c.sexwm#c.demfn c.sexwm#c.demfc, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>8</span>)       = <span class=result>   230.14</span>
+Log restricted-likelihood = <span class=result>-1998.7039          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3347988   .1198875    -2.79   0.005    -.5697741   -.0998235</span>
+          grip9 |<span class=result>   .6178929   .1480794     4.17   0.000     .3276625    .9081232</span>
+          sexwm |<span class=result>   2.711324   1.874069     1.45   0.148    -.9617833    6.384431</span>
+          demfn |<span class=result>   5.891631   1.277761     4.61   0.000     3.387266    8.395997</span>
+          demfc |<span class=result>   -13.9542   2.238917    -6.23   0.000     -18.3424   -9.566002</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1221516   .0403529     3.03   0.002     .0430614    .2012418</span>
+                |
+c.sexwm#c.demfn |<span class=result>     .16427   2.070475     0.08   0.937    -3.893787    4.222327</span>
+                |
+c.sexwm#c.demfc |<span class=result>    8.03937   3.415165     2.35   0.019      1.34577    14.73297</span>
+                |
+          _cons |<span class=result>   20.30292   1.118633    18.15   0.000     18.11044     22.4954</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.97242   5.184332      76.38881    96.75836</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1998.704     10     4017.408    4060.507</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.16: Adding Sex by Dementia Interaction"</span>
+<span class=result>Eq 2.16: Adding Sex by Dementia Interaction</span>
+<br><br>
+<span class=input>. display as result "Sex (0=Men), Dementia (0=Current)"</span>
+<span class=result>Sex (0=Men), Dementia (0=Current)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw c.demcn c.demcf ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 c.sexmw#c.demcn c.sexmw#c.demcf, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>8</span>)       = <span class=result>   230.14</span>
+Log restricted-likelihood = <span class=result>-1998.7039          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3347988   .1198875    -2.79   0.005    -.5697741   -.0998235</span>
+          grip9 |<span class=result>   .6178929   .1480794     4.17   0.000     .3276625    .9081232</span>
+          sexmw |<span class=result>  -10.75069   2.899323    -3.71   0.000    -16.43326   -5.068125</span>
+          demcn |<span class=result>   11.97073   2.244954     5.33   0.000     7.570702    16.37076</span>
+          demcf |<span class=result>   5.914829   2.586762     2.29   0.022     .8448679    10.98479</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1221516   .0403529     3.03   0.002     .0430614    .2012418</span>
+                |
+c.sexmw#c.demcn |<span class=result>     7.8751   3.024536     2.60   0.009     1.947117    13.80308</span>
+                |
+c.sexmw#c.demcf |<span class=result>    8.03937   3.415165     2.35   0.019      1.34577    14.73297</span>
+                |
+          _cons |<span class=result>   17.09942   2.140218     7.99   0.000     12.90467    21.29417</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.97242   5.184332      76.38881    96.75836</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1998.704     10     4017.408    4060.507</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.16: Adding Sex by Dementia Interaction"</span>
+<span class=result>Eq 2.16: Adding Sex by Dementia Interaction</span>
+<br><br>
+<span class=input>. display as result "Sex (0=Women), Dementia (0=Current)"</span>
+<span class=result>Sex (0=Women), Dementia (0=Current)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexwm c.demcn c.demcf ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 c.sexwm#c.demcn c.sexwm#c.demcf, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>8</span>)       = <span class=result>   230.14</span>
+Log restricted-likelihood = <span class=result>-1998.7039          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3347988   .1198875    -2.79   0.005    -.5697741   -.0998235</span>
+          grip9 |<span class=result>   .6178929   .1480794     4.17   0.000     .3276625    .9081232</span>
+          sexwm |<span class=result>   10.75069   2.899323     3.71   0.000     5.068125    16.43326</span>
+          demcn |<span class=result>   19.84583   2.028583     9.78   0.000     15.86988    23.82178</span>
+          demcf |<span class=result>    13.9542   2.238917     6.23   0.000     9.566002     18.3424</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1221516   .0403529     3.03   0.002     .0430614    .2012418</span>
+                |
+c.sexwm#c.demcn |<span class=result>    -7.8751   3.024536    -2.60   0.009    -13.80308   -1.947117</span>
+                |
+c.sexwm#c.demcf |<span class=result>   -8.03937   3.415165    -2.35   0.019    -14.73297    -1.34577</span>
+                |
+          _cons |<span class=result>   6.348722    1.94788     3.26   0.001     2.530947     10.1665</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.97242   5.184332      76.38881    96.75836</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1998.704     10     4017.408    4060.507</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.16: Adding Sex by Dementia Interaction"</span>
+<span class=result>Eq 2.16: Adding Sex by Dementia Interaction</span>
+<br><br>
+<span class=input>. display as result "Categorical Sex and Dementia"</span>
+<span class=result>Categorical Sex and Dementia</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 i.sexmw i.demgroup ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 i.sexmw#i.demgroup, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>8</span>)       = <span class=result>   230.14</span>
+Log restricted-likelihood = <span class=result>-1998.7039          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3347988   .1198875    -2.79   0.005    -.5697741   -.0998235</span>
+          grip9 |<span class=result>   .6178929   .1480794     4.17   0.000     .3276625    .9081232</span>
+        1.sexmw |<span class=result>  -2.875594   1.011237    -2.84   0.004    -4.857583   -.8936056</span>
+                |
+       demgroup |
+             2  |<span class=result>  -6.055901   1.635126    -3.70   0.000     -9.26069   -2.851113</span>
+             3  |<span class=result>  -11.97073   2.244954    -5.33   0.000    -16.37076   -7.570702</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1221516   .0403529     3.03   0.002     .0430614    .2012418</span>
+                |
+ sexmw#demgroup |
+           1 2  |<span class=result>     .16427   2.070475     0.08   0.937    -3.893787    4.222327</span>
+           1 3  |<span class=result>    -7.8751   3.024536    -2.60   0.009    -13.80308   -1.947117</span>
+                |
+          _cons |<span class=result>   29.07015   .7484992    38.84   0.000     27.60311    30.53718</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.97242   5.184332      76.38881    96.75836</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1998.704     10     4017.408    4060.507</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       contrast i.sexmw#i.demgroup, </span>
+<br><br>
+Contrasts of marginal linear predictions
+<br><br>
+Margins      : <span class=result>asbalanced</span>
+<br><br>
+--------------------------------------------------
+               |         df        chi2     P&gt;chi2
+---------------+----------------------------------
+<span class=result>cognition      </span>|
+sexmw#demgroup |<span class=result>          2        6.98     0.0304</span>
+--------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.sexmw#i.demgroup, at(c.age85=0 c.grip9=0)</span>
+<br><br>
+Adjusted predictions                              Number of obs   = <span class=result>       550</span>
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+at           : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+<br><br>
+--------------------------------------------------------------------------------
+               |            Delta-method
+               |     Margin   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+---------------+----------------------------------------------------------------
+sexmw#demgroup |
+          0 1  |<span class=result>   29.07015   .7484992    38.84   0.000     27.60311    30.53718</span>
+          0 2  |<span class=result>   23.01424    1.49276    15.42   0.000     20.08849       25.94</span>
+          0 3  |<span class=result>   17.09942   2.140218     7.99   0.000     12.90467    21.29417</span>
+          1 1  |<span class=result>   26.19455    .638834    41.00   0.000     24.94246    27.44664</span>
+          1 2  |<span class=result>   20.30292   1.118633    18.15   0.000     18.11044     22.4954</span>
+          1 3  |<span class=result>   6.348722    1.94788     3.26   0.001     2.530947     10.1665</span>
+--------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.sexmw#i.demgroup, pwcompare(pveffects)</span>
+<br><br>
+Pairwise comparisons of predictive margins
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+<br><br>
+--------------------------------------------------------
+                |            Delta-method    Unadjusted
+                |   Contrast   Std. Err.      z    P&gt;|z|
+----------------+---------------------------------------
+ sexmw#demgroup |
+(0 2) vs (0 1)  |<span class=result>  -6.055901   1.635126    -3.70   0.000</span>
+(0 3) vs (0 1)  |<span class=result>  -11.97073   2.244954    -5.33   0.000</span>
+(1 1) vs (0 1)  |<span class=result>  -2.875594   1.011237    -2.84   0.004</span>
+(1 2) vs (0 1)  |<span class=result>  -8.767226   1.352249    -6.48   0.000</span>
+(1 3) vs (0 1)  |<span class=result>  -22.72142   2.098109   -10.83   0.000</span>
+(0 3) vs (0 2)  |<span class=result>  -5.914829   2.586762    -2.29   0.022</span>
+(1 1) vs (0 2)  |<span class=result>   3.180307   1.650939     1.93   0.054</span>
+(1 2) vs (0 2)  |<span class=result>  -2.711324   1.874069    -1.45   0.148</span>
+(1 3) vs (0 2)  |<span class=result>  -16.66552   2.472402    -6.74   0.000</span>
+(1 1) vs (0 3)  |<span class=result>   9.095136   2.243604     4.05   0.000</span>
+(1 2) vs (0 3)  |<span class=result>   3.203505   2.417887     1.32   0.185</span>
+(1 3) vs (0 3)  |<span class=result>  -10.75069   2.899323    -3.71   0.000</span>
+(1 2) vs (1 1)  |<span class=result>  -5.891631   1.277761    -4.61   0.000</span>
+(1 3) vs (1 1)  |<span class=result>  -19.84583   2.028583    -9.78   0.000</span>
+(1 3) vs (1 2)  |<span class=result>   -13.9542   2.238917    -6.23   0.000</span>
+--------------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.sexmw@i.demgroup, at(c.age85=0 c.grip9=0)</span>
+<br><br>
+Contrasts of adjusted predictions
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+at           : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+<br><br>
+--------------------------------------------------
+               |         df        chi2     P&gt;chi2
+---------------+----------------------------------
+sexmw@demgroup |
+            1  |<span class=result>          1        8.09     0.0045</span>
+            2  |<span class=result>          1        2.09     0.1480</span>
+            3  |<span class=result>          1       13.75     0.0002</span>
+        Joint  |<span class=result>          3       22.29     0.0001</span>
+--------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.demgroup@i.sexmw, at(c.age85=0 c.grip9=0)</span>
+<br><br>
+Contrasts of adjusted predictions
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+at           : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+<br><br>
+--------------------------------------------------
+               |         df        chi2     P&gt;chi2
+---------------+----------------------------------
+demgroup@sexmw |
+            0  |<span class=result>          2       37.38     0.0000</span>
+            1  |<span class=result>          2      106.31     0.0000</span>
+        Joint  |<span class=result>          4      143.63     0.0000</span>
+--------------------------------------------------
+<br><br>
+<span class=input>.       * Sex by None-Future    Interaction</span>
+<span class=input>.       contrast {i.sexmw#i.demgroup -1  1  0  1 -1  0}</span>
+<br><br>
+Contrasts of marginal linear predictions
+<br><br>
+Margins      : <span class=result>asbalanced</span>
+<br><br>
+--------------------------------------------------
+               |         df        chi2     P&gt;chi2
+---------------+----------------------------------
+<span class=result>cognition      </span>|
+sexmw#demgroup |<span class=result>          1        0.01     0.9368</span>
+--------------------------------------------------
+<br><br>
+----------------------------------------------------------------
+               |   Contrast   Std. Err.     [95% Conf. Interval]
+---------------+------------------------------------------------
+<span class=result>cognition      </span>|
+sexmw#demgroup |
+      (1) (1)  |<span class=result>    -.16427   2.070475     -4.222327    3.893787</span>
+----------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex by None-Current   Interaction</span>
+<span class=input>.       contrast {i.sexmw#i.demgroup -1  0  1  1  0 -1}</span>
+<br><br>
+Contrasts of marginal linear predictions
+<br><br>
+Margins      : <span class=result>asbalanced</span>
+<br><br>
+--------------------------------------------------
+               |         df        chi2     P&gt;chi2
+---------------+----------------------------------
+<span class=result>cognition      </span>|
+sexmw#demgroup |<span class=result>          1        6.78     0.0092</span>
+--------------------------------------------------
+<br><br>
+----------------------------------------------------------------
+               |   Contrast   Std. Err.     [95% Conf. Interval]
+---------------+------------------------------------------------
+<span class=result>cognition      </span>|
+sexmw#demgroup |
+      (1) (1)  |<span class=result>     7.8751   3.024536      1.947117    13.80308</span>
+----------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex by Future-Current Interaction</span>
+<span class=input>.       contrast {i.sexmw#i.demgroup  0 -1  1  0  1 -1}</span>
+<br><br>
+Contrasts of marginal linear predictions
+<br><br>
+Margins      : <span class=result>asbalanced</span>
+<br><br>
+--------------------------------------------------
+               |         df        chi2     P&gt;chi2
+---------------+----------------------------------
+<span class=result>cognition      </span>|
+sexmw#demgroup |<span class=result>          1        5.54     0.0186</span>
+--------------------------------------------------
+<br><br>
+----------------------------------------------------------------
+               |   Contrast   Std. Err.     [95% Conf. Interval]
+---------------+------------------------------------------------
+<span class=result>cognition      </span>|
+sexmw#demgroup |
+      (1) (1)  |<span class=result>    8.03937   3.415165       1.34577    14.73297</span>
+----------------------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.17: Adding Sex by Age and Sex by Grip Interactions"</span>
+<span class=result>Eq 2.17: Adding Sex by Age and Sex by Grip Interactions</span>
+<br><br>
+<span class=input>. display as result "Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)"</span>
+<span class=result>Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw c.demnf c.demnc ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 c.sexmw#c.demnf c.sexmw#c.demnc ///</span>
+<span class=input>&gt;                 c.age85#c.sexmw c.grip9#c.sexmw, /// </span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>10</span>)      = <span class=result>   229.89</span>
+Log restricted-likelihood = <span class=result>-1999.1473          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3839178   .1947241    -1.97   0.049    -.7655699   -.0022656</span>
+          grip9 |<span class=result>   .7231028   .2366022     3.06   0.002      .259371    1.186835</span>
+          sexmw |<span class=result>  -2.755087   1.029657    -2.68   0.007    -4.773178   -.7369964</span>
+          demnf |<span class=result>  -6.083209   1.639851    -3.71   0.000    -9.297257    -2.86916</span>
+          demnc |<span class=result>  -11.94668   2.249412    -5.31   0.000    -16.35545   -7.537913</span>
+                |
+c.age85#c.grip9 |<span class=result>     .12949   .0459727     2.82   0.005     .0393852    .2195948</span>
+                |
+c.sexmw#c.demnf |<span class=result>    .226977    2.08044     0.11   0.913     -3.85061    4.304564</span>
+                |
+c.sexmw#c.demnc |<span class=result>  -7.889021   3.029297    -2.60   0.009    -13.82633   -1.951709</span>
+                |
+c.age85#c.sexmw |<span class=result>    .078838   .2744298     0.29   0.774    -.4590344    .6167104</span>
+                |
+c.grip9#c.sexmw |<span class=result>  -.1641393   .3042919    -0.54   0.590    -.7605405     .432262</span>
+                |
+          _cons |<span class=result>   28.90515   .7979554    36.22   0.000     27.34118    30.46911</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   86.22341   5.199467      76.61182    97.04084</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1999.147     12     4022.295    4074.014</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       * Age for Men</span>
+<span class=input>.       lincom c.age85*1 + c.age85#c.sexmw*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -.3839178   .1947241    -1.97   0.049    -.7655699   -.0022656</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Age for Women</span>
+<span class=input>.       lincom c.age85*1 + c.age85#c.sexmw*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 + [cognition]c.age85#c.sexmw = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -.3050798   .1709527    -1.78   0.074     -.640141    .0299814</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Grip for Men</span>
+<span class=input>.       lincom c.grip9*1 + c.grip9#c.sexmw*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]grip9 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   .7231028   .2366022     3.06   0.002      .259371    1.186835</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Grip for Women</span>
+<span class=input>.       lincom c.grip9*1 + c.grip9#c.sexmw*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]grip9 + [cognition]c.grip9#c.sexmw = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   .5589636   .1919521     2.91   0.004     .1827444    .9351827</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex for None</span>
+<span class=input>.       lincom c.sexmw*1 + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -2.755087   1.029657    -2.68   0.007    -4.773178   -.7369964</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex for Future</span>
+<span class=input>.       lincom c.sexmw*1 + c.sexmw#c.demnf*1 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   -2.52811   1.901429    -1.33   0.184    -6.254842    1.198622</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex for Current</span>
+<span class=input>.       lincom c.sexmw*1 + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -10.64411   2.908215    -3.66   0.000     -16.3441   -4.944113</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Men: None vs Future</span>
+<span class=input>.       lincom c.demnf*1  + c.demnc*0 + c.sexmw#c.demnf*0  + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -6.083209   1.639851    -3.71   0.000    -9.297257    -2.86916</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Men: None vs Current</span>
+<span class=input>.       lincom c.demnf*0  + c.demnc*1 + c.sexmw#c.demnf*0  + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -11.94668   2.249412    -5.31   0.000    -16.35545   -7.537913</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Men: Future vs Current</span>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 + c.sexmw#c.demnf*0  + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -5.863472    2.59177    -2.26   0.024    -10.94325   -.7836957</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Women: None vs Future</span>
+<span class=input>.       lincom c.demnf*1  + c.demnc*0 + c.sexmw#c.demnf*1  + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf + [cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -5.856232   1.282329    -4.57   0.000     -8.36955   -3.342913</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Women: None vs Current</span>
+<span class=input>.       lincom c.demnf*0  + c.demnc*1 + c.sexmw#c.demnf*0  + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnc + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   -19.8357   2.031723    -9.76   0.000    -23.81781    -15.8536</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Women: Future vs Current</span>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 + c.sexmw#c.demnf*-1 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc - [cognition]c.sexmw#c.demnf + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -13.97947   2.244142    -6.23   0.000    -18.37791   -9.581033</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex by None vs Future</span>
+<span class=input>.       lincom c.demnf#c.sexmw*1  + c.demnc#c.sexmw*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>    .226977    2.08044     0.11   0.913     -3.85061    4.304564</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex by None vs Current</span>
+<span class=input>.       lincom c.demnf#c.sexmw*0  + c.demnc#c.sexmw*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -7.889021   3.029297    -2.60   0.009    -13.82633   -1.951709</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex by Future vs Current</span>
+<span class=input>.       lincom c.demnf#c.sexmw*-1 + c.demnc#c.sexmw*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]c.sexmw#c.demnf + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -8.115998   3.423605    -2.37   0.018    -14.82614   -1.405856</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.18: Adding Sex by Age by Grip Three-Way Interaction"</span>
+<span class=result>Eq 2.18: Adding Sex by Age by Grip Three-Way Interaction</span>
+<br><br>
+<span class=input>. display as result "Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)"</span>
+<span class=result>Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw c.demnf c.demnc ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 c.sexmw#c.demnf c.sexmw#c.demnc ///</span>
+<span class=input>&gt;                 c.age85#c.sexmw c.grip9#c.sexmw c.age85#c.grip9#c.sexmw, /// </span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>11</span>)      = <span class=result>   233.40</span>
+Log restricted-likelihood = <span class=result>-1999.2019          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+-----------------------------------------------------------------------------------------
+              cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+------------------------+----------------------------------------------------------------
+                  age85 |<span class=result>   -.498287   .2062505    -2.42   0.016    -.9025305   -.0940436</span>
+                  grip9 |<span class=result>    .739275   .2364183     3.13   0.002     .2759035    1.202646</span>
+                  sexmw |<span class=result>   -2.97349   1.036365    -2.87   0.004    -5.004728   -.9422511</span>
+                  demnf |<span class=result>  -6.165427   1.637934    -3.76   0.000    -9.375719   -2.955136</span>
+                  demnc |<span class=result>  -11.78371     2.2479    -5.24   0.000    -16.18952   -7.377911</span>
+                        |
+        c.age85#c.grip9 |<span class=result>   .2299577   .0759486     3.03   0.002     .0811011    .3788143</span>
+                        |
+        c.sexmw#c.demnf |<span class=result>   .3968833   2.079577     0.19   0.849    -3.679013     4.47278</span>
+                        |
+        c.sexmw#c.demnc |<span class=result>  -8.145702   3.028321    -2.69   0.007     -14.0811   -2.210302</span>
+                        |
+        c.age85#c.sexmw |<span class=result>   .0950725   .2741581     0.35   0.729    -.4422675    .6324124</span>
+                        |
+        c.grip9#c.sexmw |<span class=result>  -.2000738   .3045673    -0.66   0.511    -.7970147     .396867</span>
+                        |
+c.age85#c.grip9#c.sexmw |<span class=result>  -.1582701   .0953248    -1.66   0.097    -.3451034    .0285631</span>
+                        |
+                  _cons |<span class=result>   28.95584   .7972432    36.32   0.000     27.39328    30.51841</span>
+-----------------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.94331   5.182576      76.36295     96.7256</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1999.202     13     4024.404    4080.433</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       * Age for Men</span>
+<span class=input>.       lincom c.age85*1  + c.age85#c.sexmw*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   -.498287   .2062505    -2.42   0.016    -.9025305   -.0940436</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Age for Women</span>
+<span class=input>.       lincom c.age85*1  + c.age85#c.sexmw*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 + [cognition]c.age85#c.sexmw = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -.4032146   .1806195    -2.23   0.026    -.7572222   -.0492069</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Grip for Men</span>
+<span class=input>.       lincom c.grip9*1  + c.grip9#c.sexmw*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]grip9 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>    .739275   .2364183     3.13   0.002     .2759035    1.202646</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Grip for Women</span>
+<span class=input>.       lincom c.grip9*1  + c.grip9#c.sexmw*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]grip9 + [cognition]c.grip9#c.sexmw = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   .5392011   .1920093     2.81   0.005     .1628697    .9155325</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex for None</span>
+<span class=input>.       lincom c.sexmw*1  + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   -2.97349   1.036365    -2.87   0.004    -5.004728   -.9422511</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex for Future</span>
+<span class=input>.       lincom c.sexmw*1  + c.sexmw#c.demnf*1 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -2.576606   1.898562    -1.36   0.175     -6.29772    1.144508</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex for Current</span>
+<span class=input>.       lincom c.sexmw*1  + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -11.11919   2.917552    -3.81   0.000    -16.83749   -5.400894</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Men: None vs Future</span>
+<span class=input>.       lincom c.demnf*1  + c.demnc*0 + c.sexmw#c.demnf*0  + sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -6.165427   1.637934    -3.76   0.000    -9.375719   -2.955136</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Men: None vs Current</span>
+<span class=input>.       lincom c.demnf*0  + c.demnc*1 + c.sexmw#c.demnf*0  + sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -11.78371     2.2479    -5.24   0.000    -16.18952   -7.377911</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Men: Future vs Current</span>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 + c.sexmw#c.demnf*0  + sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -5.618286   2.591767    -2.17   0.030    -10.69806   -.5385151</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Women: None vs Future</span>
+<span class=input>.       lincom c.demnf*1  + c.demnc*0 + c.sexmw#c.demnf*1  + sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf + [cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -5.768544   1.281333    -4.50   0.000    -8.279911   -3.257177</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Women: None vs Current</span>
+<span class=input>.       lincom c.demnf*0  + c.demnc*1 + c.sexmw#c.demnf*0  + sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnc + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -19.92942   2.029206    -9.82   0.000    -23.90659   -15.95225</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Women: Future vs Current</span>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 + c.sexmw#c.demnf*-1 + sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc - [cognition]c.sexmw#c.demnf + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -14.16087   2.243156    -6.31   0.000    -18.55738   -9.764366</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex by None vs Future</span>
+<span class=input>.       lincom c.demnf#c.sexmw*1  + c.demnc#c.sexmw*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   .3968833   2.079577     0.19   0.849    -3.679013     4.47278</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex by None vs Current</span>
+<span class=input>.       lincom c.demnf#c.sexmw*0  + c.demnc#c.sexmw*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -8.145702   3.028321    -2.69   0.007     -14.0811   -2.210302</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex by Future vs Current</span>
+<span class=input>.       lincom c.demnf#c.sexmw*-1 + c.demnc#c.sexmw*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]c.sexmw#c.demnf + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -8.542585   3.427683    -2.49   0.013    -15.26072   -1.824451</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Age by Grip for Men</span>
+<span class=input>.       lincom c.age85#c.grip9*1  + c.age85#c.grip9#c.sexmw*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.age85#c.grip9 = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   .2299577   .0759486     3.03   0.002     .0811011    .3788143</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Age by Grip for Women</span>
+<span class=input>.       lincom c.age85#c.grip9*1  + c.age85#c.grip9#c.sexmw*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.age85#c.grip9 + [cognition]c.age85#c.grip9#c.sexmw = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   .0716876   .0576075     1.24   0.213    -.0412211    .1845963</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       margins, at (c.age85=(-5(5)5) c.grip9=(-3(3)3) c.sexmw=(0(1)1) c.demnf=0 c.demnc=0) vsquish,</span>
+<br><br>
+Adjusted predictions                              Number of obs   = <span class=result>       550</span>
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+1._at        : age85<span class=result>           </span>=<span class=result>          -5</span>
+               grip9<span class=result>           </span>=<span class=result>          -3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+2._at        : age85<span class=result>           </span>=<span class=result>          -5</span>
+               grip9<span class=result>           </span>=<span class=result>          -3</span>
+               sexmw<span class=result>           </span>=<span class=result>           1</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+3._at        : age85<span class=result>           </span>=<span class=result>          -5</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+4._at        : age85<span class=result>           </span>=<span class=result>          -5</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           1</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+5._at        : age85<span class=result>           </span>=<span class=result>          -5</span>
+               grip9<span class=result>           </span>=<span class=result>           3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+6._at        : age85<span class=result>           </span>=<span class=result>          -5</span>
+               grip9<span class=result>           </span>=<span class=result>           3</span>
+               sexmw<span class=result>           </span>=<span class=result>           1</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+7._at        : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>          -3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+8._at        : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>          -3</span>
+               sexmw<span class=result>           </span>=<span class=result>           1</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+9._at        : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+10._at       : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           1</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+11._at       : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+12._at       : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           3</span>
+               sexmw<span class=result>           </span>=<span class=result>           1</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+13._at       : age85<span class=result>           </span>=<span class=result>           5</span>
+               grip9<span class=result>           </span>=<span class=result>          -3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+14._at       : age85<span class=result>           </span>=<span class=result>           5</span>
+               grip9<span class=result>           </span>=<span class=result>          -3</span>
+               sexmw<span class=result>           </span>=<span class=result>           1</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+15._at       : age85<span class=result>           </span>=<span class=result>           5</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+16._at       : age85<span class=result>           </span>=<span class=result>           5</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+               sexmw<span class=result>           </span>=<span class=result>           1</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+17._at       : age85<span class=result>           </span>=<span class=result>           5</span>
+               grip9<span class=result>           </span>=<span class=result>           3</span>
+               sexmw<span class=result>           </span>=<span class=result>           0</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+18._at       : age85<span class=result>           </span>=<span class=result>           5</span>
+               grip9<span class=result>           </span>=<span class=result>           3</span>
+               sexmw<span class=result>           </span>=<span class=result>           1</span>
+               demnf<span class=result>           </span>=<span class=result>           0</span>
+               demnc<span class=result>           </span>=<span class=result>           0</span>
+<br><br>
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |<span class=result>   32.67882   2.235223    14.62   0.000     28.29786    37.05978</span>
+          2  |<span class=result>   27.45614   1.219373    22.52   0.000     25.06621    29.84606</span>
+          3  |<span class=result>   31.44728   1.285491    24.46   0.000     28.92776    33.96679</span>
+          4  |<span class=result>   27.99843   1.019082    27.47   0.000     26.00106    29.99579</span>
+          5  |<span class=result>   30.21574   1.320378    22.88   0.000     27.62784    32.80363</span>
+          6  |<span class=result>   28.54072   1.594664    17.90   0.000     25.41523     31.6662</span>
+          7  |<span class=result>   26.73802   1.273557    20.99   0.000     24.24189    29.23414</span>
+          8  |<span class=result>   24.36475   .7254959    33.58   0.000      22.9428     25.7867</span>
+          9  |<span class=result>   28.95584   .7972432    36.32   0.000     27.39328    30.51841</span>
+         10  |<span class=result>   25.98235   .6621603    39.24   0.000     24.68454    27.28016</span>
+         11  |<span class=result>   31.17367    .809525    38.51   0.000     29.58703    32.76031</span>
+         12  |<span class=result>   27.59996   1.007067    27.41   0.000     25.62614    29.57377</span>
+         13  |<span class=result>   20.79722   2.222661     9.36   0.000     16.44088    25.15355</span>
+         14  |<span class=result>   21.27336   1.000048    21.27   0.000      19.3133    23.23342</span>
+         15  |<span class=result>   26.46441   1.321237    20.03   0.000     23.87483    29.05399</span>
+         16  |<span class=result>   23.96628   1.212252    19.77   0.000     21.59031    26.34225</span>
+         17  |<span class=result>    32.1316    1.52316    21.10   0.000     29.14626    35.11694</span>
+         18  |<span class=result>    26.6592   2.073703    12.86   0.000     22.59481    30.72358</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.13: Final Reported Model"</span>
+<span class=result>Eq 2.13: Final Reported Model</span>
+<br><br>
+<span class=input>. display as result "Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)"</span>
+<span class=result>Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 c.sexmw c.demnf c.demnc ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 c.sexmw#c.demnf c.sexmw#c.demnc, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>8</span>)       = <span class=result>   230.14</span>
+Log restricted-likelihood = <span class=result>-1998.7039          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3347988   .1198875    -2.79   0.005    -.5697741   -.0998235</span>
+          grip9 |<span class=result>   .6178929   .1480794     4.17   0.000     .3276625    .9081232</span>
+          sexmw |<span class=result>  -2.875594   1.011237    -2.84   0.004    -4.857583   -.8936056</span>
+          demnf |<span class=result>  -6.055901   1.635126    -3.70   0.000     -9.26069   -2.851113</span>
+          demnc |<span class=result>  -11.97073   2.244954    -5.33   0.000    -16.37076   -7.570702</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1221516   .0403529     3.03   0.002     .0430614    .2012418</span>
+                |
+c.sexmw#c.demnf |<span class=result>     .16427   2.070475     0.08   0.937    -3.893787    4.222327</span>
+                |
+c.sexmw#c.demnc |<span class=result>    -7.8751   3.024536    -2.60   0.009    -13.80308   -1.947117</span>
+                |
+          _cons |<span class=result>   29.07015   .7484992    38.84   0.000     27.60311    30.53718</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.97242   5.184332      76.38881    96.75836</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1998.704     10     4017.408    4060.507</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       * Model R2 Test</span>
+<span class=input>.       test (c.age85=0) (c.grip9=0) (c.sexmw=0) (c.demnf=0) (c.demnc=0) (c.age85#c.grip9=0) (c.sexmw#c.demnf=0) (c.sexmw#c.demnc=0)</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]age85 = 0</span>
+<span class=result> </span>( 2)<span class=result>  [cognition]grip9 = 0</span>
+<span class=result> </span>( 3)<span class=result>  [cognition]sexmw = 0</span>
+<span class=result> </span>( 4)<span class=result>  [cognition]demnf = 0</span>
+<span class=result> </span>( 5)<span class=result>  [cognition]demnc = 0</span>
+<span class=result> </span>( 6)<span class=result>  [cognition]c.age85#c.grip9 = 0</span>
+<span class=result> </span>( 7)<span class=result>  [cognition]c.sexmw#c.demnf = 0</span>
+<span class=result> </span>( 8)<span class=result>  [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+           chi2(  8) =<span class=result>  230.14</span>
+         Prob &gt; chi2 =  <span class=result>  0.0000</span>
+<br><br>
+<span class=input>.       * Omnibus Dementia*Sex Interaction Test</span>
+<span class=input>.       test (c.sexmw#c.demnf=0) (c.sexmw#c.demnc=0)</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnf = 0</span>
+<span class=result> </span>( 2)<span class=result>  [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+           chi2(  2) =<span class=result>    6.98</span>
+         Prob &gt; chi2 =  <span class=result>  0.0304</span>
+<br><br>
+<span class=input>.       * Sex Difference for No Dementia</span>
+<span class=input>.       lincom c.sexmw*1  + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -2.875594   1.011237    -2.84   0.004    -4.857583   -.8936056</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex Difference for Future Dementia</span>
+<span class=input>.       lincom c.sexmw*1  + c.sexmw#c.demnf*1 + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -2.711324   1.874069    -1.45   0.148    -6.384431    .9617833</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Sex Difference for Current Dementia</span>
+<span class=input>.       lincom c.sexmw*1  + c.sexmw#c.demnf*0 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]sexmw + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -10.75069   2.899323    -3.71   0.000    -16.43326   -5.068125</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Future Difference for Men</span>
+<span class=input>.       lincom c.demnf*1  + c.sexmw#c.demnf*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -6.055901   1.635126    -3.70   0.000     -9.26069   -2.851113</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Future Difference for Women</span>
+<span class=input>.       lincom c.demnf*1  + c.sexmw#c.demnf*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnf + [cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -5.891631   1.277761    -4.61   0.000    -8.395997   -3.387266</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Current Difference for Men</span>
+<span class=input>.       lincom c.demnc*1  + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -11.97073   2.244954    -5.33   0.000    -16.37076   -7.570702</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Current Difference for Women</span>
+<span class=input>.       lincom c.demnc*1  + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]demnc + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -19.84583   2.028583    -9.78   0.000    -23.82178   -15.86988</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Future-Current Difference for Men</span>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 + c.sexmw#c.demnf*0  + c.sexmw#c.demnc*0</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>  -5.914829   2.586762    -2.29   0.022    -10.98479   -.8448679</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Future-Current Difference for Women</span>
+<span class=input>.       lincom c.demnf*-1 + c.demnc*1 + c.sexmw#c.demnf*-1 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]demnf + [cognition]demnc - [cognition]c.sexmw#c.demnf + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   -13.9542   2.238917    -6.23   0.000     -18.3424   -9.566002</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Future Sex Difference</span>
+<span class=input>.       lincom c.sexmw#c.demnf*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnf = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>     .16427   2.070475     0.08   0.937    -3.893787    4.222327</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * None-Current Sex Difference</span>
+<span class=input>.       lincom c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>[cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>    -7.8751   3.024536    -2.60   0.009    -13.80308   -1.947117</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       * Future-Current Sex Difference</span>
+<span class=input>.       lincom c.sexmw#c.demnf*-1 + c.sexmw#c.demnc*1</span>
+<br><br>
+<span class=result> </span>( 1)<span class=result>  </span><span class=result>- [cognition]c.sexmw#c.demnf + [cognition]c.sexmw#c.demnc = 0</span>
+<br><br>
+------------------------------------------------------------------------------
+   cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |<span class=result>   -8.03937   3.415165    -2.35   0.019    -14.73297    -1.34577</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>. </span>
+<span class=input>. display as result "Eq 2.13: Final Reported Model"</span>
+<span class=result>Eq 2.13: Final Reported Model</span>
+<br><br>
+<span class=input>. display as result "Categorical Variables for Sex and Dementia"</span>
+<span class=result>Categorical Variables for Sex and Dementia</span>
+<br><br>
+<span class=input>. mixed cognition c.age85 c.grip9 i.sexmw i.demgroup ///</span>
+<span class=input>&gt;                 c.age85#c.grip9 i.sexmw#i.demgroup, ///</span>
+<span class=input>&gt;                   || personid: , noconstant variance reml covariance(unstructured),</span>
+Note: all random-effects equations are empty; model is linear regression
+<br><br>
+Mixed-effects REML regression                   Number of obs      = <span class=result>      550</span>
+<br><br>
+<span class=result>                                                </span>Wald chi2(<span class=result>8</span>)       = <span class=result>   230.14</span>
+Log restricted-likelihood = <span class=result>-1998.7039          </span>Prob &gt; chi2        =    <span class=result>0.0000</span>
+<br><br>
+---------------------------------------------------------------------------------
+      cognition |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          age85 |<span class=result>  -.3347988   .1198875    -2.79   0.005    -.5697741   -.0998235</span>
+          grip9 |<span class=result>   .6178929   .1480794     4.17   0.000     .3276625    .9081232</span>
+        1.sexmw |<span class=result>  -2.875594   1.011237    -2.84   0.004    -4.857583   -.8936056</span>
+                |
+       demgroup |
+             2  |<span class=result>  -6.055901   1.635126    -3.70   0.000     -9.26069   -2.851113</span>
+             3  |<span class=result>  -11.97073   2.244954    -5.33   0.000    -16.37076   -7.570702</span>
+                |
+c.age85#c.grip9 |<span class=result>   .1221516   .0403529     3.03   0.002     .0430614    .2012418</span>
+                |
+ sexmw#demgroup |
+           1 2  |<span class=result>     .16427   2.070475     0.08   0.937    -3.893787    4.222327</span>
+           1 3  |<span class=result>    -7.8751   3.024536    -2.60   0.009    -13.80308   -1.947117</span>
+                |
+          _cons |<span class=result>   29.07015   .7484992    38.84   0.000     27.60311    30.53718</span>
+---------------------------------------------------------------------------------
+<br><br>
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+               var(Residual) |<span class=result>   85.97242   5.184332      76.38881    96.75836</span>
+------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       estat ic, n(550),</span>
+<br><br>
+<span class=result>Akaike's information criterion and Bayesian information criterion</span>
+<br><br>
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |<span class=result>    550           .   -1998.704     10     4017.408    4060.507</span>
+-----------------------------------------------------------------------------
+               Note:  N=550 used in calculating BIC
+<br><br>
+<span class=input>.       contrast i.sexmw#i.demgroup, </span>
+<br><br>
+Contrasts of marginal linear predictions
+<br><br>
+Margins      : <span class=result>asbalanced</span>
+<br><br>
+--------------------------------------------------
+               |         df        chi2     P&gt;chi2
+---------------+----------------------------------
+<span class=result>cognition      </span>|
+sexmw#demgroup |<span class=result>          2        6.98     0.0304</span>
+--------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.sexmw#i.demgroup, at(c.age85=0 c.grip9=0)</span>
+<br><br>
+Adjusted predictions                              Number of obs   = <span class=result>       550</span>
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+at           : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+<br><br>
+--------------------------------------------------------------------------------
+               |            Delta-method
+               |     Margin   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+---------------+----------------------------------------------------------------
+sexmw#demgroup |
+          0 1  |<span class=result>   29.07015   .7484992    38.84   0.000     27.60311    30.53718</span>
+          0 2  |<span class=result>   23.01424    1.49276    15.42   0.000     20.08849       25.94</span>
+          0 3  |<span class=result>   17.09942   2.140218     7.99   0.000     12.90467    21.29417</span>
+          1 1  |<span class=result>   26.19455    .638834    41.00   0.000     24.94246    27.44664</span>
+          1 2  |<span class=result>   20.30292   1.118633    18.15   0.000     18.11044     22.4954</span>
+          1 3  |<span class=result>   6.348722    1.94788     3.26   0.001     2.530947     10.1665</span>
+--------------------------------------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.sexmw#i.demgroup, pwcompare(pveffects)</span>
+<br><br>
+Pairwise comparisons of predictive margins
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+<br><br>
+--------------------------------------------------------
+                |            Delta-method    Unadjusted
+                |   Contrast   Std. Err.      z    P&gt;|z|
+----------------+---------------------------------------
+ sexmw#demgroup |
+(0 2) vs (0 1)  |<span class=result>  -6.055901   1.635126    -3.70   0.000</span>
+(0 3) vs (0 1)  |<span class=result>  -11.97073   2.244954    -5.33   0.000</span>
+(1 1) vs (0 1)  |<span class=result>  -2.875594   1.011237    -2.84   0.004</span>
+(1 2) vs (0 1)  |<span class=result>  -8.767226   1.352249    -6.48   0.000</span>
+(1 3) vs (0 1)  |<span class=result>  -22.72142   2.098109   -10.83   0.000</span>
+(0 3) vs (0 2)  |<span class=result>  -5.914829   2.586762    -2.29   0.022</span>
+(1 1) vs (0 2)  |<span class=result>   3.180307   1.650939     1.93   0.054</span>
+(1 2) vs (0 2)  |<span class=result>  -2.711324   1.874069    -1.45   0.148</span>
+(1 3) vs (0 2)  |<span class=result>  -16.66552   2.472402    -6.74   0.000</span>
+(1 1) vs (0 3)  |<span class=result>   9.095136   2.243604     4.05   0.000</span>
+(1 2) vs (0 3)  |<span class=result>   3.203505   2.417887     1.32   0.185</span>
+(1 3) vs (0 3)  |<span class=result>  -10.75069   2.899323    -3.71   0.000</span>
+(1 2) vs (1 1)  |<span class=result>  -5.891631   1.277761    -4.61   0.000</span>
+(1 3) vs (1 1)  |<span class=result>  -19.84583   2.028583    -9.78   0.000</span>
+(1 3) vs (1 2)  |<span class=result>   -13.9542   2.238917    -6.23   0.000</span>
+--------------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.sexmw@i.demgroup, at(c.age85=0 c.grip9=0)</span>
+<br><br>
+Contrasts of adjusted predictions
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+at           : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+<br><br>
+--------------------------------------------------
+               |         df        chi2     P&gt;chi2
+---------------+----------------------------------
+sexmw@demgroup |
+            1  |<span class=result>          1        8.09     0.0045</span>
+            2  |<span class=result>          1        2.09     0.1480</span>
+            3  |<span class=result>          1       13.75     0.0002</span>
+        Joint  |<span class=result>          3       22.29     0.0001</span>
+--------------------------------------------------
+<br><br>
+<span class=input>.       margins  i.demgroup@i.sexmw, at(c.age85=0 c.grip9=0)</span>
+<br><br>
+Contrasts of adjusted predictions
+<br><br>
+Expression   : <span class=result>Linear prediction, fixed portion, predict()</span>
+at           : age85<span class=result>           </span>=<span class=result>           0</span>
+               grip9<span class=result>           </span>=<span class=result>           0</span>
+<br><br>
+--------------------------------------------------
+               |         df        chi2     P&gt;chi2
+---------------+----------------------------------
+demgroup@sexmw |
+            0  |<span class=result>          2       37.38     0.0000</span>
+            1  |<span class=result>          2      106.31     0.0000</span>
+        Joint  |<span class=result>          4      143.63     0.0000</span>
+--------------------------------------------------
+<br><br>
+<span class=input>.  </span>
+<span class=input>. ****** END CHAPTER 2 MODELS ******</span>
+<span class=input>. </span>
+<span class=input>. * Close log</span>
+<span class=input>. log close STATA_Chapter2</span>
+<span class=result>      </span>name:  <span class=result>STATA_Chapter2</span>
+<span class=result>       </span>log:  <span class=result>C:\Dropbox\PilesOfVariance\Chapter2\STATA\STATA_Chapter2_Output.smcl</span>
+<span class=result>  </span>log type:  <span class=result>smcl</span>
+<span class=result> </span>closed on:  <span class=result>21 Oct 2014, 09:16:22</span>
+------------------------------------------------------------------------------------------------------------------------------------------------------
+</pre>
+</body>
+</html>
