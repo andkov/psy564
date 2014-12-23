@@ -1,0 +1,100 @@
+<!DOCTYPE html><html><head><title>C:\Dropbox\PilesOfVariance\Chapter3b\SAS\SAS_Chapter3b_Syntax.sas formatted</title><style type="text/css">
+body, pre { font-family: "Courier New", Courier, monospace; }
+.comment { color: #008000; font-weight: 700; }
+.string { color: #800080; font-weight: 700; }
+.number { color: #008080; font-weight: 700; }
+.macro { color: #008080; font-weight: 700; }
+.command { color: #000080; font-weight: 700; }
+.keywords { color: #0000ff; font-weight: 700; }
+.data-line { background-color: #ffffcc; font-weight: 400; }
+</style>
+</head><body><pre>
+<html><head></head><body><span class="comment">* Output options: all can be turned on/off by adding or removing the NO;</span>
+<span class="comment">* page number, date, centering, or page breaks, page length and width;</span>
+<span class="keywords">OPTIONS</span> NOnumber NOdate NOcenter FormDlim=<span class="string">' '</span> PageSize=<span class="keywords">MAX</span> LineSize=<span class="keywords">MAX</span>;
+<span class="comment">* Eliminate SAS default titles and names of tables in output (TRACE ON to show);</span>
+<span class="keywords">TITLE</span>; <span class="keywords">ODS</span> <span class="keywords">TRACE</span> <span class="keywords">OFF</span>; <span class="keywords">ODS</span> <span class="keywords">LISTING</span> <span class="keywords">CLOSE</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******  MACRO PROGRAMS TO AUTOMATE CALCULATIONS FOR CHAPTER 3b EXAMPLE     *******;</span>
+<span class="comment">*******               NOTHING IN HERE NEEDS TO BE CHANGED                   *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* To use FitTest macro;</span>
+<span class="comment">* FitFewer = name of infocrit table for nested model;</span>
+<span class="comment">* FitMore  = name of infocrit table for comparison model;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> FitTest(FitFewer=,FitMore=);
+<span class="command">DATA</span> <span class="macro">&amp;FitFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;FitFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;FitMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;FitMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span> <span class="macro">&amp;FitMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">SET</span> FitCompare; DevDiff=Lag1(Neg2LogLike)-Neg2LogLike;
+     DFdiff=Parms-LAG1(Parms); Pvalue=<span class="number">1</span>-PROBCHI(DevDiff,DFdiff);
+     <span class="keywords">DROP </span>AICC HQIC CAIC; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;Likelihood Ratio Test for <span class="string">&amp;FitFewer.</span> vs. <span class="string">&amp;FitMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=FitCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> FitTest;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******     BEGIN DATA MANIPULATION OF CHAPTER 3b SIX-OCCASION EXAMPLE      *******;</span>
+<span class="comment">*******               CHANGE &quot;filesave&quot; to your directory                   *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Defining global variable for file location to be replaced in code below;</span>
+<span class="keywords">%LET</span> filesave= C:\Dropbox\PilesOfVariance\Chapter3b\SAS;
+<span class="comment">* Location for SAS files for these models (uses macro variable filesave);</span>
+<span class="keywords">LIBNAME</span> filesave <span class="string">&quot;<span class="string">&amp;filesave.</span>&quot;</span>;
+    
+<span class="comment">* Import chapter 3 six-occasion stacked data;</span>
+<span class="command">DATA</span> work.Chapter3b; <span class="keywords">SET</span> filesave.SAS_Chapter3b; <span class="command">RUN</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******                BEGIN CHAPTER 3b SIX-OCCASION MODELS                 *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Open output directory to save results to;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">FILE</span>=<span class="string">&quot;<span class="string">&amp;filesave.</span>\SAS_Chapter3b_Output.html&quot;</span>
+         (<span class="keywords">URL</span>=<span class="string">&quot;SAS_Chapter3b_Output.html&quot;</span>) <span class="keywords">STYLE</span>=HTMLBlue;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">3</span>b Example: Means by session for RT outcome&quot;</span>;
+<span class="comment">* CLASS= means per session, WAYS= means overall=0 and per session=1;</span>
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="keywords">MEAN</span> STDERR <span class="keywords">MIN</span> <span class="keywords">MAX</span> <span class="command">DATA</span>=work.Chapter3b; 
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> session;
+     <span class="keywords">WAYS </span><span class="number">0</span> <span class="number">1</span>;
+     <span class="keywords">VAR</span> rt;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">3</span>b.10: Between-Person Independent ANOVA'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter3b <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = session / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitBPANOVA;
+     <span class="keywords">LS<span class="keywords">MEAN</span>S</span> session / <span class="keywords">D<span class="keywords">IF</span>F</span><span class="keywords">=ALL</span><span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">3</span>b.10: Univariate Repeated Measures ANOVA'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter3b <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = session / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=CS <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitUnivANOVA;
+     <span class="keywords">LS<span class="keywords">MEAN</span>S</span> session / <span class="keywords">D<span class="keywords">IF</span>F</span><span class="keywords">=ALL</span><span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+     %FitTest(FitFewer=FitBPANOVA, FitMore=FitUnivANOVA);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">3</span>b.10: Multivariate Repeated Measures ANOVA'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter3b <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = session / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitMultivANOVA;
+     <span class="keywords">LS<span class="keywords">MEAN</span>S</span> session / <span class="keywords">D<span class="keywords">IF</span>F</span><span class="keywords">=ALL</span><span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+     %FitTest(FitFewer=FitUnivANOVA, FitMore=FitMultivANOVA);
+ 
+<span class="comment">****** END CHAPTER 3b MODELS ******;</span>
+
+<span class="comment">* Close output directory;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">CLOSE</span>;
+</body></html>
+</pre></body></html>

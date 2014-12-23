@@ -1,0 +1,544 @@
+<!DOCTYPE html><html><head><title>C:\Dropbox\PilesOfVariance\Chapter6\SAS\SAS_Chapter6_Syntax.sas formatted</title><style type="text/css">
+body, pre { font-family: "Courier New", Courier, monospace; }
+.comment { color: #008000; font-weight: 700; }
+.string { color: #800080; font-weight: 700; }
+.number { color: #008080; font-weight: 700; }
+.macro { color: #008080; font-weight: 700; }
+.command { color: #000080; font-weight: 700; }
+.keywords { color: #0000ff; font-weight: 700; }
+.data-line { background-color: #ffffcc; font-weight: 400; }
+</style>
+</head><body><pre>
+<html><head></head><body><span class="comment">* Output options: all can be turned on/off by adding or removing the NO;</span>
+<span class="comment">* page number, date, centering, or page breaks, page length and width;</span>
+<span class="keywords">OPTIONS</span> NOnumber NOdate NOcenter FormDlim=<span class="string">' '</span> PageSize=<span class="keywords">MAX</span> LineSize=<span class="keywords">MAX</span>;
+<span class="comment">* Eliminate SAS default titles and names of tables in output (TRACE ON to show);</span>
+<span class="keywords">TITLE</span>; <span class="keywords">ODS</span> <span class="keywords">TRACE</span> <span class="keywords">OFF</span>; <span class="keywords">ODS</span> <span class="keywords">LISTING</span> <span class="keywords">CLOSE</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******   MACRO PROGRAMS TO AUTOMATE CALCULATIONS FOR CHAPTER 6 EXAMPLE     *******;</span>
+<span class="comment">*******               NOTHING IN HERE NEEDS TO BE CHANGED                   *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* To use FitTest macro;</span>
+<span class="comment">* FitFewer = name of infocrit table for nested model;</span>
+<span class="comment">* FitMore  = name of infocrit table for comparison model;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> FitTest(FitFewer=,FitMore=);
+<span class="command">DATA</span> <span class="macro">&amp;FitFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;FitFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;FitMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;FitMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span> <span class="macro">&amp;FitMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">SET</span> FitCompare; DevDiff=Lag1(Neg2LogLike)-Neg2LogLike;
+     DFdiff=Parms-LAG1(Parms); Pvalue=<span class="number">1</span>-PROBCHI(DevDiff,DFdiff);
+     <span class="keywords">DROP </span>AICC HQIC CAIC; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;Likelihood Ratio Test for <span class="string">&amp;FitFewer.</span> vs. <span class="string">&amp;FitMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=FitCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> FitTest;
+
+<span class="comment">* To use PseudoR2 macro;</span>
+<span class="comment">* Ncov =     TOTAL # entries in covariance parameters output table;</span>
+<span class="comment">* CovFewer = name of covparms table for nested model;</span>
+<span class="comment">* CovMore =  name of covparms table for comparison modell;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> PseudoR2(NCov=,CovFewer=,CovMore=);
+<span class="command">DATA</span> <span class="macro">&amp;CovFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;CovFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;CovMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;CovMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovFewer.</span> <span class="macro">&amp;CovMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare; 
+     PseudoR2=(LAG<span class="macro">&amp;Ncov.</span>(Estimate)-Estimate)/LAG<span class="macro">&amp;Ncov.</span>(Estimate); <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare; 
+     <span class="keywords">IF</span> CovParm IN(<span class="string">&quot;UN(2,1)&quot;</span>,<span class="string">&quot;UN(3,1)&quot;</span>,<span class="string">&quot;UN(4,1)&quot;</span>,<span class="string">&quot;UN(3,2)&quot;</span>,<span class="string">&quot;UN(4,2)&quot;</span>,<span class="string">&quot;UN(4,3)&quot;</span>) 
+     <span class="keywords">THEN</span> <span class="keywords">DELETE</span>; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;PsuedoR2 (% Reduction) for <span class="string">&amp;CovFewer.</span> vs. <span class="string">&amp;CovMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=CovCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> PseudoR2;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******             BEGIN DATA MANIPULATION OF CHAPTER 6 EXAMPLE            *******;</span>
+<span class="comment">*******               CHANGE &quot;filesave&quot; to your directory                   *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Defining global variable for file location to be replaced in code below;</span>
+<span class="keywords">%LET</span> filesave= C:\Dropbox\PilesOfVariance\Chapter6\SAS;
+<span class="comment">* Location for SAS files for these models (uses macro variable filesave);</span>
+<span class="keywords">LIBNAME</span> filesave <span class="string">&quot;<span class="string">&amp;filesave.</span>&quot;</span>;
+    
+<span class="comment">* Import chapter 6 stacked data and create time predictor variables;</span>
+<span class="command">DATA</span> work.Chapter6; <span class="keywords">SET</span> filesave.SAS_Chapter6; 
+<span class="comment">* Predictors for polynomial time models;</span>
+time1 = session - <span class="number">1</span>; 
+time6 = session - <span class="number">6</span>;    
+<span class="keywords">LABEL</span> 
+time1 = <span class="string">&quot;time1: Session (0=<span class="string">1</span>)&quot;</span>
+time6 = <span class="string">&quot;time6: Session (0=<span class="string">6</span>)&quot;</span>;
+<span class="comment">* Predictors for piecewise time models;</span>
+     <span class="keywords">IF</span> session = <span class="number">1</span> <span class="keywords">THEN</span> <span class="keywords">DO</span>; slope12 = <span class="number">0</span>; slope26 = <span class="number">0</span>; <span class="keywords">END</span>;
+<span class="keywords">ELSE</span> <span class="keywords">IF</span> session = <span class="number">2</span> <span class="keywords">THEN</span> <span class="keywords">DO</span>; slope12 = <span class="number">1</span>; slope26 = <span class="number">0</span>; <span class="keywords">END</span>;
+<span class="keywords">ELSE</span> <span class="keywords">IF</span> session = <span class="number">3</span> <span class="keywords">THEN</span> <span class="keywords">DO</span>; slope12 = <span class="number">1</span>; slope26 = <span class="number">1</span>; <span class="keywords">END</span>;
+<span class="keywords">ELSE</span> <span class="keywords">IF</span> session = <span class="number">4</span> <span class="keywords">THEN</span> <span class="keywords">DO</span>; slope12 = <span class="number">1</span>; slope26 = <span class="number">2</span>; <span class="keywords">END</span>;
+<span class="keywords">ELSE</span> <span class="keywords">IF</span> session = <span class="number">5</span> <span class="keywords">THEN</span> <span class="keywords">DO</span>; slope12 = <span class="number">1</span>; slope26 = <span class="number">3</span>; <span class="keywords">END</span>;
+<span class="keywords">ELSE</span> <span class="keywords">IF</span> session = <span class="number">6</span> <span class="keywords">THEN</span> <span class="keywords">DO</span>; slope12 = <span class="number">1</span>; slope26 = <span class="number">4</span>; <span class="keywords">END</span>;
+<span class="keywords">LABEL</span> 
+slope12 = <span class="string">&quot;slope12: Early Practice Slope (Session <span class="string">1</span>-<span class="string">2</span>)&quot;</span>
+slope26 = <span class="string">&quot;slope26: Later Practice Slope (Session <span class="string">2</span>-<span class="string">6</span>)&quot;</span>;
+<span class="comment">* Piecewise predictors for UNBALANCED DATA (uses per-subject time variables instead);</span>
+<span class="comment">*      IF session LE 1 THEN DO; * slope12=Time1-Time1; * slope26=Time2-Time2; * END;</span>
+<span class="comment">* ELSE IF session LE 2 THEN DO; * slope12=Time2-Time1; * slope26=Time2-Time2; * END;</span>
+<span class="comment">* ELSE IF session LE 3 THEN DO; * slope12=Time2-Time1; * slope26=Time3-Time2; * END;</span>
+<span class="comment">* ELSE IF session LE 4 THEN DO; * slope12=Time2-Time1; * slope26=Time4-Time2; * END;</span>
+<span class="comment">* ELSE IF session LE 5 THEN DO; * slope12=Time2-Time1; * slope26=Time5-Time2; * END;</span>
+<span class="comment">* ELSE IF session LE 6 THEN DO; * slope12=Time2-Time1; * slope26=Time6-Time2; * END;</span>
+<span class="comment">* LABEL </span>
+<span class="comment">* slope12 = &quot;slope12: Early Practice Slope (Session 1-2)&quot;</span>
+<span class="comment">* slope26 = &quot;slope26: Later Practice Slope (Session 2-6)&quot;; </span>
+<span class="command">RUN</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******                        BEGIN CHAPTER 6 MODELS                       *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Open output directory to save results to;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">FILE</span>=<span class="string">&quot;<span class="string">&amp;filesave.</span>\SAS_Chapter6_Output.html&quot;</span>
+         (<span class="keywords">URL</span>=<span class="string">&quot;SAS_Chapter6_Output.html&quot;</span>) <span class="keywords">STYLE</span>=HTMLBlue;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">6</span> Example: Means by session for RT outcome&quot;</span>;
+<span class="comment">* CLASS= means per session, WAYS= means overall=0 and per session=1;</span>
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="keywords">MEAN</span> STDERR <span class="keywords">MIN</span> <span class="keywords">MAX</span> <span class="command">DATA</span>=work.Chapter6; 
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> session;
+     <span class="keywords">WAYS </span><span class="number">0</span> <span class="number">1</span>;
+     <span class="keywords">VAR</span> rt;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">0</span>: Saturated Means, Unstructured Variance Model'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'TOTAL ANSWER KEY'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = session / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">LS<span class="keywords">MEAN</span>S</span> session / <span class="keywords">D<span class="keywords">IF</span>F</span><span class="keywords">=ALL</span><span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">1</span>a: Empty Means, E-Only Variance Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">1</span>b: Empty Means, Random Intercept Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovEmpty;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">2</span>a: Fixed Linear Time, Random Intercept Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = time1 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovFixLin InfoCrit=FitFixLin;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">5</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">2</span>, CovFewer=CovEmpty, CovMore=CovFixLin);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">2</span>b: Random Linear Time Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = time1 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time1 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovRandLin InfoCrit=FitRandLin;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>    intercept <span class="number">1</span> time1 <span class="number">5</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFixLin, FitMore=FitRandLin);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">3</span>a: Fixed Quadratic, Random Linear Time Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = time1 time1*time1 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time1 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovFixQuad InfoCrit=FitFixQuad;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">0</span> time1*time1 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">1</span> time1*time1 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">2</span> time1*time1 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">3</span> time1*time1 <span class="number">9</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">4</span> time1*time1 <span class="number">16</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">5</span> time1*time1 <span class="number">25</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">6</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">8</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">10</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">4</span>, CovFewer=CovRandLin, CovMore=CovFixQuad);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">3</span>b: Random Quadratic Time Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = time1 time1*time1 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time1 time1*time1 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitRandQuad;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">0</span> time1*time1 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">1</span> time1*time1 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">2</span> time1*time1 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">3</span> time1*time1 <span class="number">9</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">4</span> time1*time1 <span class="number">16</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>         intercept <span class="number">1</span> time1 <span class="number">5</span> time1*time1 <span class="number">25</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">6</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">8</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>      time1 <span class="number">1</span> time1*time1 <span class="number">10</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFixQuad, FitMore=FitRandQuad);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">3</span>b: Random Quadratic Time Model (0=Session <span class="string">6</span>)'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = time6 time6*time6 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time6 time6*time6 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=-<span class="string">5</span>'</span>        intercept <span class="number">1</span> time6 -<span class="number">5</span> time6*time6 <span class="number">25</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=-<span class="string">4</span>'</span>        intercept <span class="number">1</span> time6 -<span class="number">4</span> time6*time6 <span class="number">16</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=-<span class="string">3</span>'</span>        intercept <span class="number">1</span> time6 -<span class="number">3</span> time6*time6 <span class="number">9</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=-<span class="string">2</span>'</span>        intercept <span class="number">1</span> time6 -<span class="number">2</span> time6*time6 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=-<span class="string">1</span>'</span>        intercept <span class="number">1</span> time6 -<span class="number">1</span> time6*time6 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time= <span class="string">0</span>'</span>        intercept <span class="number">1</span> time6 <span class="number">0</span> time6*time6 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">1</span> Time=-<span class="string">5</span>'</span>     time6 <span class="number">1</span> time6*time6 -<span class="number">10</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">2</span> Time=-<span class="string">4</span>'</span>     time6 <span class="number">1</span> time6*time6 -<span class="number">8</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">3</span> Time=-<span class="string">3</span>'</span>     time6 <span class="number">1</span> time6*time6 -<span class="number">6</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">4</span> Time=-<span class="string">2</span>'</span>     time6 <span class="number">1</span> time6*time6 -<span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">5</span> Time=-<span class="string">1</span>'</span>     time6 <span class="number">1</span> time6*time6 -<span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Linear Slope at Session=<span class="string">6</span> Time= <span class="string">0</span>'</span>     time6 <span class="number">1</span> time6*time6 <span class="number">0</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">4</span>a: Fixed Slope12, Fixed Slope26, Random Intercept Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = slope12 slope26 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovFix12Fix26 InfoCrit=FitFix12Fix26;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">0</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Difference between slope12 and slope26'</span>     slope12 -<span class="number">1</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">2</span>, CovFewer=CovEmpty, CovMore=CovFix12Fix26);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">4</span>b: Random Slope12, Fixed Slope26 Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = slope12 slope26 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT slope12 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitRand12Fix26;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">0</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Difference between slope12 and slope26'</span>     slope12 -<span class="number">1</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFix12Fix26, FitMore=FitRand12Fix26);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">4</span>c: Random Slope12, Random Slope26 Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = slope12 slope26 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT slope12 slope26 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitRand12Rand26;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">0</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>              intercept <span class="number">1</span> slope12 <span class="number">1</span> slope26 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Difference between slope12 and slope26'</span>     slope12 -<span class="number">1</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitRand12Fix26, FitMore=FitRand12Rand26);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: Random Slope12, Random Slope26 Model + Fixed Quadratic Slope26'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = slope12 slope26 slope26*slope26 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT slope12 slope26 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">5</span>a: Fixed Time, Fixed Slope26, Random Intercept Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = time1 slope26 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovFix16Fix26 InfoCrit=FitFix16Fix26;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">0</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">1</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">2</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">3</span> slope26 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">4</span> slope26 <span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">5</span> slope26 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Rate of change from session <span class="string">2</span> to <span class="string">6</span>'</span>         time1 <span class="number">1</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">2</span>, CovFewer=CovEmpty, CovMore=CovFix16Fix26);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">5</span>b: Random Time, Fixed Slope26 Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = time1 slope26 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time1 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitRand16Fix26;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">0</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">1</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">2</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">3</span> slope26 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">4</span> slope26 <span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">5</span> slope26 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Rate of change from session <span class="string">2</span> to <span class="string">6</span>'</span>         time1 <span class="number">1</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFix16Fix26, FitMore=FitRand16Fix26);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">5</span>c: Random Time, Random Slope26 Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = time1 slope26 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time1 slope26 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitRand16Rand26;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">1</span> Time=<span class="string">0</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">0</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">2</span> Time=<span class="string">1</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">1</span> slope26 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">3</span> Time=<span class="string">2</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">2</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">4</span> Time=<span class="string">3</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">3</span> slope26 <span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">5</span> Time=<span class="string">4</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">4</span> slope26 <span class="number">3</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept at Session=<span class="string">6</span> Time=<span class="string">5</span>'</span>              intercept <span class="number">1</span> time1 <span class="number">5</span> slope26 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Rate of change from session <span class="string">2</span> to <span class="string">6</span>'</span>         time1 <span class="number">1</span> slope26 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitRand16Fix26, FitMore=FitRand16Rand26);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">6</span>a Fixed Asymptote Fixed Amount Fixed Rate'</span>;
+<span class="command">PROC NLMIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">METHOD</span>=GAUSS <span class="keywords">TECH</span>=NEWRAP <span class="keywords">GCONV</span>=<span class="number">1</span>e-<span class="number">12</span>;
+<span class="comment">* Must define all parameters to be estimated and provide start values;</span>
+<span class="comment">* First line is fixed effects, second line is variances;</span>
+  <span class="keywords">PARMS</span> fasymp= <span class="number">1600</span> famount=<span class="number">300</span> frate=-<span class="number">1</span> 
+        SDE=<span class="number">600</span>;
+<span class="comment">* Setting up level-2 equations;</span>
+  b0i = fasymp; 
+  b1i = famount;
+  b2i = frate;
+<span class="comment">* Setting up level-1 equation WITHOUT level-1 residual;</span>
+  PredY = (b0i) + (b1i*EXP(b2i*time1));
+<span class="comment">* Telling it which DV, defining level-1 residual;</span>
+<span class="comment">* RTs is normally distributed with a mean of 'PredY' and a variance of 'VarE';</span>
+  <span class="keywords">MODEL</span> rt ~ normal(PredY, sdE*sdE);
+<span class="comment">* Labeling estimated parameters;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Asymptote'</span>                    fasymp;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Amount'</span>                       famount;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Rate'</span>                         frate;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">1</span> Residual E Variance'</span>        sdE*sdE;
+<span class="comment">* Creating extra parameters and predicted means;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Intercept'</span>                    fasymp+famount;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">1</span> Time=<span class="string">0</span> Predicted Mean'</span>    fasymp+(famount*EXP(frate*0));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">2</span> Time=<span class="string">1</span> Predicted Mean'</span>    fasymp+(famount*EXP(frate*1));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">3</span> Time=<span class="string">2</span> Predicted Mean'</span>    fasymp+(famount*EXP(frate*2));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">4</span> Time=<span class="string">3</span> Predicted Mean'</span>    fasymp+(famount*EXP(frate*3));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">5</span> Time=<span class="string">4</span> Predicted Mean'</span>    fasymp+(famount*EXP(frate*4));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">6</span> Time=<span class="string">5</span> Predicted Mean'</span>    fasymp+(famount*EXP(frate*5));
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">6</span>b Random Asymptote Fixed Amount Fixed Rate'</span>;
+<span class="command">PROC NLMIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">METHOD</span>=GAUSS <span class="keywords">TECH</span>=NEWRAP <span class="keywords">GCONV</span>=<span class="number">1</span>e-<span class="number">12</span>;
+<span class="comment">* Must define all parameters to be estimated and provide start values;</span>
+<span class="comment">* First line is fixed effects, second line is variances;</span>
+  <span class="keywords">PARMS</span> fasymp= <span class="number">1675</span> famount=<span class="number">284</span> frate=-.7 
+        sdE=<span class="number">474</span> sdU0=<span class="number">10</span>; 
+<span class="comment">* Setting up level-2 equations;</span>
+  b0i = fasymp + U0i; 
+  b1i = famount;
+  b2i = frate;
+<span class="comment">* Setting up level-1 equation WITHOUT level-1 residual;</span>
+  PredY = (b0i) + (b1i*EXP(b2i*time1));
+<span class="comment">* Telling it which DV, defining level-1 residual;</span>
+<span class="comment">* RTs is normally distributed with a mean of 'PredY' and a variance of 'VarE';</span>
+  <span class="keywords">MODEL</span> rt ~ normal(PredY, sdE*sdE);
+<span class="comment">* Defining random effects: normally distributed with means and variances;</span>
+  <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> U0i ~ normal([0],[sdU0*sdU0]) <span class="keywords">SUBJECT</span>=PersonID;
+<span class="comment">* Labeling estimated parameters;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Asymptote'</span>                        fasymp;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Intercept'</span>                        fasymp+famount;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Amount'</span>                           famount;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Rate'</span>                             frate;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">1</span> Residual E Variance'</span>            sdE*sdE;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Random Asymptote U0 Variance'</span>   sdU0*sdU0;
+<span class="comment">* Creating extra parameters and predicted means;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Intercept'</span>                        fasymp+famount;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">1</span> Time=<span class="string">0</span> Predicted Mean'</span>        fasymp+(famount*EXP(frate*0));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">2</span> Time=<span class="string">1</span> Predicted Mean'</span>        fasymp+(famount*EXP(frate*1));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">3</span> Time=<span class="string">2</span> Predicted Mean'</span>        fasymp+(famount*EXP(frate*2));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">4</span> Time=<span class="string">3</span> Predicted Mean'</span>        fasymp+(famount*EXP(frate*3));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">5</span> Time=<span class="string">4</span> Predicted Mean'</span>        fasymp+(famount*EXP(frate*4));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">6</span> Time=<span class="string">5</span> Predicted Mean'</span>        fasymp+(famount*EXP(frate*5));
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">6</span>c Random Asymptote Random Amount Fixed Rate'</span>;
+<span class="command">PROC NLMIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">METHOD</span>=GAUSS <span class="keywords">TECH</span>=NEWRAP <span class="keywords">GCONV</span>=<span class="number">1</span>e-<span class="number">12</span>;
+<span class="comment">* Must define all parameters to be estimated and provide start values;</span>
+<span class="comment">* First line is fixed effects, second line is variances;</span>
+  <span class="keywords">PARMS</span> fasymp=<span class="number">1675</span> famount=<span class="number">284</span> frate=-.7 
+        sdE=<span class="number">184</span> sdU0=<span class="number">447</span> sdU01=<span class="number">1</span> sdU1=<span class="number">10</span>;
+<span class="comment">* Setting up level-2 equations;</span>
+  b0i = fasymp  + U0i; 
+  b1i = famount + U1i;
+  b2i = frate;
+<span class="comment">* Setting up level-1 equation WITHOUT level-1 residual;</span>
+  PredY = (b0i) + (b1i*EXP(b2i*time1));
+<span class="comment">* Telling it which DV, defining level-1 residual;</span>
+<span class="comment">* RTs is normally distributed with a mean of 'y' and a variance of 'VarE';</span>
+  <span class="keywords">MODEL</span> rt ~ normal(PredY, sdE*sdE);
+<span class="comment">* Defining random effects: normally distributed with means and variances;</span>
+  <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> U0i U1i ~ normal([0,0],[sdU0*sdU0,sdU01*sdU01,sdU1*sdU1]) <span class="keywords">SUBJECT</span>=PersonID;
+<span class="comment">* Labeling estimated parameters;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Asymptote'</span>                            fasymp;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Amount'</span>                               famount;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Rate'</span>                                 frate;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">1</span> Residual E Variance'</span>                sdE*sdE;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Random Asymptote U0 Variance'</span>       sdU0*sdU0;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Asymptote-Amount U01 Covariance'</span>    sdU01*sdU01;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Random Amount U1 Variance'</span>          sdU1*sdU1;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Asymptote-Amount Correlation'</span>       (sdU01*sdU01)/(sdU0*sdU1);
+<span class="comment">* Creating extra parameters and predicted means;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Intercept'</span>                            fasymp+famount;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">1</span> Time=<span class="string">0</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*0));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">2</span> Time=<span class="string">1</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*1));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">3</span> Time=<span class="string">2</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*2));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">4</span> Time=<span class="string">3</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*3));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">5</span> Time=<span class="string">4</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*4));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">6</span> Time=<span class="string">5</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*5));
+<span class="command">RUN</span>;
+
+<span class="comment">* No convergence;</span>
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">6</span>d Random Asymptote Random Amount Random Rate'</span>;
+<span class="command">PROC NLMIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">METHOD</span>=GAUSS <span class="keywords">TECH</span>=NEWRAP <span class="keywords">GCONV</span>=<span class="number">1</span>e-<span class="number">12</span>; 
+<span class="comment">* Must define all parameters to be estimated and provide start values;</span>
+<span class="comment">* First line is fixed effects, second line is variances;</span>
+  <span class="keywords">PARMS</span> fasymp=<span class="number">1678.2</span>5 famount=-<span class="number">282.7</span>2 frate=-.7323 
+        sdE=<span class="number">130.8</span>8 sdU0=<span class="number">426.7</span>9 sdU01=<span class="number">87.6</span>8 sdU1=<span class="number">290.5</span>7
+        sdU02=<span class="number">5.1</span>343 sdU12=.08921 sdU2=<span class="number">1.3</span>483;
+<span class="comment">* Setting up level-2 equations;</span>
+  b0i = fasymp  + U0i; 
+  b1i = famount + U1i;
+  b2i = frate   + U2i;
+<span class="comment">* Setting up level-1 equation WITHOUT level-1 residual;</span>
+  PredY = (b0i) + (b1i*EXP(b2i*time1));
+<span class="comment">* Telling it which DV, defining level-1 residual;</span>
+<span class="comment">* RTs is normally distributed with a mean of 'PredY' and a variance of 'VarE';</span>
+<span class="keywords">MODEL</span> rt ~ normal(PredY , sdE*sdE);
+<span class="comment">* Defining random effects: normally distributed with means and variances;</span>
+<span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span>  U0i U1i U2i ~ normal([0,0,0],[sdU0*sdU0,sdU01*sdU01,sdU1*sdU1,
+                                     sdU02*sdU02,sdU12*sdU12,sdU2*sdU2]) <span class="keywords">SUBJECT</span>=PersonID;
+<span class="comment">* Labeling estimated parameters;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Asympote'</span>                             fasymp;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Amount'</span>                               famount;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Rate'</span>                                 frate;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">1</span> Residual E Variance'</span>                sdE*sdE;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Random Asymptote U0 Variance'</span>       sdU0*sdU0;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Asymptote-Amount U01 Covariance'</span>    sdU01*sdU01;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Random Amount U1 Variance'</span>          sdU1*sdU1;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Asymptote-Rate U02 Variance'</span>        sdU02*sdU02;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Amount-Rate U12 Covariance'</span>         sdU12*sdU12;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Random Rate U2 Variance'</span>            sdU2*sdU2;
+<span class="comment">* Creating extra parameters and predicted means;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Fixed Intercept'</span>                            fasymp+famount;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">1</span> Time=<span class="string">0</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*0));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">2</span> Time=<span class="string">1</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*1));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">3</span> Time=<span class="string">2</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*2));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">4</span> Time=<span class="string">3</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*3));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">5</span> Time=<span class="string">4</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*4));
+  <span class="keywords">ESTIMATE</span> <span class="string">'Session=<span class="string">6</span> Time=<span class="string">5</span> Predicted Mean'</span>            fasymp+(famount*EXP(frate*5));
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">0</span>: Saturated Means, Unstructured Variance Model'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using ML Instead of REML'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = session / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitMLSatUN;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">1</span>b: Empty Means, Random Intercept Model'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using ML Instead of REML'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitMLEmptyRI;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitMLEmptyRI, FitMore=FitMLSatUN);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">3</span>b: Random Quadratic Time Model'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using ML instead of REML'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = time1 time1*time1 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time1 time1*time1 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitMLRandQuad;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitMLEmptyRI, FitMore=FitMLRandQuad);
+     %FitTest(FitFewer=FitMLRandQuad, FitMore=FitMLSatUN);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">6</span>: <span class="string">4</span>c: Random Slope12, Random Slope26 Model'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using ML instead of REML'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter6 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID session;
+     <span class="keywords">MODEL</span> rt = slope12 slope26 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT slope12 slope26 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=personid;
+     <span class="keywords">REPEATED</span> session /<span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitMLRand12Rand26;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitMLEmptyRI, FitMore=FitMLRand12Rand26);
+     %FitTest(FitFewer=FitMLRand12Rand26, FitMore=FitMLSatUN);
+ 
+<span class="comment">****** END CHAPTER 6 MODELS ******;</span>
+
+<span class="comment">* Close output directory;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">CLOSE</span>;
+</body></html>
+</pre></body></html>

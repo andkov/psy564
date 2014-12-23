@@ -1,0 +1,124 @@
+<!DOCTYPE html><html><head><title>C:\Dropbox\PilesOfVariance\Chapter3a\SAS\SAS_Chapter3a_Syntax.sas formatted</title><style type="text/css">
+body, pre { font-family: "Courier New", Courier, monospace; }
+.comment { color: #008000; font-weight: 700; }
+.string { color: #800080; font-weight: 700; }
+.number { color: #008080; font-weight: 700; }
+.macro { color: #008080; font-weight: 700; }
+.command { color: #000080; font-weight: 700; }
+.keywords { color: #0000ff; font-weight: 700; }
+.data-line { background-color: #ffffcc; font-weight: 400; }
+</style>
+</head><body><pre>
+<html><head></head><body><span class="comment">* Output options: all can be turned on/off by adding or removing the NO;</span>
+<span class="comment">* page number, date, centering, or page breaks, page length and width;</span>
+<span class="keywords">OPTIONS</span> NOnumber NOdate NOcenter FormDlim=<span class="string">' '</span> PageSize=<span class="keywords">MAX</span> LineSize=<span class="keywords">MAX</span>;
+<span class="comment">* Eliminate SAS default titles and names of tables in output (TRACE ON to show);</span>
+<span class="keywords">TITLE</span>; <span class="keywords">ODS</span> <span class="keywords">TRACE</span> <span class="keywords">OFF</span>; <span class="keywords">ODS</span> <span class="keywords">LISTING</span> <span class="keywords">CLOSE</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******     BEGIN DATA MANIPULATION OF CHAPTER 3a TWO-OCCASION EXAMPLE      *******;</span>
+<span class="comment">*******               CHANGE &quot;filesave&quot; to your directory                   *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Defining global variable for file location to be replaced in code below;</span>
+<span class="keywords">%LET</span> filesave= C:\Dropbox\PilesOfVariance\Chapter3a\SAS;
+<span class="comment">* Location for SAS files for these models (uses macro variable filesave);</span>
+<span class="keywords">LIBNAME</span> filesave <span class="string">&quot;<span class="string">&amp;filesave.</span>&quot;</span>;
+    
+<span class="comment">* Import and stack chapter 3 two-occasion multivariate data;</span>
+<span class="comment">* Create new variable on left from old variable on right, OUTPUT writes data;</span>
+<span class="command">DATA</span> work.Chapter3a; <span class="keywords">SET</span> filesave.SAS_Chapter3a;
+time=<span class="number">1</span>; outcome=outcome1; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+time=<span class="number">2</span>; outcome=outcome2; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+<span class="keywords">DROP </span>outcome1 outcome2; 
+<span class="keywords">LABEL</span> 
+time = <span class="string">&quot;time: Occasion (1=pre-test, <span class="string">2</span>=post-test)&quot;</span>
+outcome = <span class="string">&quot;outcome: Learning Outcome&quot;</span>;  
+<span class="command">RUN</span>;
+
+<span class="comment">* Center predictors for analysis;</span>
+<span class="command">DATA</span> work.Chapter3a; <span class="keywords">SET</span> work.Chapter3a; 
+time1 = time - <span class="number">1</span>;  
+treat = group - <span class="number">1</span>; 
+<span class="keywords">LABEL</span> 
+time1 = <span class="string">&quot;time1: Time (0=pre-test, <span class="string">1</span>=post-test)&quot;</span>
+treat = <span class="string">&quot;treat: Treatment Group (0=control, <span class="string">1</span>=treatment)&quot;</span>;
+<span class="command">RUN</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******               BEGIN CHAPTER 3a TWO-OCCASION MODELS                  *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Open output directory to save results to;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">FILE</span>=<span class="string">&quot;<span class="string">&amp;filesave.</span>\SAS_Chapter3a_Output.html&quot;</span>
+         (<span class="keywords">URL</span>=<span class="string">&quot;SAS_Chapter3a_Output.html&quot;</span>) <span class="keywords">STYLE</span>=HTMLBlue;
+
+<span class="comment">* CLASS= means per group and time, WAYS= means overall=0 and per category=1;</span>
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">3</span>a Example: Means by group and time for learning outcome&quot;</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="keywords">MEAN</span> STDERR <span class="keywords">MIN</span> <span class="keywords">MAX</span> <span class="command">DATA</span>=work.Chapter3a; 
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> group time;
+     <span class="keywords">WAYS </span><span class="number">0</span> <span class="number">1</span>;
+     <span class="keywords">VAR</span> outcome;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">3</span>a.1: Empty Between-Person Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter3a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID time;
+     <span class="keywords">MODEL</span> outcome =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">REPEATED</span> time /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">3</span>a.2: Empty Within-Person Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter3a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID time;
+     <span class="keywords">MODEL</span> outcome =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">REPEATED</span> time /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=CS <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">3</span>a.7: Conditional Between-Person Model (top of Eq. <span class="string">3.7</span>)'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Manual Contrasts for Time and Group'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter3a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID time;
+     <span class="keywords">MODEL</span> outcome = time1 treat time1*treat / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">REPEATED</span> time /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=VC <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Mean: Control Group at Pre-Test'</span>       intercept <span class="number">1</span> time1 <span class="number">0</span> treat <span class="number">0</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Mean: Control Group at Post-Test'</span>      intercept <span class="number">1</span> time1 <span class="number">1</span> treat <span class="number">0</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Mean: Treatment Group at Pre-Test'</span>     intercept <span class="number">1</span> time1 <span class="number">0</span> treat <span class="number">1</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Mean: Treatment Group at Post-Test'</span>    intercept <span class="number">1</span> time1 <span class="number">1</span> treat <span class="number">1</span> time1*treat <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Time  Effect for Control Group'</span>        time1 <span class="number">1</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Time  Effect for Treatment Group'</span>      time1 <span class="number">1</span> time1*treat <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Group Effect at Pre-Test'</span>              treat <span class="number">1</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Group Effect at Post-Test'</span>             treat <span class="number">1</span> time1*treat <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">3</span>a.7: Conditional Within-Person Model (bottom of Eq. <span class="string">3.7</span>)'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Manual Contrasts for Time and Group'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter3a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID time;
+     <span class="keywords">MODEL</span> outcome = time1 treat time1*treat / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">REPEATED</span> time /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=CS <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Mean: Control Group at Pre-Test'</span>       intercept <span class="number">1</span> time1 <span class="number">0</span> treat <span class="number">0</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Mean: Control Group at Post-Test'</span>      intercept <span class="number">1</span> time1 <span class="number">1</span> treat <span class="number">0</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Mean: Treatment Group at Pre-Test'</span>     intercept <span class="number">1</span> time1 <span class="number">0</span> treat <span class="number">1</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Mean: Treatment Group at Post-Test'</span>    intercept <span class="number">1</span> time1 <span class="number">1</span> treat <span class="number">1</span> time1*treat <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Time  Effect for Control Group'</span>        time1 <span class="number">1</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Time  Effect for Treatment Group'</span>      time1 <span class="number">1</span> time1*treat <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Group Effect at Pre-Test'</span>              treat <span class="number">1</span> time1*treat <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Group Effect at Post-Test'</span>             treat <span class="number">1</span> time1*treat <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">3</span>a.7: Conditional Within-Person Model (bottom of Eq. <span class="string">3.7</span>)'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Categorical Predictors for Time and Group'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter3a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=REML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID time time1 treat;
+     <span class="keywords">MODEL</span> outcome = time1 treat time1*treat / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=BW;
+     <span class="keywords">REPEATED</span> time /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=CS <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">LS<span class="keywords">MEAN</span>S</span> time1*treat / <span class="keywords">SLICE</span>=time1 <span class="keywords">SLICE</span>=treat <span class="keywords">D<span class="keywords">IF</span>F</span><span class="keywords">=ALL</span><span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="comment">****** END CHAPTER 3a MODELS ******;</span>
+
+<span class="comment">* Close output directory;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">CLOSE</span>;
+</body></html>
+</pre></body></html>

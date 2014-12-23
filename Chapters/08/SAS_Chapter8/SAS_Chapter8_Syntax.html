@@ -1,0 +1,651 @@
+<!DOCTYPE html><html><head><title>C:\Dropbox\PilesOfVariance\Chapter8\SAS\SAS_Chapter8_Syntax.sas formatted</title><style type="text/css">
+body, pre { font-family: "Courier New", Courier, monospace; }
+.comment { color: #008000; font-weight: 700; }
+.string { color: #800080; font-weight: 700; }
+.number { color: #008080; font-weight: 700; }
+.macro { color: #008080; font-weight: 700; }
+.command { color: #000080; font-weight: 700; }
+.keywords { color: #0000ff; font-weight: 700; }
+.data-line { background-color: #ffffcc; font-weight: 400; }
+</style>
+</head><body><pre>
+<html><head></head><body><span class="comment">* Output options: all can be turned on/off by adding or removing the NO;</span>
+<span class="comment">* page number, date, centering, or page breaks, page length and width;</span>
+<span class="keywords">OPTIONS</span> NOnumber NOdate NOcenter FormDlim=<span class="string">' '</span> PageSize=<span class="keywords">MAX</span> LineSize=<span class="keywords">MAX</span>;
+<span class="comment">* Eliminate SAS default titles and names of tables in output (TRACE ON to show);</span>
+<span class="keywords">TITLE</span>; <span class="keywords">ODS</span> <span class="keywords">TRACE</span> <span class="keywords">OFF</span>; <span class="keywords">ODS</span> <span class="keywords">LISTING</span> <span class="keywords">CLOSE</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******   MACRO PROGRAMS TO AUTOMATE CALCULATIONS FOR CHAPTER 8 EXAMPLE     *******;</span>
+<span class="comment">*******               NOTHING IN HERE NEEDS TO BE CHANGED                   *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* To use FitTest macro;</span>
+<span class="comment">* FitFewer = name of infocrit table for nested model;</span>
+<span class="comment">* FitMore  = name of infocrit table for comparison model;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> FitTest(FitFewer=,FitMore=);
+<span class="command">DATA</span> <span class="macro">&amp;FitFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;FitFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;FitMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;FitMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span> <span class="macro">&amp;FitMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">SET</span> FitCompare; DevDiff=Lag1(Neg2LogLike)-Neg2LogLike;
+     DFdiff=Parms-LAG1(Parms); Pvalue=<span class="number">1</span>-PROBCHI(DevDiff,DFdiff);
+     <span class="keywords">DROP </span>AICC HQIC CAIC; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;Likelihood Ratio Test for <span class="string">&amp;FitFewer.</span> vs. <span class="string">&amp;FitMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=FitCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> FitTest;
+
+<span class="comment">* To use TotalR2 macro;</span>
+<span class="comment">* DV = case-sensitive name of dependent variable;</span>
+<span class="comment">* PredFewer = name of dataset of predicted outcomes for nested model;</span>
+<span class="comment">* PredMore = name of dataset of predicted outcomes for comparison model;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> TotalR2(DV=,PredFewer=,PredMore=);
+<span class="command">PROC CORR</span> <span class="keywords">NOPRINT</span> NOSIMPLE <span class="command">DATA</span>=<span class="macro">&amp;PredFewer.</span> <span class="keywords">OUTP</span>=CorrFewer; <span class="keywords">VAR</span> pred <span class="macro">&amp;DV.</span>; <span class="command">RUN</span>;
+<span class="command">PROC CORR</span> <span class="keywords">NOPRINT</span> NOSIMPLE <span class="command">DATA</span>=<span class="macro">&amp;PredMore.</span>  <span class="keywords">OUTP</span>=CorrMore;  <span class="keywords">VAR</span> pred <span class="macro">&amp;DV.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrFewer; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> CorrFewer; Name=<span class="string">&quot;<span class="string">&amp;PredFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrMore;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> CorrMore;  Name=<span class="string">&quot;<span class="string">&amp;PredMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> CorrFewer CorrMore; 
+     PredCorr=Pred; TotalR2=PredCorr*PredCorr; 
+     <span class="keywords">IF</span> _NAME_=<span class="string">&quot;Pred&quot;</span> OR MISSING(_NAME_)=<span class="number">1</span> <span class="keywords">THEN</span> <span class="keywords">DELETE</span>; <span class="keywords">DROP </span>Pred; <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrCompare; <span class="keywords">SET</span> CorrCompare; TotalR2Diff=TotalR2-LAG1(TotalR2);
+     <span class="keywords">KEEP</span> Name PredCorr TotalR2 TotalR2Diff; <span class="command">RUN</span>; 
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;Total R2 (% Reduction) for <span class="string">&amp;PredFewer.</span> vs. <span class="string">&amp;PredMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=CorrCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>; 
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> TotalR2;
+
+<span class="comment">* To use PseudoR2 macro;</span>
+<span class="comment">* Ncov =     TOTAL # entries in covariance parameters output table;</span>
+<span class="comment">* CovFewer = name of covparms table for nested model;</span>
+<span class="comment">* CovMore =  name of covparms table for comparison modell;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> PseudoR2(NCov=,CovFewer=,CovMore=);
+<span class="command">DATA</span> <span class="macro">&amp;CovFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;CovFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;CovMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;CovMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovFewer.</span> <span class="macro">&amp;CovMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare; 
+     PseudoR2=(LAG<span class="macro">&amp;Ncov.</span>(Estimate)-Estimate)/LAG<span class="macro">&amp;Ncov.</span>(Estimate); <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare; 
+     <span class="keywords">IF</span> CovParm IN(<span class="string">&quot;UN(2,1)&quot;</span>,<span class="string">&quot;UN(3,1)&quot;</span>,<span class="string">&quot;UN(4,1)&quot;</span>,<span class="string">&quot;UN(3,2)&quot;</span>,<span class="string">&quot;UN(4,2)&quot;</span>,<span class="string">&quot;UN(4,3)&quot;</span>) 
+     <span class="keywords">THEN</span> <span class="keywords">DELETE</span>; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;PsuedoR2 (% Reduction) for <span class="string">&amp;CovFewer.</span> vs. <span class="string">&amp;CovMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=CovCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> PseudoR2;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******             BEGIN DATA MANIPULATION FOR CHAPTER 8 EXAMPLE           *******;</span>
+<span class="comment">*******                 CHANGE &quot;filesave&quot; to your directory                 *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Defining global variable for file location to be replaced in code below;</span>
+<span class="keywords">%LET</span> filesave= C:\Dropbox\PilesOfVariance\Chapter8\SAS;
+<span class="comment">* Location for SAS files for these models (uses macro variable filesave);</span>
+<span class="keywords">LIBNAME</span> filesave <span class="string">&quot;<span class="string">&amp;filesave.</span>&quot;</span>;
+
+<span class="comment">* Import chapter 8 stacked data into work library;</span>
+<span class="command">DATA</span> work.Chapter8; <span class="keywords">SET</span> filesave.SAS_Chapter8; <span class="command">RUN</span>;
+
+<span class="comment">* Create person means across time;</span>
+<span class="command">PROC SORT</span> <span class="command">DATA</span>=work.Chapter8;<span class="keywords"> BY</span> PersonID session; <span class="command">RUN</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="keywords">NOPRINT</span> <span class="command">DATA</span>=work.Chapter8;<span class="keywords"> BY</span> PersonID;
+     <span class="keywords">VAR</span> women baseage mood stressor;
+     <span class="keywords"><span class="keywords">OUTP</span>UT</span> OUT=work.PersonMeans8 
+     <span class="keywords">MEAN</span>(women baseage mood stressor) = PMwomen PMbaseage PMmood PMstressor;
+<span class="command">RUN</span>;
+
+<span class="comment">* Merge person means back into original data;</span>
+<span class="command">DATA</span> work.Chapter8; 
+<span class="keywords">MERGE</span> work.Chapter8 work.PersonMeans8(DROP= _TYPE_ _FREQ_ PMwomen PMbaseage); 
+BY PersonID;
+<span class="keywords">LABEL</span>   
+PMmood = <span class="string">&quot;PMmood: Person Mean Negative Mood&quot;</span>
+PMstressor = <span class="string">&quot;PMstressor: Person Mean Stressors&quot;</span>;
+<span class="comment">* Create centered predictors for analysis;</span>
+age80 = baseage - <span class="number">80</span>;
+mood2 = mood - <span class="number">2</span>;
+WPmood = mood - PMmood;
+PMmood2 = PMmood - <span class="number">2</span>;
+WPstressor = stressor - PMstressor;
+PMstressor40 = PMstressor - .40;
+<span class="keywords">LABEL</span>
+age80 = <span class="string">&quot;age80: Baseline Age (0=<span class="string">80</span>)&quot;</span>
+mood2 = <span class="string">&quot;mood2: Daily Negative Mood (0=<span class="string">2</span>)&quot;</span>
+WPmood = <span class="string">&quot;WPmood: Within-Person Negative Mood (0=PM)&quot;</span>
+PMmood2 = <span class="string">&quot;PMmood2: Person Mean Negative Mood (0=<span class="string">2</span>)&quot;</span>
+WPstressor = <span class="string">&quot;WPstressor: Within-Person Stressors (0=PM)&quot;</span>
+PMstressor40 = <span class="string">&quot;PMstressor40: Mean #Days with Stressor (0=<span class="string">0.4</span>0)&quot;</span>;
+<span class="comment">* Subset sample to complete cases for all predictors;</span>
+<span class="keywords">IF</span> NMISS(women, baseage, symptoms, mood, stressor, mood)&gt;0 <span class="keywords">THEN</span> <span class="keywords">DELETE</span>;
+<span class="comment">* Subset sample to study days within a two-week period;</span>
+<span class="keywords">IF</span> studyday&gt;14 <span class="keywords">THEN</span> <span class="keywords">DELETE</span>;
+<span class="command">RUN</span>; 
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******                         BEGIN CHAPTER 8 MODELS                      *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Open output directory to save results to;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">FILE</span>=<span class="string">&quot;<span class="string">&amp;filesave.</span>\SAS_Chapter8_Output.html&quot;</span>
+         (<span class="keywords">URL</span>=<span class="string">&quot;SAS_Chapter8_Output.html&quot;</span>) <span class="keywords">STYLE</span>=HTMLBlue;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">8</span>: Descriptive Statistics for Time-Invariant Variables&quot;</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="command">DATA</span>=work.PersonMeans8; 
+     <span class="keywords">VAR</span> PMwomen PMbaseage PMmood PMstressor; 
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">8</span>: Descriptive Statistics for Time-Varying Variables&quot;</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="command">DATA</span>=work.Chapter8;                  
+     <span class="keywords">VAR</span> symptoms mood stressor WPmood WPstressor; 
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>: Conditional Baseline Model'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Just Sex and Age in the Model for the Means'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredSexAge;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovSexAge InfoCrit=FitSexAge;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">8</span>: Empty Means, Random Intercept Model for Negative Mood Predictor'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> mood =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.3</span>: Adding BP and WP Effects of Negative Mood to the Model for the Means'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredBPWPMood;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovBPWPMood InfoCrit=FitBPWPMood;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of BP and WP Negative Mood Fixed Effects'</span> PMmood2 <span class="number">1</span>, WPmood <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope for Men'</span>                               age80 <span class="number">1</span> women*age80 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope for Women'</span>                             age80 <span class="number">1</span> women*age80 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood Effect'</span>                 WPmood -<span class="number">1</span> PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">2</span> WPmood=-<span class="string">1</span>'</span>       intercept <span class="number">1</span> PMmood2 <span class="number">0</span> WPmood -<span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">2</span> WPmood=<span class="string">0</span>'</span>        intercept <span class="number">1</span> PMmood2 <span class="number">0</span> WPmood <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">2</span> WPmood=<span class="string">1</span>'</span>        intercept <span class="number">1</span> PMmood2 <span class="number">0</span> WPmood <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">3</span> WPmood=-<span class="string">1</span>'</span>       intercept <span class="number">1</span> PMmood2 <span class="number">1</span> WPmood -<span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">3</span> WPmood=<span class="string">0</span>'</span>        intercept <span class="number">1</span> PMmood2 <span class="number">1</span> WPmood <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">3</span> WPmood=<span class="string">1</span>'</span>        intercept <span class="number">1</span> PMmood2 <span class="number">1</span> WPmood <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">1</span> WPmood=<span class="string">0</span>'</span>        intercept <span class="number">1</span> PMmood2 -<span class="number">1</span> WPmood <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">2</span> WPmood=<span class="string">0</span>'</span>        intercept <span class="number">1</span> PMmood2 <span class="number">0</span> WPmood <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">3</span> WPmood=<span class="string">0</span>'</span>        intercept <span class="number">1</span> PMmood2 <span class="number">1</span> WPmood <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Predicted Symptoms for PMmood=<span class="string">4</span> WPmood=<span class="string">0</span>'</span>        intercept <span class="number">1</span> PMmood2 <span class="number">2</span> WPmood <span class="number">0</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitSexAge, FitMore=FitBPWPMood);
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">2</span>, CovFewer=CovSexAge, CovMore=CovBPWPMood);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=symptoms, PredFewer=PredSexAge, PredMore=PredBPWPMood);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.5</span>: Adding Smushed Effect of Negative Mood to the Model for the Means'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Grand-Mean-Centering for Negative Mood'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      mood2
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovSmushMood;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope for Men'</span>                age80 <span class="number">1</span> women*age80 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope for Women'</span>              age80 <span class="number">1</span> women*age80 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">2</span>, CovFewer=CovSexAge, CovMore=CovSmushMood);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.7</span>: Adding a Contextual Effect of Negative Mood to the Model for the Means'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      mood2 PMmood2
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredBPWPMood2;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovBPWPMood InfoCrit=FitBPWPMood;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope for Men'</span>                     age80 <span class="number">1</span> women*age80 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope for Women'</span>                   age80 <span class="number">1</span> women*age80 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Between-Person Negative Mood Effect'</span>   mood2 <span class="number">1</span> PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">2</span>, CovFewer=CovSmushMood, CovMore=CovBPWPMood);
+     %PseudoR2(NCov=<span class="number">2</span>, CovFewer=CovSexAge, CovMore=CovBPWPMood);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=symptoms, PredFewer=PredSexAge, PredMore=PredBPWPMood2);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.9</span>: Adding a Random Effect of Negative Mood to the Model for the Variance'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT WPmood /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitRandPMC;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitBPWPMood, FitMore=FitRandPMC);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.9</span>: Adding a Random Effect of Negative Mood to the Model for the Variance'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Grand-Mean-Centering for Negative Mood'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      mood2 PMmood2
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT mood2 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitRandGMC;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitBPWPMood, FitMore=FitRandGMC);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>0: Adding Contextual and WP Effects of Stressors to the Model for the Means'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood, Grand-Mean-Centering for Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood PMstressor40 stressor
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredBPWPStressor;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovBPWPStressor InfoCrit=FitBPWPStressor;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of Stressor Fixed Effects'</span> PMstressor40 <span class="number">1</span>, stressor <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept for Women'</span>                             intercept <span class="number">1</span> women <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope for Women'</span>                             age80 <span class="number">1</span> women*age80 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood Effect'</span>                 WPmood -<span class="number">1</span> PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Between-Person Stressor Effect'</span>                  stressor <span class="number">1</span> PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood Effect Per Day'</span>         PMmood2 .2 /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitBPWPMood, FitMore=FitBPWPStressor);
+     %FitTest(FitFewer=FitSexAge, FitMore=FitBPWPStressor);
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">2</span>, CovFewer=CovBPWPMood, CovMore=CovBPWPStressor);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=symptoms, PredFewer=PredBPWPMood, PredMore=PredBPWPStressor);
+     %TotalR2(DV=symptoms, PredFewer=PredSexAge, PredMore=PredBPWPStressor);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">8</span>: Adding Random WP Effect of Stressors to the Model for the Variance'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood, Grand-Mean-Centering for Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood PMstressor40 stressor
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT stressor /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitBPWPStressorR;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitBPWPStressor, FitMore=FitBPWPStressorR);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>1: Adding <span class="string">4</span> Sex*Negative Mood and Sex*Stressors Interactions to the Model for the Means'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood, Grand-Mean-Centering for Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood PMstressor40 stressor
+                      women*PMmood2 women*WPmood women*PMstressor40 women*stressor
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredSex4;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitSex4;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of <span class="string">4</span> Sex Interactions'</span> women*PMmood2 <span class="number">1</span>, women*WPmood <span class="number">1</span>, women*PMstressor40 <span class="number">1</span>, women*stressor <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept: Men'</span>                             intercept <span class="number">1</span> women <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept: Women'</span>                           intercept <span class="number">1</span> women <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept: Sex Diff'</span>                        women <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope: Men'</span>                             age80 <span class="number">1</span> women*age80 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope: Women'</span>                           age80 <span class="number">1</span> women*age80 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope: Sex Diff'</span>                        women*age80 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood: Men'</span>                      PMmood2 <span class="number">1</span> women*PMmood2 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood: Women'</span>                    PMmood2 <span class="number">1</span> women*PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood: Sex Diff'</span>                 women*PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood: Men'</span>              WPmood -<span class="number">1</span> women*WPmood  <span class="number">0</span> PMmood2 <span class="number">1</span> women*PMmood2 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood: Women'</span>            WPmood -<span class="number">1</span> women*WPmood -<span class="number">1</span> PMmood2 <span class="number">1</span> women*PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood: Sex Diff'</span>         women*WPmood -<span class="number">1</span> women*PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood: Men'</span>                      WPmood <span class="number">1</span> women*WPmood <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood: Women'</span>                    WPmood <span class="number">1</span> women*WPmood <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood: Sex Diff'</span>                 women*WPmood <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Stressors: Men'</span>                          stressor <span class="number">1</span> women*stressor <span class="number">0</span> PMstressor40 <span class="number">1</span> women*PMstressor40 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Stressors: Women'</span>                        stressor <span class="number">1</span> women*stressor <span class="number">1</span> PMstressor40 <span class="number">1</span> women*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Stressors: Sex Diff'</span>                     women*stressor <span class="number">1</span> women*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Men'</span>                  PMstressor40 <span class="number">1</span> women*PMstressor40 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Women'</span>                PMstressor40 <span class="number">1</span> women*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Sex Diff'</span>             women*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Men'</span>                          stressor <span class="number">1</span> women*stressor <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Women'</span>                        stressor <span class="number">1</span> women*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Sex Diff'</span>                     women*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors per Day'</span>               PMstressor40 .2 /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitBPWPStressor, FitMore=FitSex4);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=symptoms, PredFewer=PredBPWPStressor, PredMore=PredSex4);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>1reduced: Adding Only <span class="string">2</span> Sex*Stressors Interactions to the Model for the Means'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood, Grand-Mean-Centering for Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood PMstressor40 stressor
+                      women*PMstressor40 women*stressor
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredSex2;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitSex2;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of <span class="string">2</span> Sex Interactions'</span> women*PMstressor40 <span class="number">1</span>, women*stressor <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitBPWPStressor, FitMore=FitSex2);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=symptoms, PredFewer=PredBPWPStressor, PredMore=PredSex2);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>2: Adding <span class="string">4</span> Negative Mood*Stressors Interactions to the Model for the Means'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood, Grand-Mean-Centering for Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood PMstressor40 stressor
+                      women*PMstressor40 women*stressor
+                      PMmood2*stressor PMmood2*PMstressor40 WPmood*stressor WPmood*PMstressor40
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredMoodStressor4;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitMoodStressor4;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of <span class="string">4</span> Negative Mood*Stressors Interactions'</span> PMmood2*stressor <span class="number">1</span>, PMmood2*PMstressor40 <span class="number">1</span>, WPmood*stressor <span class="number">1</span>, WPmood*PMstressor40 <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept: Men'</span>                                       intercept <span class="number">1</span> women <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept: Women'</span>                                     intercept <span class="number">1</span> women <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Intercept: Sex Diff'</span>                                  women <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope: Men'</span>                                       age80 <span class="number">1</span> women*age80 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope: Women'</span>                                     age80 <span class="number">1</span> women*age80 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope: Sex Diff'</span>                                  women*age80 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood'</span>                                     PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood'</span>                             WPmood -<span class="number">1</span> PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood'</span>                                     WPmood <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Stressors: Men'</span>                                    stressor <span class="number">1</span> women*stressor <span class="number">0</span> PMstressor40 <span class="number">1</span> women*PMstressor40 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Stressors: Women'</span>                                  stressor <span class="number">1</span> women*stressor <span class="number">1</span> PMstressor40 <span class="number">1</span> women*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Stressors: Sex Diff'</span>                               women*stressor <span class="number">1</span> women*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Men'</span>                            PMstressor40 <span class="number">1</span> women*PMstressor40 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Women'</span>                          PMstressor40 <span class="number">1</span> women*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Sex Diff'</span>                       women*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Men'</span>                                    stressor <span class="number">1</span> women*stressor <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Women'</span>                                  stressor <span class="number">1</span> women*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Sex Diff'</span>                               women*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors per Day'</span>                         PMstressor40 .2 /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by BP Stressors'</span>                     PMmood2*stressor <span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by Contextual Stressors'</span>             PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by WP Stressors'</span>                     PMmood2*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by BP Stressors'</span>             WPmood*stressor -<span class="number">1</span> PMmood2*stressor <span class="number">1</span> WPmood*PMstressor40 -<span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by Contextual Stressors'</span>     WPmood*PMstressor40 -<span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by WP Stressors'</span>             WPmood*stressor -<span class="number">1</span> PMmood2*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by BP Stressors'</span>                     WPmood*stressor <span class="number">1</span> WPmood*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by Contextual Stressors'</span>             WPmood*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by WP Stressors'</span>                     WPmood*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitSex2, FitMore=FitMoodStressor4);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=symptoms, PredFewer=PredSex2, PredMore=PredMoodStressor4);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">8</span>: Checking Inter-Variable Interactions via PMC Negative Mood by PMC Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood PMstressor40 WPstressor
+                      women*PMstressor40 women*WPstressor
+                      PMmood2*WPstressor PMmood2*PMstressor40 WPmood*WPstressor WPmood*PMstressor40
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by BP Stressors'</span>                     PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by Contextual Stressors'</span>             PMmood2*WPstressor -<span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by WP Stressors'</span>                     PMmood2*WPstressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by BP Stressors'</span>             WPmood*PMstressor40 -<span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by Contextual Stressors'</span>     WPmood*PMstressor40 -<span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> PMmood2*WPstressor -<span class="number">1</span> WPmood*WPstressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by WP Stressors'</span>             WPmood*WPstressor -<span class="number">1</span> PMmood2*WPstressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by BP Stressors'</span>                     WPmood*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by Contextual Stressors'</span>             WPmood*WPstressor -<span class="number">1</span> WPmood*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by WP Stressors'</span>                     WPmood*WPstressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">8</span>: Checking Inter-Variable Interactions via GMC Negative Mood by GMC Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 mood2 PMstressor40 stressor
+                      women*PMstressor40 women*stressor
+                      PMmood2*stressor PMmood2*PMstressor40 mood2*stressor mood2*PMstressor40
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by BP Stressors'</span>                     mood2*PMstressor40 <span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> stressor*PMmood2 <span class="number">1</span> mood2*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by Contextual Stressors'</span>             mood2*PMstressor40 <span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by WP Stressors'</span>                     PMmood2*stressor <span class="number">1</span> mood2*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by BP Stressors'</span>             PMmood2*stressor <span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by Contextual Stressors'</span>     PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by WP Stressors'</span>             PMmood2*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by BP Stressors'</span>                     mood2*PMstressor40 <span class="number">1</span> mood2*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by Contextual Stressors'</span>             mood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by WP Stressors'</span>                     mood2*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">8</span>: Checking Inter-Variable Interactions via GMC Negative Mood by PMC Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 mood2 PMstressor40 WPstressor
+                      women*PMstressor40 women*WPstressor
+                      PMmood2*WPstressor PMmood2*PMstressor40 mood2*WPstressor mood2*PMstressor40
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by BP Stressors'</span>                     mood2*PMstressor40 <span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by Contextual Stressors'</span>             PMmood2*WPstressor -<span class="number">1</span> mood2*WPstressor -<span class="number">1</span> mood2*PMstressor40 <span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood by WP Stressors'</span>                     PMmood2*WPstressor <span class="number">1</span> mood2*WPstressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by BP Stressors'</span>             PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by Contextual Stressors'</span>     PMmood2*WPstressor -<span class="number">1</span> PMmood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood by WP Stressors'</span>             PMmood2*WPstressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by BP Stressors'</span>                     mood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by Contextual Stressors'</span>             mood2*WPstressor -<span class="number">1</span> mood2*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood by WP Stressors'</span>                     mood2*WPstressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>3: Adding <span class="string">5</span> Intra-Variable Interactions to the Model for the Means'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood, Grand-Mean-Centering for Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood PMstressor40 stressor
+                      women*PMstressor40 women*stressor
+                      PMmood2*PMmood2 WPmood*WPmood PMmood2*WPmood PMstressor40*PMstressor40 PMstressor40*stressor
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredIntra5;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitIntra5;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of <span class="string">5</span> Intra-Variable Interactions'</span> PMmood2*PMmood2 <span class="number">1</span>, WPmood*WPmood <span class="number">1</span>, PMmood2*WPmood <span class="number">1</span>, PMstressor40*PMstressor40 <span class="number">1</span>, PMstressor40*stressor <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood: Linear'</span>                   PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood: Quadratic'</span>                PMmood2*PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood: Linear'</span>           WPmood -<span class="number">1</span> PMmood2 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood: Quadratic'</span>        PMmood2*WPmood -<span class="number">1</span> PMmood2*PMmood2 <span class="number">1</span> WPmood*WPmood <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood: Linear'</span>                   WPmood <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood: Quadratic'</span>                WPmood*WPmood <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP by WP Negative Mood'</span>                     PMmood2*WPmood <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual by WP Negative Mood'</span>             PMmood2*WPmood <span class="number">1</span> WPmood*WPmood -<span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Stressor: Linear'</span>                        PMstressor40 <span class="number">1</span> stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Stressor: Quadratic'</span>                     PMstressor40*PMstressor40 <span class="number">1</span> PMstressor40*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Linear'</span>               PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Quadratic'</span>            PMstressor40*PMstressor40 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Linear'</span>                       stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP/Contextual by WP Stressors'</span>              PMstressor40*stressor <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood: Linear at <span class="string">1</span>'</span>              PMmood2 <span class="number">1</span> PMmood2*PMmood2 -<span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood: Linear at <span class="string">3</span>'</span>              PMmood2 <span class="number">1</span> PMmood2*PMmood2 <span class="number">2</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitSex2, FitMore=FitIntra5);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=symptoms, PredFewer=PredSex2, PredMore=PredIntra5);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>3reduced: Baseline Homogeneous Variance Model with Significant Fixed Effects Only'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Person-Mean-Centering for Negative Mood, Grand-Mean-Centering for Stressors'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> symptoms = women age80 women*age80
+                      PMmood2 WPmood PMstressor40 stressor
+                      women*PMstressor40 women*stressor
+                      PMmood2*PMmood2 PMmood2*WPmood
+                       / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>3reduced: Baseline Homogeneous Variance Model with Significant Fixed Effects Only'</span>;  
+<span class="command">PROC NLMIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">METHOD</span>=GAUSS <span class="keywords">TECH</span>=NEWRAP <span class="keywords">GCONV</span>=<span class="number">1</span>e-<span class="number">12</span>;  
+<span class="comment">* Must define all parameters to be estimated and provide start values;</span>
+<span class="comment">* First three lines are fixed effects, fourth line is variances;</span>
+  <span class="keywords">PARMS</span> fint=<span class="number">2.4</span>5 fsex=-.33 fage=.07 fsexage=-.09 
+        fbpmood=-.34 fwpmood=.26 fcstress=<span class="number">1.9</span>3 fwpstress=.22
+        f2sexstress=-<span class="number">1.3</span>3 f1sexstress=-.18 fbpmood2=-<span class="number">1.7</span>8 fbpwpmood=.26
+        varEint=-.50 vU0int=-.47;
+<span class="comment">* Setting up level-2 equations;</span>
+  b0i = fint + fsex*women + fage*age80 + fsexage*women*age80 + fbpmood*PMmood2 + fcstress*PMstressor40 
+         + f2sexstress*PMstressor40*women + fbpmood2*PMmood2*PMmood2 + U0i;
+  b1i = fwpmood + fbpwpmood*PMmood2;
+  b2i = fwpstress + f1sexstress*women;
+<span class="comment">* Setting up level-1 equation WITHOUT level-1 residual;</span>
+  y = (b0i) + (b1i*WPmood) + (b2i*stressor);
+<span class="comment">* Model for heterogeneous variance;</span>
+  varE = EXP(varEint);
+  vU0  = EXP(vU0int);
+<span class="comment">* Symptoms is normally distributed with a mean of 'y' and a variance of 'VarE';</span>
+  <span class="keywords">MODEL</span> symptoms ~ normal(y,varE);  
+<span class="comment">* Defining random effects: normally distributed with means and variances;</span>
+  <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> U0i ~ normal([0],[vU0]) <span class="keywords">SUBJECT</span>=PersonID;  
+<span class="comment">* Requesting additional model-implied estimates;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">1</span> Residual Variance'</span>         EXP(varEint);
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Random Intercept Variance'</span> EXP(vU0int);
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; 
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>4: Add Random Intercept Variance Heterogeneity by Sex, Age, L2 Negative Mood, and L2 Stressors'</span>;  
+<span class="command">PROC NLMIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">METHOD</span>=GAUSS <span class="keywords">TECH</span>=NEWRAP <span class="keywords">GCONV</span>=<span class="number">1</span>e-<span class="number">12</span>;  
+<span class="comment">* Must define all parameters to be estimated and provide start values;</span>
+<span class="comment">* First three lines are fixed effects, fourth line is variances;</span>
+  <span class="keywords">PARMS</span> fint=<span class="number">2.4</span>5 fsex=-.33 fage=.07 fsexage=-.09 
+        fbpmood=-.34 fwpmood=.26 fcstress=<span class="number">1.9</span>3 fwpstress=.22
+        f2sexstress=-<span class="number">1.3</span>3 f1sexstress=-.18 fbpmood2=-<span class="number">1.7</span>8 fbpwpmood=.26
+        varEint=-.50 vU0int=-.47 vU0sex=<span class="number">0</span> vU0age=<span class="number">0</span> vU0bpmood=<span class="number">0</span> vU0bpstress=<span class="number">0</span>;
+<span class="comment">* Setting up level-2 equations;</span>
+  b0i = fint + fsex*women + fage*age80 + fsexage*women*age80 + fbpmood*PMmood2 + fcstress*PMstressor40 
+         + f2sexstress*PMstressor40*women + fbpmood2*PMmood2*PMmood2 + U0i;
+  b1i = fwpmood + fbpwpmood*PMmood2;
+  b2i = fwpstress + f1sexstress*women;
+<span class="comment">* Setting up level-1 equation WITHOUT level-1 residual;</span>
+  y = (b0i) + (b1i*WPmood) + (b2i*stressor);
+<span class="comment">* Model for heterogeneous variance;</span>
+  varE = EXP(varEint);
+  vU0  = EXP(vU0int + vU0sex*women + vU0age*age80 + vU0bpmood*PMmood2 + vU0bpstress*PMstressor40);
+<span class="comment">* Symptoms is normally distributed with a mean of 'y' and a variance of 'VarE';</span>
+  <span class="keywords">MODEL</span> symptoms ~ normal(y,varE);  
+<span class="comment">* Defining random effects: normally distributed with means and variances;</span>
+  <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> U0i ~ normal([0],[vU0]) <span class="keywords">SUBJECT</span>=PersonID;  
+<span class="comment">* Requesting additional model-implied estimates or quantities;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">1</span> Residual Variance'</span>         EXP(varEint);
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Random Intercept Variance'</span> EXP(vU0int);
+  <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of <span class="string">4</span> Predictors of Random Intercept Variance Heterogeneity'</span> 
+            vU0sex*1, vU0age*1, vU0bpmood*1, vU0bpstress*1;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; 
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">8.1</span>5: Add Residual Variance Heterogeneity by Sex, Age, Both Negative Mood, and Both Stressors'</span>;  
+<span class="command">PROC NLMIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">METHOD</span>=GAUSS <span class="keywords">TECH</span>=NEWRAP <span class="keywords">GCONV</span>=<span class="number">1</span>e-<span class="number">12</span>;  
+<span class="comment">* Must define all parameters to be estimated and provide start values;</span>
+<span class="comment">* First three lines are fixed effects, fourth and fifth lines are variances;</span>
+  <span class="keywords">PARMS</span> fint=<span class="number">2.4</span>5 fsex=-.33 fage=.07 fsexage=-.09 
+        fbpmood=-.34 fwpmood=.26 fcstress=<span class="number">1.9</span>3 fwpstress=.22
+        f2sexstress=-<span class="number">1.3</span>3 f1sexstress=-.18 fbpmood2=-<span class="number">1.7</span>8 fbpwpmood=.26
+        varEint=-.50 varEsex=<span class="number">0</span> varEage=<span class="number">0</span> varEbpmood=<span class="number">0</span> varEbpstress=<span class="number">0</span> varEwpmood=<span class="number">0</span> varEwpstress=<span class="number">0</span>
+        vU0int=-.47 vU0sex=<span class="number">0</span> vU0age=<span class="number">0</span> vU0bpmood=<span class="number">0</span> vU0bpstress=<span class="number">0</span>;
+<span class="comment">* Setting up level-2 equations;</span>
+  b0i = fint + fsex*women + fage*age80 + fsexage*women*age80 + fbpmood*PMmood2 + fcstress*PMstressor40 
+         + f2sexstress*PMstressor40*women + fbpmood2*PMmood2*PMmood2 + U0i;
+  b1i = fwpmood + fbpwpmood*PMmood2;
+  b2i = fwpstress + f1sexstress*women;
+<span class="comment">* Setting up level-1 equation WITHOUT level-1 residual;</span>
+  y = (b0i) + (b1i*WPmood) + (b2i*stressor);
+<span class="comment">* Model for heterogeneous variance;</span>
+  varE = EXP(varEint + varEsex*women + varEage*age80 + varEbpmood*PMmood2 + varEbpstress*PMstressor40 
+              + varEwpmood*WPmood + varEwpstress*stressor);
+  vU0  = EXP(vU0int + vU0sex*women + vU0age*age80 + vU0bpmood*PMmood2 + vU0bpstress*PMstressor40);
+<span class="comment">* Symptoms is normally distributed with a mean of 'y' and a variance of 'VarE';</span>
+  <span class="keywords">MODEL</span> symptoms ~ normal(y,varE);  
+<span class="comment">* Defining random effects: normally distributed with means and variances;</span>
+  <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> U0i ~ normal([0],[vU0]) <span class="keywords">SUBJECT</span>=PersonID;  
+<span class="comment">* Requesting additional model-implied estimates or quantities;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">1</span> Residual Variance'</span>         EXP(varEint);
+  <span class="keywords">ESTIMATE</span> <span class="string">'Level-<span class="string">2</span> Random Intercept Variance'</span> EXP(vU0int);
+  <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of <span class="string">6</span> Predictors of Residual Variance Heterogeneity'</span> 
+            varEsex*1, varEage*1, varEbpmood*1, varEbpstress*1, varEwpmood*1, varEwpstress*1;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; 
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">8</span>: Final Heterogeneous Variance Model'</span>;
+<span class="command">PROC NLMIXED</span> <span class="command">DATA</span>=work.Chapter8 <span class="keywords">METHOD</span>=GAUSS <span class="keywords">TECH</span>=NEWRAP <span class="keywords">GCONV</span>=<span class="number">1</span>e-<span class="number">12</span>;  
+<span class="comment">* Must define all parameters to be estimated and provide start values;</span>
+<span class="comment">* First three lines are fixed effects, fourth and fifth lines are variances;</span>
+  <span class="keywords">PARMS</span> fint=<span class="number">2.4</span>5 fsex=-.33 fage=.07 fsexage=-.09 
+        fbpmood=<span class="number">1.6</span>6 fwpmood=.26 fcstress=<span class="number">1.9</span>3 fwpstress=.22 
+        f2sexstress=-<span class="number">1.3</span>3 f1sexstress=-.18 
+        varEint=-.50 varEbpmood=<span class="number">0</span> varEbpstress=<span class="number">0</span> 
+        vU0int=-.47 vU0bpstress=<span class="number">0</span>;
+<span class="comment">* Setting up level-2 equations -- note that random intercept was moved to below;</span>
+  b0i = fint + fsex*women + fage*age80 + fsexage*women*age80 + fbpmood*PMmood2 + fcstress*PMstressor40 
+         + f2sexstress*PMstressor40*women;
+  b1i = fwpmood;
+  b2i = fwpstress + f1sexstress*women;
+<span class="comment">* Setting up level-1 equation WITHOUT level-1 residual;</span>
+  yfixed = (b0i) + (b1i*WPmood) + (b2i*stressor);
+  y = yfixed + U0i;
+<span class="comment">* Model for heterogeneous variance;</span>
+  varE = EXP(varEint + varEbpmood*PMmood2 + varEbpstress*PMstressor40);
+  vU0  = EXP(vU0int + vU0bpstress*PMstressor40);
+<span class="comment">* Symptoms is normally distributed with a mean of 'y' and a variance of 'VarE';</span>
+  <span class="keywords">MODEL</span> symptoms ~ normal(y,varE);  
+<span class="comment">* Defining random effects: normally distributed with means and variances;</span>
+  <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> U0i ~ normal([0],[vU0]) <span class="keywords">SUBJECT</span>=PersonID;  
+<span class="comment">* Asking for predicted values;</span>
+  PREDICT yfixed OUT=PredFinal;
+<span class="comment">* Requesting additional model-implied estimates or quantities;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Intercept: Men'</span>                 fint;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Intercept: Women'</span>               fint + fsex;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Intercept: Sex Diff'</span>            fsex;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope: Men'</span>                 fage;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope: Women'</span>               fage + fsexage;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Age Slope: Sex Diff'</span>            fsexage;
+  <span class="keywords">ESTIMATE</span> <span class="string">'BP Negative Mood'</span>               fbpmood;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Negative Mood'</span>       fbpmood - fwpmood;
+  <span class="keywords">ESTIMATE</span> <span class="string">'WP Negative Mood'</span>               fwpmood;
+  <span class="keywords">ESTIMATE</span> <span class="string">'BP Stress: Men'</span>                 fcstress + fwpstress;
+  <span class="keywords">ESTIMATE</span> <span class="string">'BP Stress: Women'</span>               fcstress + f2sexstress + fwpstress + f1sexstress;
+  <span class="keywords">ESTIMATE</span> <span class="string">'BP Stress: Sex Diff'</span>            f2sexstress + f1sexstress;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Men'</span>      fcstress;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Women'</span>    fcstress + f2sexstress;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors: Sex Diff'</span> f2sexstress;
+  <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Men'</span>              fwpstress;
+  <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Women'</span>            fwpstress + f1sexstress;
+  <span class="keywords">ESTIMATE</span> <span class="string">'WP Stressors: Sex Diff'</span>         f1sexstress;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors per Day: Men'</span>    fcstress/5;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Stressors per Day: Women'</span> (fcstress + f2sexstress)/5;
+<span class="comment"> * For Figure 8.3;</span>
+  <span class="keywords">ESTIMATE</span> <span class="string">'Men, PMstressor=<span class="string">20</span>%, Stressor=<span class="string">0</span>'</span> 
+  fint + fsex*0 + fcstress*-.2 + f2sexstress*0 + fwpstress*0 + f1sexstress*0;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Men, PMstressor=<span class="string">20</span>%, Stressor=<span class="string">1</span>'</span> 
+  fint + fsex*0 + fcstress*-.2 + f2sexstress*0 + fwpstress*1 + f1sexstress*0;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Men, PMstressor=<span class="string">80</span>%, Stressor=<span class="string">0</span>'</span> 
+  fint + fsex*0 + fcstress*.4 + f2sexstress*0 + fwpstress*0 + f1sexstress*0;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Men, PMstressor=<span class="string">80</span>%, Stressor=<span class="string">1</span>'</span> 
+  fint + fsex*0 + fcstress*.4 + f2sexstress*0 + fwpstress*1 + f1sexstress*0;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Women, PMstressor=<span class="string">20</span>%, Stressor=<span class="string">0</span>'</span> 
+  fint + fsex*1 + fcstress*-.2 + f2sexstress*-.2 + fwpstress*0 + f1sexstress*0;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Women, PMstressor=<span class="string">20</span>%, Stressor=<span class="string">1</span>'</span> 
+  fint + fsex*1 + fcstress*-.2 + f2sexstress*-.2 + fwpstress*1 + f1sexstress*1;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Women, PMstressor=<span class="string">80</span>%, Stressor=<span class="string">0</span>'</span> 
+  fint + fsex*1 + fcstress*.4 + f2sexstress*.4 + fwpstress*0 + f1sexstress*0;
+  <span class="keywords">ESTIMATE</span> <span class="string">'Women, PMstressor=<span class="string">80</span>%, Stressor=<span class="string">1</span>'</span> 
+  fint + fsex*1 + fcstress*.4 + f2sexstress*.4 + fwpstress*1 + f1sexstress*1; 
+<span class="command">RUN</span>; <span class="command">PROC CORR</span> <span class="command">DATA</span>=PredFinal; <span class="keywords">VAR</span> symptoms pred; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">****** END CHAPTER 8 MODELS ******;</span>
+
+<span class="comment">* Close output directory;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">CLOSE</span>;
+</body></html>
+</pre></body></html>

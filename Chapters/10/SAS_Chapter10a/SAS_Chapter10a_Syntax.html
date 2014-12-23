@@ -1,0 +1,488 @@
+<!DOCTYPE html><html><head><title>C:\Dropbox\PilesOfVariance\Chapter10a\SAS\SAS_Chapter10a_Syntax.sas formatted</title><style type="text/css">
+body, pre { font-family: "Courier New", Courier, monospace; }
+.comment { color: #008000; font-weight: 700; }
+.string { color: #800080; font-weight: 700; }
+.number { color: #008080; font-weight: 700; }
+.macro { color: #008080; font-weight: 700; }
+.command { color: #000080; font-weight: 700; }
+.keywords { color: #0000ff; font-weight: 700; }
+.data-line { background-color: #ffffcc; font-weight: 400; }
+</style>
+</head><body><pre>
+<html><head></head><body><span class="comment">* Output options: all can be turned on/off by adding or removing the NO;</span>
+<span class="comment">* page number, date, centering, or page breaks, page length and width;</span>
+<span class="keywords">OPTIONS</span> NOnumber NOdate NOcenter FormDlim=<span class="string">' '</span> PageSize=<span class="keywords">MAX</span> LineSize=<span class="keywords">MAX</span>;
+<span class="comment">* Eliminate SAS default titles and names of tables in output (TRACE ON to show);</span>
+<span class="keywords">TITLE</span>; <span class="keywords">ODS</span> <span class="keywords">TRACE</span> <span class="keywords">OFF</span>; <span class="keywords">ODS</span> <span class="keywords">LISTING</span> <span class="keywords">CLOSE</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******   MACRO PROGRAMS TO AUTOMATE CALCULATIONS FOR CHAPTER 10a EXAMPLE   *******;</span>
+<span class="comment">*******               NOTHING IN HERE NEEDS TO BE CHANGED                   *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* To use FitTest macro;</span>
+<span class="comment">* FitFewer = name of infocrit table for nested model;</span>
+<span class="comment">* FitMore  = name of infocrit table for comparison model;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> FitTest(FitFewer=,FitMore=);
+<span class="command">DATA</span> <span class="macro">&amp;FitFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;FitFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;FitMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;FitMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span> <span class="macro">&amp;FitMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">SET</span> FitCompare; DevDiff=Lag1(Neg2LogLike)-Neg2LogLike;
+     DFdiff=Parms-LAG1(Parms); Pvalue=<span class="number">1</span>-PROBCHI(DevDiff,DFdiff);
+     <span class="keywords">DROP </span>AICC HQIC CAIC; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;Likelihood Ratio Test for <span class="string">&amp;FitFewer.</span> vs. <span class="string">&amp;FitMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=FitCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> FitTest;
+
+<span class="comment">* To use TotalR2 macro;</span>
+<span class="comment">* DV =        case-sensitive name of dependent variable;</span>
+<span class="comment">* PredFewer = name of dataset of predicted outcomes for nested model;</span>
+<span class="comment">* PredMore =  name of dataset of predicted outcomes for comparison model;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> TotalR2(DV=,PredFewer=,PredMore=);
+<span class="command">PROC CORR</span> <span class="keywords">NOPRINT</span> NOSIMPLE <span class="command">DATA</span>=<span class="macro">&amp;PredFewer.</span> <span class="keywords">OUTP</span>=CorrFewer; <span class="keywords">VAR</span> pred <span class="macro">&amp;DV.</span>; <span class="command">RUN</span>;
+<span class="command">PROC CORR</span> <span class="keywords">NOPRINT</span> NOSIMPLE <span class="command">DATA</span>=<span class="macro">&amp;PredMore.</span>  <span class="keywords">OUTP</span>=CorrMore;  <span class="keywords">VAR</span> pred <span class="macro">&amp;DV.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrFewer; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> CorrFewer; Name=<span class="string">&quot;<span class="string">&amp;PredFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrMore;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> CorrMore;  Name=<span class="string">&quot;<span class="string">&amp;PredMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> CorrFewer CorrMore; 
+     PredCorr=Pred; TotalR2=PredCorr*PredCorr; 
+     <span class="keywords">IF</span> _NAME_=<span class="string">&quot;Pred&quot;</span> OR MISSING(_NAME_)=<span class="number">1</span> <span class="keywords">THEN</span> <span class="keywords">DELETE</span>; <span class="keywords">DROP </span>Pred; <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrCompare; <span class="keywords">SET</span> CorrCompare; TotalR2Diff=TotalR2-LAG1(TotalR2);
+     <span class="keywords">KEEP</span> Name PredCorr TotalR2 TotalR2Diff; <span class="command">RUN</span>; 
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;Total R2 (% Reduction) for <span class="string">&amp;PredFewer.</span> vs. <span class="string">&amp;PredMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=CorrCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>; 
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> TotalR2;
+
+<span class="comment">* To use PseudoR2 macro;</span>
+<span class="comment">* Ncov =     TOTAL # entries in covariance parameters output table;</span>
+<span class="comment">* CovFewer = name of covparms table for nested model;</span>
+<span class="comment">* CovMore =  name of covparms table for comparison modell;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> PseudoR2(NCov=,CovFewer=,CovMore=);
+<span class="command">DATA</span> <span class="macro">&amp;CovFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;CovFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;CovMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;CovMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovFewer.</span> <span class="macro">&amp;CovMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare; 
+     PseudoR2=(LAG<span class="macro">&amp;Ncov.</span>(Estimate)-Estimate)/LAG<span class="macro">&amp;Ncov.</span>(Estimate); <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare; 
+     <span class="keywords">IF</span> CovParm IN(<span class="string">&quot;UN(2,1)&quot;</span>,<span class="string">&quot;UN(3,1)&quot;</span>,<span class="string">&quot;UN(4,1)&quot;</span>,<span class="string">&quot;UN(3,2)&quot;</span>,<span class="string">&quot;UN(4,2)&quot;</span>,<span class="string">&quot;UN(4,3)&quot;</span>) 
+     <span class="keywords">THEN</span> <span class="keywords">DELETE</span>; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;PsuedoR2 (% Reduction) for <span class="string">&amp;CovFewer.</span> vs. <span class="string">&amp;CovMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=CovCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> PseudoR2;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******  BEGIN DATA MANIPULATION FOR CHAPTER 10a ALTERNATIVE TIME EXAMPLE   *******;</span>
+<span class="comment">*******                 CHANGE &quot;filesave&quot; to your directory                 *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Defining global variable for file location to be replaced in code below;</span>
+<span class="keywords">%LET</span> filesave= C:\Dropbox\PilesOfVariance\Chapter10a\SAS;
+<span class="comment">* Location for SAS files for these models (uses macro variable filesave);</span>
+<span class="keywords">LIBNAME</span> filesave <span class="string">&quot;<span class="string">&amp;filesave.</span>&quot;</span>;
+
+<span class="comment">* Import chapter 10 stacked data into work library;</span>
+<span class="command">DATA</span> work.Chapter10a; <span class="keywords">SET</span> filesave.SAS_Chapter10a; <span class="command">RUN</span>;
+
+<span class="comment">* Create person means across time for descriptives;</span>
+<span class="command">PROC SORT</span> <span class="command">DATA</span>=work.Chapter10a;<span class="keywords"> BY</span> PersonID occasion; <span class="command">RUN</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="keywords">NOPRINT</span> <span class="command">DATA</span>=work.Chapter10a;<span class="keywords"> BY</span> PersonID;
+     <span class="keywords">VAR</span> ageT0 ytdeathT0;
+     <span class="keywords"><span class="keywords">OUTP</span>UT</span> OUT=work.PersonMeans10a 
+     <span class="keywords">MEAN</span>(ageT0 ytdeathT0) = PMageT0 PMytdeathT0;
+<span class="command">RUN</span>;
+
+<span class="comment">* Create centered predictors for analysis;</span>
+<span class="command">DATA</span> work.Chapter10a; <span class="keywords">SET</span> work.Chapter10a;
+<span class="comment">* Time in study;</span>
+time = tvage-ageT0;
+<span class="comment">* Age (years since birth) variables;</span>
+roundage = ROUND(tvage,1);
+tvage84 = tvage-<span class="number">84</span>;
+ageT084 = ageT0-<span class="number">84</span>;
+<span class="comment">* Years to death variables;</span>
+roundytdeath = ROUND(tvytdeath,1);
+tvytdeath7 = tvytdeath+7;
+ytdeathT07 = ytdeathT0+7;
+<span class="keywords">LABEL</span>
+time = <span class="string">&quot;time: Years since Time <span class="string">0</span>&quot;</span>
+roundage = <span class="string">&quot;roundage: Age Rounded to Nearest Year&quot;</span>
+tvage84 = <span class="string">&quot;tvage84: Time-Varying Age (0=<span class="string">84</span> years)&quot;</span>
+ageT084 = <span class="string">&quot;ageT084: Age at Time <span class="string">0</span> (0=<span class="string">84</span> years)&quot;</span>
+roundytdeath = <span class="string">&quot;roundytdeath: Years to Death Rounded to Nearest Year&quot;</span>
+tvytdeath7 = <span class="string">&quot;tvytdeath7: Time-Varying Years to Death (0=-<span class="string">7</span> years)&quot;</span>
+ytdeathT07 = <span class="string">&quot;ytdeathTo7: Years to Death at Time <span class="string">0</span> (0=-<span class="string">7</span> years)&quot;</span>;
+<span class="comment">* Subset sample to complete cases for all predictors;</span>
+<span class="keywords">IF</span> NMISS(tvage, ageT0, ytdeathT0, tvytdeath, recall)&gt;0 <span class="keywords">THEN</span> <span class="keywords">DELETE</span>;
+<span class="command">RUN</span>; 
+
+<span class="comment">* Creating 'fake people' to show unconditonal time trajectories;</span>
+<span class="comment">* Each row is a fake person for which to create a predicted outcome;</span>
+<span class="comment">* Each time metric will be used in a separate model;</span>
+<span class="command">DATA</span> work.FakeUncTime; 
+<span class="keywords">INPUT</span> PersonID tvage tvage84 tvytdeath tvytdeath7 time; 
+<span class="keywords">DATALINES</span>;
+<span class="data-line">-99  82 -2  -11  -4  0 </span>
+<span class="data-line">-99  84  0   -9  -2  2 </span>
+<span class="data-line">-99  86  2   -7   0  4 </span>
+<span class="data-line">-99  88  4   -5   2  6 </span>
+<span class="data-line">-99  90  6   -3   4  8 </span>
+<span class="data-line">-99  92  8   -1   6  . </span>
+<span class="data-line">-99  94 10    .   .  . </span>
+; <span class="command">RUN</span>;
+<span class="comment">* Merge with real data;</span>
+<span class="command">DATA</span> work.PlotUncTime; <span class="keywords">MERGE</span> work.Chapter10a work.FakeUncTime;<span class="keywords"> BY</span> PersonID; <span class="command">RUN</span>;
+
+<span class="comment">* Creating 'fake people' to show conditonal time trajectories;</span>
+<span class="comment">* Each row is a fake person for which to create a predicted outcome;</span>
+<span class="comment">* Each time metric will be used in a separate model;</span>
+<span class="command">DATA</span> work.FakeCondTime; 
+<span class="keywords">INPUT</span> PersonID ageT084 tvage tvage84 ytdeathT07 tvytdeath tvytdeath7 time; 
+<span class="keywords">DATALINES</span>;
+<span class="data-line">-99  -4 82 -2  -4 -11  -4  0 </span>
+<span class="data-line">-99  -4 84  0  -4  -9  -2  2 </span>
+<span class="data-line">-99  -4 86  2  -4  -7   0  4 </span>
+<span class="data-line">-99  -4 88  4  -4  -5   2  6 </span>
+<span class="data-line">-99  -4 90  6  -4  -3   4  8 </span>
+<span class="data-line">-99  -4 92  8  -4  -1   6  . </span>
+<span class="data-line">-99  -4 94 10   .   .   .  .</span>
+<span class="data-line">-99   0 82 -2   0 -11  -4  0 </span>
+<span class="data-line">-99   0 84  0   0  -9  -2  2 </span>
+<span class="data-line">-99   0 86  2   0  -7   0  4 </span>
+<span class="data-line">-99   0 88  4   0  -5   2  6 </span>
+<span class="data-line">-99   0 90  6   0  -3   4  8 </span>
+<span class="data-line">-99   0 92  8   0  -1   6  . </span>
+<span class="data-line">-99   0 94 10   .   .   .  .</span>
+<span class="data-line">-99   4 82 -2   4 -11  -4  0 </span>
+<span class="data-line">-99   4 84  0   4  -9  -2  2 </span>
+<span class="data-line">-99   4 86  2   4  -7   0  4 </span>
+<span class="data-line">-99   4 88  4   4  -5   2  6 </span>
+<span class="data-line">-99   4 90  6   4  -3   4  8 </span>
+<span class="data-line">-99   4 92  8   4  -1   6  . </span>
+<span class="data-line">-99   4 94 10   .   .   .  .</span>
+; <span class="command">RUN</span>;
+<span class="comment">* Merge with real data;</span>
+<span class="command">DATA</span> work.PlotCondTime; <span class="keywords">MERGE</span> work.Chapter10a work.FakeCondTime;<span class="keywords"> BY</span> PersonID; <span class="command">RUN</span>;
+
+<span class="comment">* Creating 'fake people' to show conditonal time trajectories;</span>
+<span class="comment">* Each row is a fake person for which to create a predicted outcome;</span>
+<span class="comment">* Each time metric will be used in a separate model;</span>
+<span class="command">DATA</span> work.FakeBothTime; 
+<span class="keywords">INPUT</span> PersonID ageT084 ytdeathT07 time; 
+<span class="keywords">DATALINES</span>;
+<span class="data-line">-99  -4 -4 0 </span>
+<span class="data-line">-99  -4 -4 2</span>
+<span class="data-line">-99  -4 -4 4 </span>
+<span class="data-line">-99  -4 -4 6 </span>
+<span class="data-line">-99  -4 -4 8 </span>
+<span class="data-line">-99  -4  0 0 </span>
+<span class="data-line">-99  -4  0 2</span>
+<span class="data-line">-99  -4  0 4 </span>
+<span class="data-line">-99  -4  0 6 </span>
+<span class="data-line">-99  -4  0 8 </span>
+<span class="data-line">-99   0 -4 0 </span>
+<span class="data-line">-99   0 -4 2</span>
+<span class="data-line">-99   0 -4 4 </span>
+<span class="data-line">-99   0 -4 6 </span>
+<span class="data-line">-99   0 -4 8 </span>
+<span class="data-line">-99   0  0 0 </span>
+<span class="data-line">-99   0  0 2</span>
+<span class="data-line">-99   0  0 4 </span>
+<span class="data-line">-99   0  0 6 </span>
+<span class="data-line">-99   0  0 8 </span>
+<span class="data-line">-99   4 -4 0 </span>
+<span class="data-line">-99   4 -4 2</span>
+<span class="data-line">-99   4 -4 4 </span>
+<span class="data-line">-99   4 -4 6 </span>
+<span class="data-line">-99   4 -4 8 </span>
+<span class="data-line">-99   4  0 0 </span>
+<span class="data-line">-99   4  0 2</span>
+<span class="data-line">-99   4  0 4 </span>
+<span class="data-line">-99   4  0 6 </span>
+<span class="data-line">-99   4  0 8 </span>
+; <span class="command">RUN</span>;
+<span class="comment">* Merge with real data;</span>
+<span class="command">DATA</span> work.PlotBothTime; <span class="keywords">MERGE</span> work.Chapter10a work.FakeBothTime;<span class="keywords"> BY</span> PersonID; <span class="command">RUN</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******               BEGIN CHAPTER 10a ALTERNATIVE TIME MODELS             *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Open output directory to save results to;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">FILE</span>=<span class="string">&quot;<span class="string">&amp;filesave.</span>\SAS_Chapter10a_Output.html&quot;</span>
+         (<span class="keywords">URL</span>=<span class="string">&quot;SAS_Chapter10a_Output.html&quot;</span>) <span class="keywords">STYLE</span>=HTMLBlue;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">10</span>a: Descriptive Statistics for Time-Invariant Variables&quot;</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="command">DATA</span>=work.PersonMeans10a;
+     <span class="keywords">VAR</span> PMageT0 PMytdeathT0; 
+<span class="command">RUN</span>;
+<span class="command">PROC CORR</span> <span class="command">DATA</span>=work.PersonMeans10a;
+     <span class="keywords">VAR</span> PMageT0 PMytdeathT0; 
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">10</span>a: Descriptive Statistics for Time-Varying Variables&quot;</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="command">DATA</span>=work.Chapter10a; 
+     <span class="keywords">VAR</span> time tvage tvytdeath recall; 
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Empty Means, Random Intercept Model for Prose'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredEmpty;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Saturated Means by Rounded Years in Study, Random Intercept Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID occasion;
+     <span class="keywords">MODEL</span> recall = occasion / <span class="keywords">NOINT</span> <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Saturated Means by Rounded Age, Random Intercept Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID roundage;
+     <span class="keywords">MODEL</span> recall = roundage / <span class="keywords">NOINT</span> <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Saturated Means by Rounded Years to Death, Random Intercept Model'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID roundytdeath;
+     <span class="keywords">MODEL</span> recall = roundytdeath / <span class="keywords">NOINT</span> <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Empty Means, Random Intercept Model for Years since Birth'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> tvage =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Empty Means, Random Intercept Model for Years to Death'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> tvytdeath =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Empty Means, Random Intercept Model for Years in Study'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> time =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Fixed Quadratic, Random Intercept Model for Years since Birth'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = tvage84 tvage84*tvage84 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitFQRIAge;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">10</span>a.1: Random Linear Model for Years since Birth'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = tvage84 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT tvage84 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">10</span>a.1: Fixed Quadratic, Random Linear Model for Years since Birth'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotUncTime <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = tvage84 tvage84*tvage84 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredFQRLAge;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT tvage84 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitFQRLAge;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFQRIAge, FitMore=FitFQRLAge);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=recall, PredFewer=PredEmpty, PredMore=PredFQRLAge);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> PredFQRLAge; <span class="keywords">SET</span> PredFQRLAge; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=PredFQRLAge; <span class="keywords">VAR</span> tvage84 pred; <span class="command">RUN</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Fixed Quadratic, Random Intercept Model for Years to Death'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = tvytdeath7 tvytdeath7*tvytdeath7 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitFQRIYTD;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">10</span>a.1: Fixed Quadratic, Random Linear Model for Years to Death'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotUncTime <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = tvytdeath7 tvytdeath7*tvytdeath7 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredFQRLYTD;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT tvytdeath7 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitFQRLYTD;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFQRIYTD, FitMore=FitFQRLYTD);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=recall, PredFewer=PredEmpty, PredMore=PredFQRLYTD);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> PredFQRLYTD; <span class="keywords">SET</span> PredFQRLYTD; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=PredFQRLYTD; <span class="keywords">VAR</span> tvytdeath7 pred; <span class="command">RUN</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">10</span>a: Fixed Quadratic, Random Intercept Model for Years in Study'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter10a <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = time time*time / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitFQRIYIS;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">10</span>a.1: Fixed Quadratic, Random Linear Model for Years in Study'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotUncTime <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = time time*time / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredFQRLYIS;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitFQRLYIS;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFQRIYIS, FitMore=FitFQRLYIS);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=recall, PredFewer=PredEmpty, PredMore=PredFQRLYIS);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> PredFQRLYIS; <span class="keywords">SET</span> PredFQRLYIS; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=PredFQRLYIS; <span class="keywords">VAR</span> time pred; <span class="command">RUN</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">10</span>a.2: Fixed Quadratic, Random Linear Model for Years since Birth'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Controlling for Birth Cohort'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotCondTime <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = tvage84 tvage84*tvage84
+                    ageT084 ageT084*ageT084 tvage84*ageT084
+                     / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredCohAge;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT tvage84 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitCohAge;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of Birth Cohort Contextual Effects'</span> ageT084 <span class="number">1</span>, ageT084*ageT084 <span class="number">1</span>, tvage84*ageT084 <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Linear Birth Cohort on Intercept'</span>          ageT084 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Quadratic Birth Cohort on Intercept'</span>       ageT084*ageT084 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Linear Birth Cohort on Linear Slope'</span>       tvage84*ageT084 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Linear Birth Cohort on Intercept'</span>               ageT084 <span class="number">1</span> tvage84 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Quadratic Birth Cohort on Intercept'</span>            ageT084*ageT084 <span class="number">1</span> tvage84*ageT084 <span class="number">1</span> tvage84*tvage84 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Linear Birth Cohort on Linear Slope'</span>            tvage84*ageT084 <span class="number">1</span> tvage84*tvage84 <span class="number">2</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFQRLAge, FitMore=FitCohAge);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=recall, PredFewer=PredFQRLAge, PredMore=PredCohAge);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> PredCohAge; <span class="keywords">SET</span> PredCohAge; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=PredCohAge; <span class="keywords">VAR</span> tvage84 ageT084 pred; <span class="command">RUN</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">10</span>a.2: Fixed Quadratic, Random Linear Model for Years in Study'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Controlling for Birth Cohort'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotCondTime <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = time time*time
+                    ageT084 ageT084*ageT084 time*ageT084
+                     / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredCohAgeYIS;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitCohAgeYIS;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of Birth Cohort Total Effects'</span> ageT084 <span class="number">1</span>, ageT084*ageT084 <span class="number">1</span>, time*ageT084 <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Linear Birth Cohort on Intercept'</span>          ageT084 <span class="number">1</span> time -<span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Quadratic Birth Cohort on Intercept'</span>       ageT084*ageT084 <span class="number">1</span> time*ageT084 -<span class="number">1</span> time*time <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Linear Birth Cohort on Linear Slope'</span>       time*ageT084 <span class="number">1</span> time*time -<span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Linear Birth Cohort on Intercept'</span>               ageT084 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Quadratic Birth Cohort on Intercept'</span>            ageT084*ageT084 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Linear Birth Cohort on Linear Slope'</span>            time*ageT084 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFQRLYIS, FitMore=FitCohAgeYIS);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=recall, PredFewer=PredFQRLYIS, PredMore=PredCohAgeYIS);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> PredCohAgeYIS; <span class="keywords">SET</span> PredCohAgeYIS; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=PredCohAgeYIS; <span class="keywords">VAR</span> time ageT084 pred; <span class="command">RUN</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">10</span>a.2: Fixed Quadratic, Random Linear Model for Years to Death'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Controlling for Death Cohort'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotCondTime <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = tvytdeath7 tvytdeath7*tvytdeath7
+                    ytdeathT07 ytdeathT07*ytdeathT07 tvytdeath7*ytdeathT07
+                     / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredCohYTD;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT tvytdeath7 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitCohYTD;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of Death Cohort Contextual Effects'</span> ytdeathT07 <span class="number">1</span>, ytdeathT07*ytdeathT07 <span class="number">1</span>, tvytdeath7*ytdeathT07 <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Linear Death Cohort on Intercept'</span>          ytdeathT07 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Quadratic Death Cohort on Intercept'</span>       ytdeathT07*ytdeathT07 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Linear Death Cohort on Linear Slope'</span>       tvytdeath7*ytdeathT07 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Linear Death Cohort on Intercept'</span>               ytdeathT07 <span class="number">1</span> tvytdeath7 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Quadratic Death Cohort on Intercept'</span>            ytdeathT07*ytdeathT07 <span class="number">1</span> tvytdeath7*ytdeathT07 <span class="number">1</span> tvytdeath7*tvytdeath7 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Linear Death Cohort on Linear Slope'</span>            tvytdeath7*ytdeathT07 <span class="number">1</span> tvytdeath7*tvytdeath7 <span class="number">2</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFQRLYTD, FitMore=FitCohYTD);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=recall, PredFewer=PredFQRLYTD, PredMore=PredCohYTD);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> PredCohYTD; <span class="keywords">SET</span> PredCohYTD; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=PredCohYTD; <span class="keywords">VAR</span> tvytdeath7 ytdeathT07 pred; <span class="command">RUN</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">10</span>a.2: Fixed Quadratic, Random Linear Model for Years in Study'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Controlling for Death Cohort'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotCondTime <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = time time*time
+                    ytdeathT07 ytdeathT07*ytdeathT07 time*ytdeathT07
+                     / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredCohYTDYIS;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitCohYTDYIS;
+     <span class="keywords">CONTRAST</span> <span class="string">'Multivariate Test of Death Cohort Total Effects'</span> ytdeathT07 <span class="number">1</span>, ytdeathT07*ytdeathT07 <span class="number">1</span>, time*ytdeathT07 <span class="number">1</span> / <span class="keywords">CHISQ</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Linear Birth Cohort on Intercept'</span>          ytdeathT07 <span class="number">1</span> time -<span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Quadratic Birth Cohort on Intercept'</span>       ytdeathT07*ytdeathT07 <span class="number">1</span> time*ytdeathT07 -<span class="number">1</span> time*time <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Contextual Linear Birth Cohort on Linear Slope'</span>       time*ytdeathT07 <span class="number">1</span> time*time -<span class="number">2</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Linear Birth Cohort on Intercept'</span>               ytdeathT07 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Quadratic Birth Cohort on Intercept'</span>            ytdeathT07*ytdeathT07 <span class="number">1</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Total Linear Birth Cohort on Linear Slope'</span>            time*ytdeathT07 <span class="number">1</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFQRLYIS, FitMore=FitCohYTDYIS);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=recall, PredFewer=PredFQRLYIS, PredMore=PredCohYTDYIS);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> PredCohYTDYIS; <span class="keywords">SET</span> PredCohYTDYIS; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=PredCohYTDYIS; <span class="keywords">VAR</span> time ytdeathT07 pred; <span class="command">RUN</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">10</span>a.4: Fixed Quadratic, Random Linear Model for Years in Study'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Controlling for Birth Cohort and Death Cohort'</span>;
+<span class="comment">* Estimate model on data with fake people to make predictions;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.PlotBothTime <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> recall = time time*time
+                    ageT084 ageT084*ageT084 time*ageT084
+                    ytdeathT07 ytdeathT07*ytdeathT07 time*ytdeathT07
+                     / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredBothYIS;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT time /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=recall, PredFewer=PredFQRLYIS, PredMore=PredBothYIS);
+<span class="comment">     * Subset predicted outcomes data to fake people;</span>
+     <span class="command">DATA</span> PredBothYIS; <span class="keywords">SET</span> PredBothYIS; <span class="keywords">WHERE</span> PersonID=-<span class="number">99</span>; <span class="command">RUN</span>;
+     <span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">'Predicted Outcomes for Fake People'</span>;
+     <span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=PredBothYIS; <span class="keywords">VAR</span> time ageT084 ytdeathT07 pred; <span class="command">RUN</span>;
+ 
+<span class="comment">****** END CHAPTER 10a MODELS ******;</span>
+
+<span class="comment">* Close output directory;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">CLOSE</span>;
+</body></html>
+</pre></body></html>

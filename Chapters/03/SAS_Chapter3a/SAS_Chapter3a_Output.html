@@ -1,0 +1,4902 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="Generator" content="SAS Software Version 9.3, see www.sas.com">
+<meta http-equiv="Content-type" content="text/html; charset=windows-1252">
+<title>SAS Output</title>
+<style type="text/css">
+<!--
+.aftercaption
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+  padding-top: 4pt;
+}
+.batch
+{
+  background-color: #FAFBFE;
+  border: 1px solid #C1C1C1;
+  border-collapse: separate;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: 'SAS Monospace', 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  padding: 7px;
+}
+.beforecaption
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.body
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.bodydate
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  text-align: right;
+  vertical-align: top;
+  width: 100%;
+}
+.bycontentfolder
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.byline
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.bylinecontainer
+{
+  background-color: #FAFBFE;
+  border: 0px solid #000000;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.caption
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.cell
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.container
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.contentfolder
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.contentitem
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.contentproclabel
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.contentprocname
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.contents
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: decimal;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.contentsdate
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.contenttitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: bold;
+}
+.continued
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+}
+.data
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.dataemphasis
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.dataemphasisfixed
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.dataempty
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.datafixed
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.datastrong
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.datastrongfixed
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.date
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.document
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+a:link {
+color:#0000FF
+}
+a:visited {
+color:#800080
+}
+a:active {
+color:#800080
+}
+.errorbanner
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.errorcontent
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.errorcontentfixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.extendedpage
+{
+  background-color: #FAFBFE;
+  border: 1pt solid #000000;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+  text-align: center;
+}
+.fatalbanner
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.fatalcontent
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.fatalcontentfixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.folderaction
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.footer
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.footeremphasis
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.footeremphasisfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.footerempty
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.footerfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.footerstrong
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.footerstrongfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.frame
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.graph
+{
+  background-color: #FAFBFE;
+  border: 1px solid #C1C1C1;
+  border-collapse: separate;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.header
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.headeremphasis
+{
+  background-color: #D8DBD3;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.headeremphasisfixed
+{
+  background-color: #D8DBD3;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.headerempty
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.headerfixed
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.headersandfooters
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.headerstrong
+{
+  background-color: #D8DBD3;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.headerstrongfixed
+{
+  background-color: #D8DBD3;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.index
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.indexaction
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.indexitem
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.indexprocname
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.indextitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: bold;
+}
+.layoutcontainer
+{
+  border: 0px solid #000000;
+  border-spacing: 30px;
+}
+.layoutregion
+{
+  border: 0px solid #000000;
+  border-spacing: 30px;
+}
+.list
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: disc;
+  text-align: left;
+}
+.list10
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list2
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: circle;
+  text-align: left;
+}
+.list3
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list4
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list5
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list6
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list7
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list8
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list9
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.listitem
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem10
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem2
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem3
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem4
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem5
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem6
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem7
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem8
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem9
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.note
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.notebanner
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.notecontent
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.notecontentfixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.output
+{
+  background-color: #FAFBFE;
+  border: 1px solid #C1C1C1;
+  border-collapse: separate;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.pageno
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+  text-align: right;
+  vertical-align: top;
+}
+.pages
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: decimal;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.pagesdate
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.pagesitem
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.pagesproclabel
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.pagesprocname
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.pagestitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: bold;
+}
+.paragraph
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  text-align: left;
+}
+.parskip
+{
+  border: 0px solid #000000;
+  border-spacing: 0px;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.prepage
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  text-align: left;
+}
+.proctitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.proctitlefixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowfooter
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowfooteremphasis
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.rowfooteremphasisfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.rowfooterempty
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowfooterfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.rowfooterstrong
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowfooterstrongfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowheader
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowheaderemphasis
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.rowheaderemphasisfixed
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.rowheaderempty
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowheaderfixed
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.rowheaderstrong
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowheaderstrongfixed
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemfooter
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter10
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter2
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter3
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter4
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter5
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter6
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter7
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter8
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter9
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemtitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle10
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle2
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle3
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle4
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle5
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle6
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle7
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle8
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle9
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systitleandfootercontainer
+{
+  background-color: #FAFBFE;
+  border: 0px solid #000000;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.table
+{
+  border-bottom-width: 0px;
+  border-collapse: separate;
+  border-color: #C1C1C1;
+  border-left-width: 1px;
+  border-right-width: 0px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-top-width: 1px;
+}
+.top_stacked_value
+{
+  padding-bottom: 1px;
+}
+.middle_stacked_value
+{
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.bottom_stacked_value
+{
+  padding-top: 1px;
+}
+.titleandnotecontainer
+{
+  background-color: #FAFBFE;
+  border: 0px solid #000000;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.titlesandfooters
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.usertext
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  text-align: left;
+}
+.warnbanner
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.warncontent
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.warncontentfixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.l {text-align: left }
+.c {text-align: center }
+.r {text-align: right }
+.d {text-align: right }
+.j {text-align: justify }
+.t {vertical-align: top }
+.m {vertical-align: middle }
+.b {vertical-align: bottom }
+TD, TH {vertical-align: top }
+.stacked_cell{padding: 0 }
+-->
+</style>
+<script language="javascript" type="text/javascript">
+<!-- 
+function startup(){
+
+}
+function shutdown(){
+
+}
+
+//-->
+</script>
+
+</head>
+<body onload="startup()" onunload="shutdown()" class="body">
+
+<script language="javascript" type="text/javascript">
+<!-- 
+var _info = navigator.userAgent
+var _ie = (_info.indexOf("MSIE") > 0
+          && _info.indexOf("Win") > 0
+          && _info.indexOf("Windows 3.1") < 0);
+var _ie64 = _info.indexOf("x64") > 0
+
+//-->
+</script>
+
+<div class="branch">
+<a name="IDX"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Chapter 3a Example: Means by group and time for learning outcome</td>
+</tr>
+</table><br>
+<div class="l proctitle">The MEANS Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Means: Summary statistics">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Analysis Variable : outcome outcome: Learning Outcome</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">N Obs</th>
+<th class="r b header" scope="col">Mean</th>
+<th class="r b header" scope="col">Std Error</th>
+<th class="r b header" scope="col">Minimum</th>
+<th class="r b header" scope="col">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r t data">100</th>
+<td class="r data">53.3395829</td>
+<td class="r data">0.6351006</td>
+<td class="r data">37.5335041</td>
+<td class="r data">68.6163028</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX1"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Means: Summary statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Analysis Variable : outcome outcome: Learning Outcome</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">time: Occasion (1=pre-test,<br>2=post-test)</th>
+<th class="r b header" scope="col">N Obs</th>
+<th class="r b header" scope="col">Mean</th>
+<th class="r b header" scope="col">Std Error</th>
+<th class="r b header" scope="col">Minimum</th>
+<th class="r b header" scope="col">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r t data">1</th>
+<th class="r t data">50</th>
+<td class="r data">49.9177687</td>
+<td class="r data">0.7297690</td>
+<td class="r data">37.5335041</td>
+<td class="r data">62.1309134</td>
+</tr>
+<tr>
+<th class="r t data">2</th>
+<th class="r t data">50</th>
+<td class="r data">56.7613972</td>
+<td class="r data">0.7870204</td>
+<td class="r data">44.5615778</td>
+<td class="r data">68.6163028</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX2"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Means: Summary statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Analysis Variable : outcome outcome: Learning Outcome</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">group: Treatment<br>Group (1=control,<br>2=treatment)</th>
+<th class="r b header" scope="col">N Obs</th>
+<th class="r b header" scope="col">Mean</th>
+<th class="r b header" scope="col">Std Error</th>
+<th class="r b header" scope="col">Minimum</th>
+<th class="r b header" scope="col">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r t data">1</th>
+<th class="r t data">50</th>
+<td class="r data">51.9879804</td>
+<td class="r data">0.8943692</td>
+<td class="r data">37.5335041</td>
+<td class="r data">67.1060321</td>
+</tr>
+<tr>
+<th class="r t data">2</th>
+<th class="r t data">50</th>
+<td class="r data">54.6911855</td>
+<td class="r data">0.8691455</td>
+<td class="r data">40.5321932</td>
+<td class="r data">68.6163028</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX3"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Eq 3a.1: Empty Between-Person Model</td>
+</tr>
+</table><br>
+<div class="l proctitle">The Mixed Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Model Information">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Data Set</th>
+<td class="l data">WORK.CHAPTER3A</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Dependent Variable</th>
+<td class="l data">outcome</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Covariance Structure</th>
+<td class="l data">Variance Components</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subject Effect</th>
+<td class="l data">PersonID</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Estimation Method</th>
+<td class="l data">REML</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual Variance Method</th>
+<td class="l data">Parameter</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Fixed Effects SE Method</th>
+<td class="l data">Model-Based</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Degrees of Freedom Method</th>
+<td class="l data">Between-Within</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX4"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Dimensions">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Covariance Parameters</th>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in X</th>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in Z</th>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subjects</th>
+<td class="r data">50</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Max Obs Per Subject</th>
+<td class="r data">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX5"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Number of Observations">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Number of Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Not Used</th>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX6"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Iteration History">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Iteration History</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Iteration</th>
+<th class="r b header" scope="col">Evaluations</th>
+<th class="r b header" scope="col">-2&nbsp;Res&nbsp;Log&nbsp;Like</th>
+<th class="r b header" scope="col">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">0</th>
+<td class="r data">1</td>
+<td class="r data">651.58043111</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">651.58043111</td>
+<td class="r data">0.00000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX7"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Convergence Status">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="c data">Convergence criteria met.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX8"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Matrix for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">40.3353</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">40.3353</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX9"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Correlation Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Correlation Matrix<br>for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1.0000</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX10"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Covariance Parameter Estimates">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Covariance Parameter Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Cov Parm</th>
+<th class="l b header" scope="col">Subject</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">Z Value</th>
+<th class="r b header" scope="col">Pr &gt; Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">time</th>
+<th class="l data">PersonID</th>
+<td class="r data">40.3353</td>
+<td class="r data">5.7330</td>
+<td class="r data">7.04</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX11"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Fit Statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Fit Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">-2 Res Log Likelihood</th>
+<td class="r data">651.6</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AIC (smaller is better)</th>
+<td class="r data">653.6</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AICC (smaller is better)</th>
+<td class="r data">653.6</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">BIC (smaller is better)</th>
+<td class="r data">655.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX12"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Null Model Likelihood Ratio Test">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Null Model Likelihood Ratio Test</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">0</td>
+<td class="r data">0.00</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX13"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Information Criteria">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Information Criteria</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Neg2LogLike</th>
+<th class="r b header" scope="col">Parms</th>
+<th class="r b header" scope="col">AIC</th>
+<th class="r b header" scope="col">AICC</th>
+<th class="r b header" scope="col">HQIC</th>
+<th class="r b header" scope="col">BIC</th>
+<th class="r b header" scope="col">CAIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">651.6</td>
+<td class="r data">1</td>
+<td class="r data">653.6</td>
+<td class="r data">653.6</td>
+<td class="r data">654.3</td>
+<td class="r data">655.5</td>
+<td class="r data">656.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX14"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Solution for Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Solution for Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Intercept</th>
+<td class="r data">53.3396</td>
+<td class="r data">0.6351</td>
+<td class="r data">49</td>
+<td class="r data">83.99</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">52.0633</td>
+<td class="r data">54.6159</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX15"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Eq 3a.2: Empty Within-Person Model</td>
+</tr>
+</table><br>
+<div class="l proctitle">The Mixed Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Model Information">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Data Set</th>
+<td class="l data">WORK.CHAPTER3A</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Dependent Variable</th>
+<td class="l data">outcome</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Covariance Structure</th>
+<td class="l data">Compound Symmetry</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subject Effect</th>
+<td class="l data">PersonID</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Estimation Method</th>
+<td class="l data">REML</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual Variance Method</th>
+<td class="l data">Profile</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Fixed Effects SE Method</th>
+<td class="l data">Model-Based</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Degrees of Freedom Method</th>
+<td class="l data">Between-Within</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX16"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Dimensions">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Covariance Parameters</th>
+<td class="r data">2</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in X</th>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in Z</th>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subjects</th>
+<td class="r data">50</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Max Obs Per Subject</th>
+<td class="r data">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX17"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Number of Observations">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Number of Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Not Used</th>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX18"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Iteration History">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Iteration History</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Iteration</th>
+<th class="r b header" scope="col">Evaluations</th>
+<th class="r b header" scope="col">-2&nbsp;Res&nbsp;Log&nbsp;Like</th>
+<th class="r b header" scope="col">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">0</th>
+<td class="r data">1</td>
+<td class="r data">651.58043111</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">646.80947282</td>
+<td class="r data">0.00000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX19"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Convergence Status">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="c data">Convergence criteria met.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX20"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Matrix for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">40.4590</td>
+<td class="r data">12.2526</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">12.2526</td>
+<td class="r data">40.4590</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX21"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Correlation Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Correlation Matrix<br>for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.3028</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">0.3028</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX22"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Covariance Parameter Estimates">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Covariance Parameter Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Cov Parm</th>
+<th class="l b header" scope="col">Subject</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">Z Value</th>
+<th class="r b header" scope="col">Pr Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">CS</th>
+<th class="l data">PersonID</th>
+<td class="r data">12.2526</td>
+<td class="r data">6.0256</td>
+<td class="r data">2.03</td>
+<td class="r data">0.0420</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">28.2064</td>
+<td class="r data">5.6413</td>
+<td class="r data">5.00</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX23"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Fit Statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Fit Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">-2 Res Log Likelihood</th>
+<td class="r data">646.8</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AIC (smaller is better)</th>
+<td class="r data">650.8</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AICC (smaller is better)</th>
+<td class="r data">650.9</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">BIC (smaller is better)</th>
+<td class="r data">654.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX24"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Null Model Likelihood Ratio Test">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Null Model Likelihood Ratio Test</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">1</td>
+<td class="r data">4.77</td>
+<td class="r data">0.0289</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX25"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Information Criteria">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Information Criteria</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Neg2LogLike</th>
+<th class="r b header" scope="col">Parms</th>
+<th class="r b header" scope="col">AIC</th>
+<th class="r b header" scope="col">AICC</th>
+<th class="r b header" scope="col">HQIC</th>
+<th class="r b header" scope="col">BIC</th>
+<th class="r b header" scope="col">CAIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">646.8</td>
+<td class="r data">2</td>
+<td class="r data">650.8</td>
+<td class="r data">650.9</td>
+<td class="r data">652.3</td>
+<td class="r data">654.6</td>
+<td class="r data">656.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX26"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Solution for Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Solution for Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Intercept</th>
+<td class="r data">53.3396</td>
+<td class="r data">0.7260</td>
+<td class="r data">49</td>
+<td class="r data">73.47</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">51.8806</td>
+<td class="r data">54.7986</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX27"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Eq 3a.7: Conditional Between-Person Model (top of Eq. 3.7)</td>
+</tr>
+<tr>
+<td class="l systemtitle2">Manual Contrasts for Time and Group</td>
+</tr>
+</table><br>
+<div class="l proctitle">The Mixed Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Model Information">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Data Set</th>
+<td class="l data">WORK.CHAPTER3A</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Dependent Variable</th>
+<td class="l data">outcome</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Covariance Structure</th>
+<td class="l data">Variance Components</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subject Effect</th>
+<td class="l data">PersonID</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Estimation Method</th>
+<td class="l data">REML</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual Variance Method</th>
+<td class="l data">Parameter</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Fixed Effects SE Method</th>
+<td class="l data">Model-Based</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Degrees of Freedom Method</th>
+<td class="l data">Between-Within</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX28"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Dimensions">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Covariance Parameters</th>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in X</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in Z</th>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subjects</th>
+<td class="r data">50</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Max Obs Per Subject</th>
+<td class="r data">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX29"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Number of Observations">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Number of Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Not Used</th>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX30"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Iteration History">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Iteration History</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Iteration</th>
+<th class="r b header" scope="col">Evaluations</th>
+<th class="r b header" scope="col">-2&nbsp;Res&nbsp;Log&nbsp;Like</th>
+<th class="r b header" scope="col">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">0</th>
+<td class="r data">1</td>
+<td class="r data">602.50704558</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">602.50704558</td>
+<td class="r data">0.00000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX31"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Convergence Status">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="c data">Convergence criteria met.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX32"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Matrix for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">27.2245</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">27.2245</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX33"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Correlation Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Correlation Matrix<br>for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1.0000</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX34"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Covariance Parameter Estimates">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Covariance Parameter Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Cov Parm</th>
+<th class="l b header" scope="col">Subject</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">Z Value</th>
+<th class="r b header" scope="col">Pr &gt; Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">time</th>
+<th class="l data">PersonID</th>
+<td class="r data">27.2245</td>
+<td class="r data">3.9295</td>
+<td class="r data">6.93</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX35"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Fit Statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Fit Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">-2 Res Log Likelihood</th>
+<td class="r data">602.5</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AIC (smaller is better)</th>
+<td class="r data">604.5</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AICC (smaller is better)</th>
+<td class="r data">604.5</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">BIC (smaller is better)</th>
+<td class="r data">606.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX36"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Null Model Likelihood Ratio Test">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Null Model Likelihood Ratio Test</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">0</td>
+<td class="r data">0.00</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX37"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Information Criteria">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Information Criteria</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Neg2LogLike</th>
+<th class="r b header" scope="col">Parms</th>
+<th class="r b header" scope="col">AIC</th>
+<th class="r b header" scope="col">AICC</th>
+<th class="r b header" scope="col">HQIC</th>
+<th class="r b header" scope="col">BIC</th>
+<th class="r b header" scope="col">CAIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">602.5</td>
+<td class="r data">1</td>
+<td class="r data">604.5</td>
+<td class="r data">604.5</td>
+<td class="r data">605.2</td>
+<td class="r data">606.4</td>
+<td class="r data">607.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX38"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Solution for Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Solution for Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Intercept</th>
+<td class="r data">49.0768</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">47.03</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">46.9786</td>
+<td class="r data">51.1750</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1</th>
+<td class="r data">5.8224</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data">3.95</td>
+<td class="r data">0.0003</td>
+<td class="r data">0.05</td>
+<td class="r data">2.8551</td>
+<td class="r data">8.7896</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">treat</th>
+<td class="r data">1.6819</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data">1.14</td>
+<td class="r data">0.2601</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-1.2853</td>
+<td class="r data">4.6492</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<td class="r data">2.0425</td>
+<td class="r data">2.0871</td>
+<td class="r data">48</td>
+<td class="r data">0.98</td>
+<td class="r data">0.3327</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-2.1538</td>
+<td class="r data">6.2389</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX39"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Type 3 Tests of Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Type 3 Tests of Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Num DF</th>
+<th class="r b header" scope="col">Den DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">F Value</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">time1</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">15.56</td>
+<td class="r data">15.56</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.0003</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">treat</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">1.30</td>
+<td class="r data">1.30</td>
+<td class="r data">0.2544</td>
+<td class="r data">0.2601</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">0.96</td>
+<td class="r data">0.96</td>
+<td class="r data">0.3278</td>
+<td class="r data">0.3327</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX40"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimates">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Label</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Mean: Control Group at Pre-Test</th>
+<td class="r data">49.0768</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">47.03</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">46.9786</td>
+<td class="r data">51.1750</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Mean: Control Group at Post-Test</th>
+<td class="r data">54.8992</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">52.61</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">52.8010</td>
+<td class="r data">56.9973</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Mean: Treatment Group at Pre-Test</th>
+<td class="r data">50.7587</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">48.64</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">48.6606</td>
+<td class="r data">52.8569</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Mean: Treatment Group at Post-Test</th>
+<td class="r data">58.6236</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">56.18</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">56.5254</td>
+<td class="r data">60.7218</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Time  Effect for Control Group</th>
+<td class="r data">5.8224</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data">3.95</td>
+<td class="r data">0.0003</td>
+<td class="r data">0.05</td>
+<td class="r data">2.8551</td>
+<td class="r data">8.7896</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Time  Effect for Treatment Group</th>
+<td class="r data">7.8649</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data">5.33</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">4.8976</td>
+<td class="r data">10.8322</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Group Effect at Pre-Test</th>
+<td class="r data">1.6819</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data">1.14</td>
+<td class="r data">0.2601</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-1.2853</td>
+<td class="r data">4.6492</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Group Effect at Post-Test</th>
+<td class="r data">3.7245</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data">2.52</td>
+<td class="r data">0.0150</td>
+<td class="r data">0.05</td>
+<td class="r data">0.7572</td>
+<td class="r data">6.6917</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX41"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Eq 3a.7: Conditional Within-Person Model (bottom of Eq. 3.7)</td>
+</tr>
+<tr>
+<td class="l systemtitle2">Manual Contrasts for Time and Group</td>
+</tr>
+</table><br>
+<div class="l proctitle">The Mixed Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Model Information">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Data Set</th>
+<td class="l data">WORK.CHAPTER3A</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Dependent Variable</th>
+<td class="l data">outcome</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Covariance Structure</th>
+<td class="l data">Compound Symmetry</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subject Effect</th>
+<td class="l data">PersonID</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Estimation Method</th>
+<td class="l data">REML</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual Variance Method</th>
+<td class="l data">Profile</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Fixed Effects SE Method</th>
+<td class="l data">Model-Based</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Degrees of Freedom Method</th>
+<td class="l data">Between-Within</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX42"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Dimensions">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Covariance Parameters</th>
+<td class="r data">2</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in X</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in Z</th>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subjects</th>
+<td class="r data">50</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Max Obs Per Subject</th>
+<td class="r data">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX43"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Number of Observations">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Number of Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Not Used</th>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX44"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Iteration History">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Iteration History</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Iteration</th>
+<th class="r b header" scope="col">Evaluations</th>
+<th class="r b header" scope="col">-2&nbsp;Res&nbsp;Log&nbsp;Like</th>
+<th class="r b header" scope="col">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">0</th>
+<td class="r data">1</td>
+<td class="r data">602.50704558</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">544.69899365</td>
+<td class="r data">0.00000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX45"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Convergence Status">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="c data">Convergence criteria met.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX46"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Matrix for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">27.2245</td>
+<td class="r data">22.7794</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">22.7794</td>
+<td class="r data">27.2245</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX47"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Correlation Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Correlation Matrix<br>for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.8367</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">0.8367</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX48"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Covariance Parameter Estimates">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Covariance Parameter Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Cov Parm</th>
+<th class="l b header" scope="col">Subject</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">Z Value</th>
+<th class="r b header" scope="col">Pr Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">CS</th>
+<th class="l data">PersonID</th>
+<td class="r data">22.7794</td>
+<td class="r data">5.1236</td>
+<td class="r data">4.45</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">4.4451</td>
+<td class="r data">0.9073</td>
+<td class="r data">4.90</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX49"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Fit Statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Fit Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">-2 Res Log Likelihood</th>
+<td class="r data">544.7</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AIC (smaller is better)</th>
+<td class="r data">548.7</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AICC (smaller is better)</th>
+<td class="r data">548.8</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">BIC (smaller is better)</th>
+<td class="r data">552.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX50"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Null Model Likelihood Ratio Test">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Null Model Likelihood Ratio Test</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">1</td>
+<td class="r data">57.81</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX51"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Information Criteria">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Information Criteria</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Neg2LogLike</th>
+<th class="r b header" scope="col">Parms</th>
+<th class="r b header" scope="col">AIC</th>
+<th class="r b header" scope="col">AICC</th>
+<th class="r b header" scope="col">HQIC</th>
+<th class="r b header" scope="col">BIC</th>
+<th class="r b header" scope="col">CAIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">544.7</td>
+<td class="r data">2</td>
+<td class="r data">548.7</td>
+<td class="r data">548.8</td>
+<td class="r data">550.2</td>
+<td class="r data">552.5</td>
+<td class="r data">554.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX52"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Solution for Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Solution for Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Intercept</th>
+<td class="r data">49.0768</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">47.03</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">46.9786</td>
+<td class="r data">51.1750</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1</th>
+<td class="r data">5.8224</td>
+<td class="r data">0.5963</td>
+<td class="r data">48</td>
+<td class="r data">9.76</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">4.6234</td>
+<td class="r data">7.0214</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">treat</th>
+<td class="r data">1.6819</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data">1.14</td>
+<td class="r data">0.2601</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-1.2853</td>
+<td class="r data">4.6492</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<td class="r data">2.0425</td>
+<td class="r data">0.8433</td>
+<td class="r data">48</td>
+<td class="r data">2.42</td>
+<td class="r data">0.0193</td>
+<td class="r data">0.05</td>
+<td class="r data">0.3469</td>
+<td class="r data">3.7382</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX53"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Type 3 Tests of Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Type 3 Tests of Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Num DF</th>
+<th class="r b header" scope="col">Den DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">F Value</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">time1</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">95.33</td>
+<td class="r data">95.33</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">treat</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">1.30</td>
+<td class="r data">1.30</td>
+<td class="r data">0.2544</td>
+<td class="r data">0.2601</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">5.87</td>
+<td class="r data">5.87</td>
+<td class="r data">0.0154</td>
+<td class="r data">0.0193</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX54"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimates">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Label</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Mean: Control Group at Pre-Test</th>
+<td class="r data">49.0768</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">47.03</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">46.9786</td>
+<td class="r data">51.1750</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Mean: Control Group at Post-Test</th>
+<td class="r data">54.8992</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">52.61</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">52.8010</td>
+<td class="r data">56.9973</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Mean: Treatment Group at Pre-Test</th>
+<td class="r data">50.7587</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">48.64</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">48.6606</td>
+<td class="r data">52.8569</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Mean: Treatment Group at Post-Test</th>
+<td class="r data">58.6236</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">56.18</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">56.5254</td>
+<td class="r data">60.7218</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Time  Effect for Control Group</th>
+<td class="r data">5.8224</td>
+<td class="r data">0.5963</td>
+<td class="r data">48</td>
+<td class="r data">9.76</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">4.6234</td>
+<td class="r data">7.0214</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Time  Effect for Treatment Group</th>
+<td class="r data">7.8649</td>
+<td class="r data">0.5963</td>
+<td class="r data">48</td>
+<td class="r data">13.19</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">6.6659</td>
+<td class="r data">9.0639</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Group Effect at Pre-Test</th>
+<td class="r data">1.6819</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data">1.14</td>
+<td class="r data">0.2601</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-1.2853</td>
+<td class="r data">4.6492</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Group Effect at Post-Test</th>
+<td class="r data">3.7245</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data">2.52</td>
+<td class="r data">0.0150</td>
+<td class="r data">0.05</td>
+<td class="r data">0.7572</td>
+<td class="r data">6.6917</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX55"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Eq 3a.7: Conditional Within-Person Model (bottom of Eq. 3.7)</td>
+</tr>
+<tr>
+<td class="l systemtitle2">Categorical Predictors for Time and Group</td>
+</tr>
+</table><br>
+<div class="l proctitle">The Mixed Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Model Information">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Data Set</th>
+<td class="l data">WORK.CHAPTER3A</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Dependent Variable</th>
+<td class="l data">outcome</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Covariance Structure</th>
+<td class="l data">Compound Symmetry</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subject Effect</th>
+<td class="l data">PersonID</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Estimation Method</th>
+<td class="l data">REML</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual Variance Method</th>
+<td class="l data">Profile</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Fixed Effects SE Method</th>
+<td class="l data">Model-Based</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Degrees of Freedom Method</th>
+<td class="l data">Between-Within</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX56"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Dimensions">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Covariance Parameters</th>
+<td class="r data">2</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in X</th>
+<td class="r data">9</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in Z</th>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subjects</th>
+<td class="r data">50</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Max Obs Per Subject</th>
+<td class="r data">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX57"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Number of Observations">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Number of Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">100</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Not Used</th>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX58"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Iteration History">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Iteration History</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Iteration</th>
+<th class="r b header" scope="col">Evaluations</th>
+<th class="r b header" scope="col">-2&nbsp;Res&nbsp;Log&nbsp;Like</th>
+<th class="r b header" scope="col">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">0</th>
+<td class="r data">1</td>
+<td class="r data">602.50704558</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">544.69899365</td>
+<td class="r data">0.00000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX59"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Convergence Status">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="c data">Convergence criteria met.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX60"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Matrix for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">27.2245</td>
+<td class="r data">22.7794</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">22.7794</td>
+<td class="r data">27.2245</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX61"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Correlation Matrix for PersonID 1">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Estimated R Correlation Matrix<br>for PersonID 1</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.8367</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">0.8367</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX62"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Covariance Parameter Estimates">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Covariance Parameter Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Cov Parm</th>
+<th class="l b header" scope="col">Subject</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">Z Value</th>
+<th class="r b header" scope="col">Pr Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">CS</th>
+<th class="l data">PersonID</th>
+<td class="r data">22.7794</td>
+<td class="r data">5.1236</td>
+<td class="r data">4.45</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">4.4451</td>
+<td class="r data">0.9073</td>
+<td class="r data">4.90</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX63"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Fit Statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Fit Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">-2 Res Log Likelihood</th>
+<td class="r data">544.7</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AIC (smaller is better)</th>
+<td class="r data">548.7</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AICC (smaller is better)</th>
+<td class="r data">548.8</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">BIC (smaller is better)</th>
+<td class="r data">552.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX64"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Null Model Likelihood Ratio Test">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Null Model Likelihood Ratio Test</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">1</td>
+<td class="r data">57.81</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX65"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Information Criteria">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Information Criteria</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Neg2LogLike</th>
+<th class="r b header" scope="col">Parms</th>
+<th class="r b header" scope="col">AIC</th>
+<th class="r b header" scope="col">AICC</th>
+<th class="r b header" scope="col">HQIC</th>
+<th class="r b header" scope="col">BIC</th>
+<th class="r b header" scope="col">CAIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">544.7</td>
+<td class="r data">2</td>
+<td class="r data">548.7</td>
+<td class="r data">548.8</td>
+<td class="r data">550.2</td>
+<td class="r data">552.5</td>
+<td class="r data">554.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX66"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Solution for Fixed Effects">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="11" scope="colgroup">Solution for Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">time1:<br>Time (0=pre-test,<br>1=post-test)</th>
+<th class="l b header" scope="col">treat:<br>Treatment<br>Group<br>(0=control,<br>1=treatment)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Intercept</th>
+<th class="l data">&nbsp;</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">58.6236</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">56.18</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">56.5254</td>
+<td class="r data">60.7218</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1</th>
+<th class="l data">0</th>
+<th class="l data">&nbsp;</th>
+<td class="r data" nowrap>-7.8649</td>
+<td class="r data">0.5963</td>
+<td class="r data">48</td>
+<td class="r data" nowrap>-13.19</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-9.0639</td>
+<td class="r data" nowrap>-6.6659</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1</th>
+<th class="l data">1</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">0</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">treat</th>
+<th class="l data">&nbsp;</th>
+<th class="l data">0</th>
+<td class="r data" nowrap>-3.7245</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data" nowrap>-2.52</td>
+<td class="r data">0.0150</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-6.6917</td>
+<td class="r data" nowrap>-0.7572</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">treat</th>
+<th class="l data">&nbsp;</th>
+<th class="l data">1</th>
+<td class="r data">0</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">0</th>
+<td class="r data">2.0425</td>
+<td class="r data">0.8433</td>
+<td class="r data">48</td>
+<td class="r data">2.42</td>
+<td class="r data">0.0193</td>
+<td class="r data">0.05</td>
+<td class="r data">0.3469</td>
+<td class="r data">3.7382</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">1</th>
+<td class="r data">0</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">1</th>
+<th class="l data">0</th>
+<td class="r data">0</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">1</th>
+<th class="l data">1</th>
+<td class="r data">0</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX67"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Type 3 Tests of Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Type 3 Tests of Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Num DF</th>
+<th class="r b header" scope="col">Den DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">F Value</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">time1</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">263.41</td>
+<td class="r data">263.41</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">treat</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">3.65</td>
+<td class="r data">3.65</td>
+<td class="r data">0.0560</td>
+<td class="r data">0.0619</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">5.87</td>
+<td class="r data">5.87</td>
+<td class="r data">0.0154</td>
+<td class="r data">0.0193</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX68"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Least Squares Means">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="11" scope="colgroup">Least Squares Means</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">time1:<br>Time (0=pre-test,<br>1=post-test)</th>
+<th class="l b header" scope="col">treat:<br>Treatment<br>Group<br>(0=control,<br>1=treatment)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">0</th>
+<td class="r data">49.0768</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">47.03</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">46.9786</td>
+<td class="r data">51.1750</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">1</th>
+<td class="r data">50.7587</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">48.64</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">48.6606</td>
+<td class="r data">52.8569</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">1</th>
+<th class="l data">0</th>
+<td class="r data">54.8992</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">52.61</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">52.8010</td>
+<td class="r data">56.9973</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">1</th>
+<th class="l data">1</th>
+<td class="r data">58.6236</td>
+<td class="r data">1.0435</td>
+<td class="r data">48</td>
+<td class="r data">56.18</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">56.5254</td>
+<td class="r data">60.7218</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX69"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Differences of Least Squares Means">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="13" scope="colgroup">Differences of Least Squares Means</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">time1:<br>Time (0=pre-test,<br>1=post-test)</th>
+<th class="l b header" scope="col">treat:<br>Treatment<br>Group<br>(0=control,<br>1=treatment)</th>
+<th class="l b header" scope="col">time1:<br>Time (0=pre-test,<br>1=post-test)</th>
+<th class="l b header" scope="col">treat:<br>Treatment<br>Group<br>(0=control,<br>1=treatment)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">0</th>
+<th class="l data">0</th>
+<th class="l data">1</th>
+<td class="r data" nowrap>-1.6819</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data" nowrap>-1.14</td>
+<td class="r data">0.2601</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-4.6492</td>
+<td class="r data">1.2853</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">0</th>
+<th class="l data">1</th>
+<th class="l data">0</th>
+<td class="r data" nowrap>-5.8224</td>
+<td class="r data">0.5963</td>
+<td class="r data">48</td>
+<td class="r data" nowrap>-9.76</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-7.0214</td>
+<td class="r data" nowrap>-4.6234</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">0</th>
+<th class="l data">1</th>
+<th class="l data">1</th>
+<td class="r data" nowrap>-9.5468</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data" nowrap>-6.47</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-12.5141</td>
+<td class="r data" nowrap>-6.5796</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">1</th>
+<th class="l data">1</th>
+<th class="l data">0</th>
+<td class="r data" nowrap>-4.1404</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data" nowrap>-2.81</td>
+<td class="r data">0.0072</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-7.1077</td>
+<td class="r data" nowrap>-1.1731</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">1</th>
+<th class="l data">1</th>
+<th class="l data">1</th>
+<td class="r data" nowrap>-7.8649</td>
+<td class="r data">0.5963</td>
+<td class="r data">48</td>
+<td class="r data" nowrap>-13.19</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-9.0639</td>
+<td class="r data" nowrap>-6.6659</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">1</th>
+<th class="l data">0</th>
+<th class="l data">1</th>
+<th class="l data">1</th>
+<td class="r data" nowrap>-3.7245</td>
+<td class="r data">1.4758</td>
+<td class="r data">48</td>
+<td class="r data" nowrap>-2.52</td>
+<td class="r data">0.0150</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-6.6917</td>
+<td class="r data" nowrap>-0.7572</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX70"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Tests of Effect Slices">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Tests of Effect Slices</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">time1:<br>Time (0=pre-test,<br>1=post-test)</th>
+<th class="l b header" scope="col">treat:<br>Treatment<br>Group<br>(0=control,<br>1=treatment)</th>
+<th class="r b header" scope="col">Num DF</th>
+<th class="r b header" scope="col">Den DF</th>
+<th class="r b header" scope="col">F Value</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">0</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">1.30</td>
+<td class="r data">0.2601</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">1</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">6.37</td>
+<td class="r data">0.0150</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">&nbsp;</th>
+<th class="l data">0</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">95.33</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">time1*treat</th>
+<th class="l data">&nbsp;</th>
+<th class="l data">1</th>
+<td class="r data">1</td>
+<td class="r data">48</td>
+<td class="r data">173.95</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+</body>
+</html>

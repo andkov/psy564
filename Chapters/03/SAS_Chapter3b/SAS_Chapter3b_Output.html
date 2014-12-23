@@ -1,0 +1,5027 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="Generator" content="SAS Software Version 9.3, see www.sas.com">
+<meta http-equiv="Content-type" content="text/html; charset=windows-1252">
+<title>SAS Output</title>
+<style type="text/css">
+<!--
+.aftercaption
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+  padding-top: 4pt;
+}
+.batch
+{
+  background-color: #FAFBFE;
+  border: 1px solid #C1C1C1;
+  border-collapse: separate;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: 'SAS Monospace', 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  padding: 7px;
+}
+.beforecaption
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.body
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.bodydate
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  text-align: right;
+  vertical-align: top;
+  width: 100%;
+}
+.bycontentfolder
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.byline
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.bylinecontainer
+{
+  background-color: #FAFBFE;
+  border: 0px solid #000000;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.caption
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.cell
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.container
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.contentfolder
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.contentitem
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.contentproclabel
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.contentprocname
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.contents
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: decimal;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.contentsdate
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.contenttitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: bold;
+}
+.continued
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+}
+.data
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.dataemphasis
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.dataemphasisfixed
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.dataempty
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.datafixed
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.datastrong
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.datastrongfixed
+{
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-color: #C1C1C1;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.date
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.document
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+a:link {
+color:#0000FF
+}
+a:visited {
+color:#800080
+}
+a:active {
+color:#800080
+}
+.errorbanner
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.errorcontent
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.errorcontentfixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.extendedpage
+{
+  background-color: #FAFBFE;
+  border: 1pt solid #000000;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+  text-align: center;
+}
+.fatalbanner
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.fatalcontent
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.fatalcontentfixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.folderaction
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.footer
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.footeremphasis
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.footeremphasisfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.footerempty
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.footerfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.footerstrong
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.footerstrongfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.frame
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.graph
+{
+  background-color: #FAFBFE;
+  border: 1px solid #C1C1C1;
+  border-collapse: separate;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.header
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.headeremphasis
+{
+  background-color: #D8DBD3;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.headeremphasisfixed
+{
+  background-color: #D8DBD3;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.headerempty
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.headerfixed
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.headersandfooters
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.headerstrong
+{
+  background-color: #D8DBD3;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.headerstrongfixed
+{
+  background-color: #D8DBD3;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.index
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.indexaction
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.indexitem
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.indexprocname
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.indextitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: bold;
+}
+.layoutcontainer
+{
+  border: 0px solid #000000;
+  border-spacing: 30px;
+}
+.layoutregion
+{
+  border: 0px solid #000000;
+  border-spacing: 30px;
+}
+.list
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: disc;
+  text-align: left;
+}
+.list10
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list2
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: circle;
+  text-align: left;
+}
+.list3
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list4
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list5
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list6
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list7
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list8
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.list9
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: square;
+  text-align: left;
+}
+.listitem
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem10
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem2
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem3
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem4
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem5
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem6
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem7
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem8
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.listitem9
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.note
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.notebanner
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.notecontent
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.notecontentfixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.output
+{
+  background-color: #FAFBFE;
+  border: 1px solid #C1C1C1;
+  border-collapse: separate;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.pageno
+{
+  background-color: #FAFBFE;
+  border-spacing: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+  text-align: right;
+  vertical-align: top;
+}
+.pages
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: decimal;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.pagesdate
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.pagesitem
+{
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  margin-left: 6pt;
+}
+.pagesproclabel
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.pagesprocname
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.pagestitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: bold;
+}
+.paragraph
+{
+  background-color: #FAFBFE;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  text-align: left;
+}
+.parskip
+{
+  border: 0px solid #000000;
+  border-spacing: 0px;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.prepage
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  text-align: left;
+}
+.proctitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.proctitlefixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowfooter
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowfooteremphasis
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.rowfooteremphasisfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.rowfooterempty
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowfooterfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.rowfooterstrong
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowfooterstrongfixed
+{
+  background-color: #EDF2F9;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowheader
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowheaderemphasis
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.rowheaderemphasisfixed
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: italic;
+  font-weight: normal;
+}
+.rowheaderempty
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowheaderfixed
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.rowheaderstrong
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.rowheaderstrongfixed
+{
+  background-color: #EDF2F9;
+  border-bottom-width: 1px;
+  border-color: #B0B7BB;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 0px;
+  color: #112277;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemfooter
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter10
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter2
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter3
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter4
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter5
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter6
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter7
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter8
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemfooter9
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.systemtitle
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle10
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle2
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle3
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle4
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle5
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle6
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle7
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle8
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systemtitle9
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: small;
+  font-style: normal;
+  font-weight: bold;
+}
+.systitleandfootercontainer
+{
+  background-color: #FAFBFE;
+  border: 0px solid #000000;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.table
+{
+  border-bottom-width: 0px;
+  border-collapse: separate;
+  border-color: #C1C1C1;
+  border-left-width: 1px;
+  border-right-width: 0px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-top-width: 1px;
+}
+.top_stacked_value
+{
+  padding-bottom: 1px;
+}
+.middle_stacked_value
+{
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.bottom_stacked_value
+{
+  padding-top: 1px;
+}
+.titleandnotecontainer
+{
+  background-color: #FAFBFE;
+  border: 0px solid #000000;
+  border-spacing: 1px;
+  color: #000000;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+}
+.titlesandfooters
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.usertext
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+  text-align: left;
+}
+.warnbanner
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: bold;
+}
+.warncontent
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: Arial, 'Albany AMT', Helvetica, Helv;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.warncontentfixed
+{
+  background-color: #FAFBFE;
+  color: #112277;
+  font-family: 'Courier New', Courier;
+  font-size: x-small;
+  font-style: normal;
+  font-weight: normal;
+}
+.l {text-align: left }
+.c {text-align: center }
+.r {text-align: right }
+.d {text-align: right }
+.j {text-align: justify }
+.t {vertical-align: top }
+.m {vertical-align: middle }
+.b {vertical-align: bottom }
+TD, TH {vertical-align: top }
+.stacked_cell{padding: 0 }
+-->
+</style>
+<script language="javascript" type="text/javascript">
+<!-- 
+function startup(){
+
+}
+function shutdown(){
+
+}
+
+//-->
+</script>
+
+</head>
+<body onload="startup()" onunload="shutdown()" class="body">
+
+<script language="javascript" type="text/javascript">
+<!-- 
+var _info = navigator.userAgent
+var _ie = (_info.indexOf("MSIE") > 0
+          && _info.indexOf("Win") > 0
+          && _info.indexOf("Windows 3.1") < 0);
+var _ie64 = _info.indexOf("x64") > 0
+
+//-->
+</script>
+
+<div class="branch">
+<a name="IDX"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Chapter 3b Example: Means by session for RT outcome</td>
+</tr>
+</table><br>
+<div class="l proctitle">The MEANS Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Means: Summary statistics">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Analysis Variable : rt rt: Response Time in Milliseconds</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">N Obs</th>
+<th class="r b header" scope="col">Mean</th>
+<th class="r b header" scope="col">Std Error</th>
+<th class="r b header" scope="col">Minimum</th>
+<th class="r b header" scope="col">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r t data">606</th>
+<td class="r data">1770.70</td>
+<td class="r data">20.0709378</td>
+<td class="r data">917.6666667</td>
+<td class="r data">4159.14</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX1"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Means: Summary statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Analysis Variable : rt rt: Response Time in Milliseconds</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">N Obs</th>
+<th class="r b header" scope="col">Mean</th>
+<th class="r b header" scope="col">Std Error</th>
+<th class="r b header" scope="col">Minimum</th>
+<th class="r b header" scope="col">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r t data">1</th>
+<th class="r t data">101</th>
+<td class="r data">1961.89</td>
+<td class="r data">54.6804707</td>
+<td class="r data">1055.40</td>
+<td class="r data">4159.14</td>
+</tr>
+<tr>
+<th class="r t data">2</th>
+<th class="r t data">101</th>
+<td class="r data">1815.17</td>
+<td class="r data">50.6541433</td>
+<td class="r data">991.2857143</td>
+<td class="r data">3954.37</td>
+</tr>
+<tr>
+<th class="r t data">3</th>
+<th class="r t data">101</th>
+<td class="r data">1750.03</td>
+<td class="r data">48.0684335</td>
+<td class="r data">992.9259259</td>
+<td class="r data">4086.14</td>
+</tr>
+<tr>
+<th class="r t data">4</th>
+<th class="r t data">101</th>
+<td class="r data">1717.80</td>
+<td class="r data">46.4101014</td>
+<td class="r data">930.4615385</td>
+<td class="r data">3611.80</td>
+</tr>
+<tr>
+<th class="r t data">5</th>
+<th class="r t data">101</th>
+<td class="r data">1707.18</td>
+<td class="r data">45.8254952</td>
+<td class="r data">982.7666667</td>
+<td class="r data">3290.98</td>
+</tr>
+<tr>
+<th class="r t data">6</th>
+<th class="r t data">101</th>
+<td class="r data">1672.14</td>
+<td class="r data">44.1344897</td>
+<td class="r data">917.6666667</td>
+<td class="r data">3226.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX2"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Eq 3b.10: Between-Person Independent ANOVA</td>
+</tr>
+</table><br>
+<div class="l proctitle">The Mixed Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Model Information">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Data Set</th>
+<td class="l data">WORK.CHAPTER3B</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Dependent Variable</th>
+<td class="l data">rt</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Covariance Structure</th>
+<td class="l data">Variance Components</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subject Effect</th>
+<td class="l data">PersonID</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Estimation Method</th>
+<td class="l data">REML</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual Variance Method</th>
+<td class="l data">Parameter</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Fixed Effects SE Method</th>
+<td class="l data">Model-Based</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Degrees of Freedom Method</th>
+<td class="l data">Satterthwaite</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX3"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Dimensions">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Covariance Parameters</th>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in X</th>
+<td class="r data">7</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in Z</th>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subjects</th>
+<td class="r data">101</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Max Obs Per Subject</th>
+<td class="r data">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX4"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Number of Observations">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Number of Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">606</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">606</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Not Used</th>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX5"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Iteration History">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Iteration History</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Iteration</th>
+<th class="r b header" scope="col">Evaluations</th>
+<th class="r b header" scope="col">-2&nbsp;Res&nbsp;Log&nbsp;Like</th>
+<th class="r b header" scope="col">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">0</th>
+<td class="r data">1</td>
+<td class="r data">9155.43252939</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">9155.43252939</td>
+<td class="r data">0.00000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX6"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Convergence Status">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="c data">Convergence criteria met.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX7"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Matrix for PersonID 101">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Estimated R Matrix for PersonID 101</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+<th class="r b header" scope="col">Col5</th>
+<th class="r b header" scope="col">Col6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">236813</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">236813</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">3</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">236813</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">4</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">236813</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">5</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">236813</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">6</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">236813</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX8"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Correlation Matrix for PersonID 101">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Estimated R Correlation Matrix for PersonID 101</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+<th class="r b header" scope="col">Col5</th>
+<th class="r b header" scope="col">Col6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1.0000</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">1.0000</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">3</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">1.0000</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">4</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">1.0000</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">5</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">1.0000</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">6</th>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">&nbsp;</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX9"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Covariance Parameter Estimates">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Covariance Parameter Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Cov Parm</th>
+<th class="l b header" scope="col">Subject</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">Z Value</th>
+<th class="r b header" scope="col">Pr &gt; Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">PersonID</th>
+<td class="r data">236813</td>
+<td class="r data">13672</td>
+<td class="r data">17.32</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX10"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Fit Statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Fit Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">-2 Res Log Likelihood</th>
+<td class="r data">9155.4</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AIC (smaller is better)</th>
+<td class="r data">9157.4</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AICC (smaller is better)</th>
+<td class="r data">9157.4</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">BIC (smaller is better)</th>
+<td class="r data">9160.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX11"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Null Model Likelihood Ratio Test">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Null Model Likelihood Ratio Test</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">0</td>
+<td class="r data">0.00</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX12"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Information Criteria">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Information Criteria</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Neg2LogLike</th>
+<th class="r b header" scope="col">Parms</th>
+<th class="r b header" scope="col">AIC</th>
+<th class="r b header" scope="col">AICC</th>
+<th class="r b header" scope="col">HQIC</th>
+<th class="r b header" scope="col">BIC</th>
+<th class="r b header" scope="col">CAIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">9155.4</td>
+<td class="r data">1</td>
+<td class="r data">9157.4</td>
+<td class="r data">9157.4</td>
+<td class="r data">9158.5</td>
+<td class="r data">9160.0</td>
+<td class="r data">9161.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX13"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Solution for Fixed Effects">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="10" scope="colgroup">Solution for Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Intercept</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">1672.14</td>
+<td class="r data">48.4219</td>
+<td class="r data">600</td>
+<td class="r data">34.53</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1577.04</td>
+<td class="r data">1767.23</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<td class="r data">289.76</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">4.23</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">155.27</td>
+<td class="r data">424.24</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<td class="r data">143.04</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">2.09</td>
+<td class="r data">0.0371</td>
+<td class="r data">0.05</td>
+<td class="r data">8.5488</td>
+<td class="r data">277.52</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<td class="r data">77.8986</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">1.14</td>
+<td class="r data">0.2558</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-56.5889</td>
+<td class="r data">212.39</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<td class="r data">45.6604</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">0.67</td>
+<td class="r data">0.5052</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-88.8271</td>
+<td class="r data">180.15</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">5</th>
+<td class="r data">35.0397</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">0.51</td>
+<td class="r data">0.6091</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-99.4478</td>
+<td class="r data">169.53</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">6</th>
+<td class="r data">0</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX14"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Type 3 Tests of Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Type 3 Tests of Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Num DF</th>
+<th class="r b header" scope="col">Den DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">F Value</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<td class="r data">5</td>
+<td class="r data">600</td>
+<td class="r data">23.67</td>
+<td class="r data">4.73</td>
+<td class="r data">0.0003</td>
+<td class="r data">0.0003</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX15"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Least Squares Means">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="10" scope="colgroup">Least Squares Means</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<td class="r data">1961.89</td>
+<td class="r data">48.4219</td>
+<td class="r data">600</td>
+<td class="r data">40.52</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1866.80</td>
+<td class="r data">2056.99</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<td class="r data">1815.17</td>
+<td class="r data">48.4219</td>
+<td class="r data">600</td>
+<td class="r data">37.49</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1720.08</td>
+<td class="r data">1910.27</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<td class="r data">1750.03</td>
+<td class="r data">48.4219</td>
+<td class="r data">600</td>
+<td class="r data">36.14</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1654.94</td>
+<td class="r data">1845.13</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<td class="r data">1717.80</td>
+<td class="r data">48.4219</td>
+<td class="r data">600</td>
+<td class="r data">35.48</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1622.70</td>
+<td class="r data">1812.89</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">5</th>
+<td class="r data">1707.18</td>
+<td class="r data">48.4219</td>
+<td class="r data">600</td>
+<td class="r data">35.26</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1612.08</td>
+<td class="r data">1802.27</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">6</th>
+<td class="r data">1672.14</td>
+<td class="r data">48.4219</td>
+<td class="r data">600</td>
+<td class="r data">34.53</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1577.04</td>
+<td class="r data">1767.23</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX16"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Differences of Least Squares Means">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="11" scope="colgroup">Differences of Least Squares Means</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">2</th>
+<td class="r data">146.72</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">2.14</td>
+<td class="r data">0.0325</td>
+<td class="r data">0.05</td>
+<td class="r data">12.2334</td>
+<td class="r data">281.21</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">3</th>
+<td class="r data">211.86</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">3.09</td>
+<td class="r data">0.0021</td>
+<td class="r data">0.05</td>
+<td class="r data">77.3712</td>
+<td class="r data">346.35</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">4</th>
+<td class="r data">244.10</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">3.56</td>
+<td class="r data">0.0004</td>
+<td class="r data">0.05</td>
+<td class="r data">109.61</td>
+<td class="r data">378.58</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">5</th>
+<td class="r data">254.72</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">3.72</td>
+<td class="r data">0.0002</td>
+<td class="r data">0.05</td>
+<td class="r data">120.23</td>
+<td class="r data">389.21</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">6</th>
+<td class="r data">289.76</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">4.23</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">155.27</td>
+<td class="r data">424.24</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">3</th>
+<td class="r data">65.1377</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">0.95</td>
+<td class="r data">0.3419</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-69.3498</td>
+<td class="r data">199.63</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">4</th>
+<td class="r data">97.3759</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">1.42</td>
+<td class="r data">0.1556</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-37.1116</td>
+<td class="r data">231.86</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">5</th>
+<td class="r data">108.00</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">1.58</td>
+<td class="r data">0.1153</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-26.4909</td>
+<td class="r data">242.48</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">6</th>
+<td class="r data">143.04</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">2.09</td>
+<td class="r data">0.0371</td>
+<td class="r data">0.05</td>
+<td class="r data">8.5488</td>
+<td class="r data">277.52</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<th class="l data">4</th>
+<td class="r data">32.2382</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">0.47</td>
+<td class="r data">0.6380</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-102.25</td>
+<td class="r data">166.73</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<th class="l data">5</th>
+<td class="r data">42.8589</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">0.63</td>
+<td class="r data">0.5316</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-91.6286</td>
+<td class="r data">177.35</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<th class="l data">6</th>
+<td class="r data">77.8986</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">1.14</td>
+<td class="r data">0.2558</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-56.5889</td>
+<td class="r data">212.39</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<th class="l data">5</th>
+<td class="r data">10.6207</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">0.16</td>
+<td class="r data">0.8768</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-123.87</td>
+<td class="r data">145.11</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<th class="l data">6</th>
+<td class="r data">45.6604</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">0.67</td>
+<td class="r data">0.5052</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-88.8271</td>
+<td class="r data">180.15</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">5</th>
+<th class="l data">6</th>
+<td class="r data">35.0397</td>
+<td class="r data">68.4789</td>
+<td class="r data">600</td>
+<td class="r data">0.51</td>
+<td class="r data">0.6091</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-99.4478</td>
+<td class="r data">169.53</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX17"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Eq 3b.10: Univariate Repeated Measures ANOVA</td>
+</tr>
+</table><br>
+<div class="l proctitle">The Mixed Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Model Information">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Data Set</th>
+<td class="l data">WORK.CHAPTER3B</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Dependent Variable</th>
+<td class="l data">rt</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Covariance Structure</th>
+<td class="l data">Compound Symmetry</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subject Effect</th>
+<td class="l data">PersonID</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Estimation Method</th>
+<td class="l data">REML</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual Variance Method</th>
+<td class="l data">Profile</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Fixed Effects SE Method</th>
+<td class="l data">Model-Based</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Degrees of Freedom Method</th>
+<td class="l data">Satterthwaite</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX18"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Dimensions">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Covariance Parameters</th>
+<td class="r data">2</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in X</th>
+<td class="r data">7</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in Z</th>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subjects</th>
+<td class="r data">101</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Max Obs Per Subject</th>
+<td class="r data">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX19"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Number of Observations">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Number of Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">606</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">606</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Not Used</th>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX20"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Iteration History">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Iteration History</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Iteration</th>
+<th class="r b header" scope="col">Evaluations</th>
+<th class="r b header" scope="col">-2&nbsp;Res&nbsp;Log&nbsp;Like</th>
+<th class="r b header" scope="col">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">0</th>
+<td class="r data">1</td>
+<td class="r data">9155.43252939</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">8353.35510068</td>
+<td class="r data">0.00000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX21"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Convergence Status">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="c data">Convergence criteria met.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX22"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Matrix for PersonID 101">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Estimated R Matrix for PersonID 101</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+<th class="r b header" scope="col">Col5</th>
+<th class="r b header" scope="col">Col6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">236813</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">202677</td>
+<td class="r data">236813</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">3</th>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">236813</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">4</th>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">236813</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">5</th>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">236813</td>
+<td class="r data">202677</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">6</th>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">202677</td>
+<td class="r data">236813</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX23"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Correlation Matrix for PersonID 101">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Estimated R Correlation Matrix for PersonID 101</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+<th class="r b header" scope="col">Col5</th>
+<th class="r b header" scope="col">Col6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">0.8559</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">3</th>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">4</th>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">5</th>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8559</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">6</th>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8559</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX24"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Covariance Parameter Estimates">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Covariance Parameter Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Cov Parm</th>
+<th class="l b header" scope="col">Subject</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">Z Value</th>
+<th class="r b header" scope="col">Pr Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">CS</th>
+<th class="l data">PersonID</th>
+<td class="r data">202677</td>
+<td class="r data">29470</td>
+<td class="r data">6.88</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">34136</td>
+<td class="r data">2158.96</td>
+<td class="r data">15.81</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX25"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Fit Statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Fit Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">-2 Res Log Likelihood</th>
+<td class="r data">8353.4</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AIC (smaller is better)</th>
+<td class="r data">8357.4</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AICC (smaller is better)</th>
+<td class="r data">8357.4</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">BIC (smaller is better)</th>
+<td class="r data">8362.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX26"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Null Model Likelihood Ratio Test">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Null Model Likelihood Ratio Test</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">1</td>
+<td class="r data">802.08</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX27"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Information Criteria">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Information Criteria</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Neg2LogLike</th>
+<th class="r b header" scope="col">Parms</th>
+<th class="r b header" scope="col">AIC</th>
+<th class="r b header" scope="col">AICC</th>
+<th class="r b header" scope="col">HQIC</th>
+<th class="r b header" scope="col">BIC</th>
+<th class="r b header" scope="col">CAIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">8353.4</td>
+<td class="r data">2</td>
+<td class="r data">8357.4</td>
+<td class="r data">8357.4</td>
+<td class="r data">8359.5</td>
+<td class="r data">8362.6</td>
+<td class="r data">8364.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX28"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Solution for Fixed Effects">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="10" scope="colgroup">Solution for Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Intercept</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">1672.14</td>
+<td class="r data">48.4219</td>
+<td class="r data">129</td>
+<td class="r data">34.53</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1576.33</td>
+<td class="r data">1767.94</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<td class="r data">289.76</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">11.14</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">238.68</td>
+<td class="r data">340.84</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<td class="r data">143.04</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">5.50</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">91.9550</td>
+<td class="r data">194.12</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<td class="r data">77.8986</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">3.00</td>
+<td class="r data">0.0029</td>
+<td class="r data">0.05</td>
+<td class="r data">26.8173</td>
+<td class="r data">128.98</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<td class="r data">45.6604</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">1.76</td>
+<td class="r data">0.0797</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-5.4209</td>
+<td class="r data">96.7418</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">5</th>
+<td class="r data">35.0397</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">1.35</td>
+<td class="r data">0.1784</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-16.0417</td>
+<td class="r data">86.1211</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">6</th>
+<td class="r data">0</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX29"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Type 3 Tests of Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Type 3 Tests of Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Num DF</th>
+<th class="r b header" scope="col">Den DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">F Value</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<td class="r data">5</td>
+<td class="r data">500</td>
+<td class="r data">164.24</td>
+<td class="r data">32.85</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX30"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Least Squares Means">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="10" scope="colgroup">Least Squares Means</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<td class="r data">1961.89</td>
+<td class="r data">48.4219</td>
+<td class="r data">129</td>
+<td class="r data">40.52</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1866.09</td>
+<td class="r data">2057.70</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<td class="r data">1815.17</td>
+<td class="r data">48.4219</td>
+<td class="r data">129</td>
+<td class="r data">37.49</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1719.37</td>
+<td class="r data">1910.98</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<td class="r data">1750.03</td>
+<td class="r data">48.4219</td>
+<td class="r data">129</td>
+<td class="r data">36.14</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1654.23</td>
+<td class="r data">1845.84</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<td class="r data">1717.80</td>
+<td class="r data">48.4219</td>
+<td class="r data">129</td>
+<td class="r data">35.48</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1621.99</td>
+<td class="r data">1813.60</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">5</th>
+<td class="r data">1707.18</td>
+<td class="r data">48.4219</td>
+<td class="r data">129</td>
+<td class="r data">35.26</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1611.37</td>
+<td class="r data">1802.98</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">6</th>
+<td class="r data">1672.14</td>
+<td class="r data">48.4219</td>
+<td class="r data">129</td>
+<td class="r data">34.53</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1576.33</td>
+<td class="r data">1767.94</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX31"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Differences of Least Squares Means">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="11" scope="colgroup">Differences of Least Squares Means</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">2</th>
+<td class="r data">146.72</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">5.64</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">95.6396</td>
+<td class="r data">197.80</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">3</th>
+<td class="r data">211.86</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">8.15</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">160.78</td>
+<td class="r data">262.94</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">4</th>
+<td class="r data">244.10</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">9.39</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">193.02</td>
+<td class="r data">295.18</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">5</th>
+<td class="r data">254.72</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">9.80</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">203.64</td>
+<td class="r data">305.80</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">6</th>
+<td class="r data">289.76</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">11.14</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">238.68</td>
+<td class="r data">340.84</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">3</th>
+<td class="r data">65.1377</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">2.51</td>
+<td class="r data">0.0125</td>
+<td class="r data">0.05</td>
+<td class="r data">14.0564</td>
+<td class="r data">116.22</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">4</th>
+<td class="r data">97.3759</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">3.75</td>
+<td class="r data">0.0002</td>
+<td class="r data">0.05</td>
+<td class="r data">46.2945</td>
+<td class="r data">148.46</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">5</th>
+<td class="r data">108.00</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">4.15</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">56.9153</td>
+<td class="r data">159.08</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">6</th>
+<td class="r data">143.04</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">5.50</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">91.9550</td>
+<td class="r data">194.12</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<th class="l data">4</th>
+<td class="r data">32.2382</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">1.24</td>
+<td class="r data">0.2156</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-18.8432</td>
+<td class="r data">83.3196</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<th class="l data">5</th>
+<td class="r data">42.8589</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">1.65</td>
+<td class="r data">0.0999</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-8.2225</td>
+<td class="r data">93.9403</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<th class="l data">6</th>
+<td class="r data">77.8986</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">3.00</td>
+<td class="r data">0.0029</td>
+<td class="r data">0.05</td>
+<td class="r data">26.8173</td>
+<td class="r data">128.98</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<th class="l data">5</th>
+<td class="r data">10.6207</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">0.41</td>
+<td class="r data">0.6831</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-40.4606</td>
+<td class="r data">61.7021</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<th class="l data">6</th>
+<td class="r data">45.6604</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">1.76</td>
+<td class="r data">0.0797</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-5.4209</td>
+<td class="r data">96.7418</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">5</th>
+<th class="l data">6</th>
+<td class="r data">35.0397</td>
+<td class="r data">25.9993</td>
+<td class="r data">500</td>
+<td class="r data">1.35</td>
+<td class="r data">0.1784</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-16.0417</td>
+<td class="r data">86.1211</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX32"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle9">Likelihood Ratio Test for FitBPANOVA vs. FitUnivANOVA</td>
+</tr>
+</table><br>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Print: Data Set WORK.FITCOMPARE">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="l header" scope="col">Name</th>
+<th class="r header" scope="col">Neg2LogLike</th>
+<th class="r header" scope="col">Parms</th>
+<th class="r header" scope="col">AIC</th>
+<th class="r header" scope="col">BIC</th>
+<th class="r header" scope="col">DevDiff</th>
+<th class="r header" scope="col">DFdiff</th>
+<th class="r header" scope="col">Pvalue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="l data">FitBPANOVA</td>
+<td class="r data"> 9155.4</td>
+<td class="r data">   1</td>
+<td class="r data"> 9157.4</td>
+<td class="r data"> 9160.0</td>
+<td class="r data">   .   </td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+</tr>
+<tr>
+<td class="l data">FitUnivANOVA</td>
+<td class="r data"> 8353.4</td>
+<td class="r data">   2</td>
+<td class="r data"> 8357.4</td>
+<td class="r data"> 8362.6</td>
+<td class="r data">802.077</td>
+<td class="r data">1</td>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX33"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle">Eq 3b.10: Multivariate Repeated Measures ANOVA</td>
+</tr>
+</table><br>
+<div class="l proctitle">The Mixed Procedure</div>
+<p>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Model Information">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Data Set</th>
+<td class="l data">WORK.CHAPTER3B</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Dependent Variable</th>
+<td class="l data">rt</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Covariance Structure</th>
+<td class="l data">Unstructured</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subject Effect</th>
+<td class="l data">PersonID</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Estimation Method</th>
+<td class="l data">REML</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Residual Variance Method</th>
+<td class="l data">None</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Fixed Effects SE Method</th>
+<td class="l data">Model-Based</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Degrees of Freedom Method</th>
+<td class="l data">Satterthwaite</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX34"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Dimensions">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Covariance Parameters</th>
+<td class="r data">21</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in X</th>
+<td class="r data">7</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Columns in Z</th>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Subjects</th>
+<td class="r data">101</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Max Obs Per Subject</th>
+<td class="r data">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX35"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Number of Observations">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Number of Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">606</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">606</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">Number of Observations Not Used</th>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX36"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Iteration History">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Iteration History</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Iteration</th>
+<th class="r b header" scope="col">Evaluations</th>
+<th class="r b header" scope="col">-2&nbsp;Res&nbsp;Log&nbsp;Like</th>
+<th class="r b header" scope="col">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">0</th>
+<td class="r data">1</td>
+<td class="r data">9155.43252939</td>
+<td class="r data">&nbsp;</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">8229.78846855</td>
+<td class="r data">0.00000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX37"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Convergence Status">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="c data">Convergence criteria met.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX38"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Matrix for PersonID 101">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Estimated R Matrix for PersonID 101</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+<th class="r b header" scope="col">Col5</th>
+<th class="r b header" scope="col">Col6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">301985</td>
+<td class="r data">235659</td>
+<td class="r data">217994</td>
+<td class="r data">202607</td>
+<td class="r data">192154</td>
+<td class="r data">195360</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">235659</td>
+<td class="r data">259150</td>
+<td class="r data">230217</td>
+<td class="r data">213232</td>
+<td class="r data">202092</td>
+<td class="r data">193268</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">3</th>
+<td class="r data">217994</td>
+<td class="r data">230217</td>
+<td class="r data">233368</td>
+<td class="r data">205209</td>
+<td class="r data">196919</td>
+<td class="r data">188604</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">4</th>
+<td class="r data">202607</td>
+<td class="r data">213232</td>
+<td class="r data">205209</td>
+<td class="r data">217544</td>
+<td class="r data">193676</td>
+<td class="r data">185321</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">5</th>
+<td class="r data">192154</td>
+<td class="r data">202092</td>
+<td class="r data">196919</td>
+<td class="r data">193676</td>
+<td class="r data">212098</td>
+<td class="r data">187840</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">6</th>
+<td class="r data">195360</td>
+<td class="r data">193268</td>
+<td class="r data">188604</td>
+<td class="r data">185321</td>
+<td class="r data">187840</td>
+<td class="r data">196733</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX39"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Estimated R Correlation Matrix for PersonID 101">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Estimated R Correlation Matrix for PersonID 101</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Row</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+<th class="r b header" scope="col">Col5</th>
+<th class="r b header" scope="col">Col6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.8424</td>
+<td class="r data">0.8212</td>
+<td class="r data">0.7905</td>
+<td class="r data">0.7593</td>
+<td class="r data">0.8015</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">0.8424</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.9361</td>
+<td class="r data">0.8981</td>
+<td class="r data">0.8620</td>
+<td class="r data">0.8559</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">3</th>
+<td class="r data">0.8212</td>
+<td class="r data">0.9361</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.9108</td>
+<td class="r data">0.8851</td>
+<td class="r data">0.8802</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">4</th>
+<td class="r data">0.7905</td>
+<td class="r data">0.8981</td>
+<td class="r data">0.9108</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.9016</td>
+<td class="r data">0.8958</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">5</th>
+<td class="r data">0.7593</td>
+<td class="r data">0.8620</td>
+<td class="r data">0.8851</td>
+<td class="r data">0.9016</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.9196</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">6</th>
+<td class="r data">0.8015</td>
+<td class="r data">0.8559</td>
+<td class="r data">0.8802</td>
+<td class="r data">0.8958</td>
+<td class="r data">0.9196</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX40"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Covariance Parameter Estimates">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="6" scope="colgroup">Covariance Parameter Estimates</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Cov Parm</th>
+<th class="l b header" scope="col">Subject</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">Z Value</th>
+<th class="r b header" scope="col">Pr Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">UN(1,1)</th>
+<th class="l data">PersonID</th>
+<td class="r data">301985</td>
+<td class="r data">42707</td>
+<td class="r data">7.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(2,1)</th>
+<th class="l data">PersonID</th>
+<td class="r data">235659</td>
+<td class="r data">36578</td>
+<td class="r data">6.44</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(2,2)</th>
+<th class="l data">PersonID</th>
+<td class="r data">259150</td>
+<td class="r data">36649</td>
+<td class="r data">7.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(3,1)</th>
+<th class="l data">PersonID</th>
+<td class="r data">217994</td>
+<td class="r data">34350</td>
+<td class="r data">6.35</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(3,2)</th>
+<th class="l data">PersonID</th>
+<td class="r data">230217</td>
+<td class="r data">33686</td>
+<td class="r data">6.83</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(3,3)</th>
+<th class="l data">PersonID</th>
+<td class="r data">233368</td>
+<td class="r data">33003</td>
+<td class="r data">7.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(4,1)</th>
+<th class="l data">PersonID</th>
+<td class="r data">202607</td>
+<td class="r data">32672</td>
+<td class="r data">6.20</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(4,2)</th>
+<th class="l data">PersonID</th>
+<td class="r data">213232</td>
+<td class="r data">31913</td>
+<td class="r data">6.68</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(4,3)</th>
+<th class="l data">PersonID</th>
+<td class="r data">205209</td>
+<td class="r data">30476</td>
+<td class="r data">6.73</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(4,4)</th>
+<th class="l data">PersonID</th>
+<td class="r data">217544</td>
+<td class="r data">30765</td>
+<td class="r data">7.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(5,1)</th>
+<th class="l data">PersonID</th>
+<td class="r data">192154</td>
+<td class="r data">31776</td>
+<td class="r data">6.05</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(5,2)</th>
+<th class="l data">PersonID</th>
+<td class="r data">202092</td>
+<td class="r data">30953</td>
+<td class="r data">6.53</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(5,3)</th>
+<th class="l data">PersonID</th>
+<td class="r data">196919</td>
+<td class="r data">29711</td>
+<td class="r data">6.63</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(5,4)</th>
+<th class="l data">PersonID</th>
+<td class="r data">193676</td>
+<td class="r data">28922</td>
+<td class="r data">6.70</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(5,5)</th>
+<th class="l data">PersonID</th>
+<td class="r data">212098</td>
+<td class="r data">29995</td>
+<td class="r data">7.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(6,1)</th>
+<th class="l data">PersonID</th>
+<td class="r data">195360</td>
+<td class="r data">31237</td>
+<td class="r data">6.25</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(6,2)</th>
+<th class="l data">PersonID</th>
+<td class="r data">193268</td>
+<td class="r data">29721</td>
+<td class="r data">6.50</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(6,3)</th>
+<th class="l data">PersonID</th>
+<td class="r data">188604</td>
+<td class="r data">28545</td>
+<td class="r data">6.61</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(6,4)</th>
+<th class="l data">PersonID</th>
+<td class="r data">185321</td>
+<td class="r data">27774</td>
+<td class="r data">6.67</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(6,5)</th>
+<th class="l data">PersonID</th>
+<td class="r data">187840</td>
+<td class="r data">27751</td>
+<td class="r data">6.77</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">UN(6,6)</th>
+<th class="l data">PersonID</th>
+<td class="r data">196733</td>
+<td class="r data">27822</td>
+<td class="r data">7.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX41"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Fit Statistics">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Fit Statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">-2 Res Log Likelihood</th>
+<td class="r data">8229.8</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AIC (smaller is better)</th>
+<td class="r data">8271.8</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">AICC (smaller is better)</th>
+<td class="r data">8273.4</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">BIC (smaller is better)</th>
+<td class="r data">8326.7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX42"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Null Model Likelihood Ratio Test">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="3" scope="colgroup">Null Model Likelihood Ratio Test</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">20</td>
+<td class="r data">925.64</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX43"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Information Criteria">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Information Criteria</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">Neg2LogLike</th>
+<th class="r b header" scope="col">Parms</th>
+<th class="r b header" scope="col">AIC</th>
+<th class="r b header" scope="col">AICC</th>
+<th class="r b header" scope="col">HQIC</th>
+<th class="r b header" scope="col">BIC</th>
+<th class="r b header" scope="col">CAIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">8229.8</td>
+<td class="r data">21</td>
+<td class="r data">8271.8</td>
+<td class="r data">8273.4</td>
+<td class="r data">8294.0</td>
+<td class="r data">8326.7</td>
+<td class="r data">8347.7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX44"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Solution for Fixed Effects">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="10" scope="colgroup">Solution for Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">Intercept</th>
+<th class="l data">&nbsp;</th>
+<td class="r data">1672.14</td>
+<td class="r data">44.1345</td>
+<td class="r data">100</td>
+<td class="r data">37.89</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1584.57</td>
+<td class="r data">1759.70</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<td class="r data">289.76</td>
+<td class="r data">32.7000</td>
+<td class="r data">100</td>
+<td class="r data">8.86</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">224.88</td>
+<td class="r data">354.63</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<td class="r data">143.04</td>
+<td class="r data">26.2031</td>
+<td class="r data">100</td>
+<td class="r data">5.46</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">91.0502</td>
+<td class="r data">195.02</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<td class="r data">77.8986</td>
+<td class="r data">22.8842</td>
+<td class="r data">100</td>
+<td class="r data">3.40</td>
+<td class="r data">0.0010</td>
+<td class="r data">0.05</td>
+<td class="r data">32.4970</td>
+<td class="r data">123.30</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<td class="r data">45.6604</td>
+<td class="r data">20.7853</td>
+<td class="r data">100</td>
+<td class="r data">2.20</td>
+<td class="r data">0.0303</td>
+<td class="r data">0.05</td>
+<td class="r data">4.4230</td>
+<td class="r data">86.8979</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">5</th>
+<td class="r data">35.0397</td>
+<td class="r data">18.1168</td>
+<td class="r data">100</td>
+<td class="r data">1.93</td>
+<td class="r data">0.0559</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-0.9035</td>
+<td class="r data">70.9829</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">6</th>
+<td class="r data">0</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+<td class="r data">.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX45"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Type 3 Tests of Fixed Effects">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">Type 3 Tests of Fixed Effects</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="r b header" scope="col">Num DF</th>
+<th class="r b header" scope="col">Den DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">F Value</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;ChiSq</th>
+<th class="r b header" scope="col">Pr&nbsp;&gt;&nbsp;F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<td class="r data">5</td>
+<td class="r data">100</td>
+<td class="r data">83.60</td>
+<td class="r data">16.72</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX46"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Least Squares Means">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="10" scope="colgroup">Least Squares Means</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<td class="r data">1961.89</td>
+<td class="r data">54.6805</td>
+<td class="r data">100</td>
+<td class="r data">35.88</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1853.41</td>
+<td class="r data">2070.38</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<td class="r data">1815.17</td>
+<td class="r data">50.6541</td>
+<td class="r data">100</td>
+<td class="r data">35.83</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1714.68</td>
+<td class="r data">1915.67</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<td class="r data">1750.03</td>
+<td class="r data">48.0684</td>
+<td class="r data">100</td>
+<td class="r data">36.41</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1654.67</td>
+<td class="r data">1845.40</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<td class="r data">1717.80</td>
+<td class="r data">46.4101</td>
+<td class="r data">100</td>
+<td class="r data">37.01</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1625.72</td>
+<td class="r data">1809.87</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">5</th>
+<td class="r data">1707.18</td>
+<td class="r data">45.8255</td>
+<td class="r data">100</td>
+<td class="r data">37.25</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1616.26</td>
+<td class="r data">1798.09</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">6</th>
+<td class="r data">1672.14</td>
+<td class="r data">44.1345</td>
+<td class="r data">100</td>
+<td class="r data">37.89</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">1584.57</td>
+<td class="r data">1759.70</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<a name="IDX47"></a>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Mixed: Differences of Least Squares Means">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="11" scope="colgroup">Differences of Least Squares Means</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">Effect</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="l b header" scope="col">session: Occasion<br>(1-6)</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard Error</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">t&nbsp;Value</th>
+<th class="r b header" scope="col">Pr &gt; |t|</th>
+<th class="r b header" scope="col">Alpha</th>
+<th class="r b header" scope="col">Lower</th>
+<th class="r b header" scope="col">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">2</th>
+<td class="r data">146.72</td>
+<td class="r data">29.8209</td>
+<td class="r data">100</td>
+<td class="r data">4.92</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">87.5572</td>
+<td class="r data">205.88</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">3</th>
+<td class="r data">211.86</td>
+<td class="r data">31.3658</td>
+<td class="r data">100</td>
+<td class="r data">6.75</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">149.63</td>
+<td class="r data">274.09</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">4</th>
+<td class="r data">244.10</td>
+<td class="r data">33.6427</td>
+<td class="r data">100</td>
+<td class="r data">7.26</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">177.35</td>
+<td class="r data">310.84</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">5</th>
+<td class="r data">254.72</td>
+<td class="r data">35.8456</td>
+<td class="r data">100</td>
+<td class="r data">7.11</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">183.60</td>
+<td class="r data">325.83</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">1</th>
+<th class="l data">6</th>
+<td class="r data">289.76</td>
+<td class="r data">32.7000</td>
+<td class="r data">100</td>
+<td class="r data">8.86</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">224.88</td>
+<td class="r data">354.63</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">3</th>
+<td class="r data">65.1377</td>
+<td class="r data">17.8233</td>
+<td class="r data">100</td>
+<td class="r data">3.65</td>
+<td class="r data">0.0004</td>
+<td class="r data">0.05</td>
+<td class="r data">29.7769</td>
+<td class="r data">100.50</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">4</th>
+<td class="r data">97.3759</td>
+<td class="r data">22.3009</td>
+<td class="r data">100</td>
+<td class="r data">4.37</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">53.1316</td>
+<td class="r data">141.62</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">5</th>
+<td class="r data">108.00</td>
+<td class="r data">25.7681</td>
+<td class="r data">100</td>
+<td class="r data">4.19</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">56.8734</td>
+<td class="r data">159.12</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">2</th>
+<th class="l data">6</th>
+<td class="r data">143.04</td>
+<td class="r data">26.2031</td>
+<td class="r data">100</td>
+<td class="r data">5.46</td>
+<td class="r data">&lt;.0001</td>
+<td class="r data">0.05</td>
+<td class="r data">91.0502</td>
+<td class="r data">195.02</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<th class="l data">4</th>
+<td class="r data">32.2382</td>
+<td class="r data">20.0232</td>
+<td class="r data">100</td>
+<td class="r data">1.61</td>
+<td class="r data">0.1105</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-7.4872</td>
+<td class="r data">71.9636</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<th class="l data">5</th>
+<td class="r data">42.8589</td>
+<td class="r data">22.6091</td>
+<td class="r data">100</td>
+<td class="r data">1.90</td>
+<td class="r data">0.0609</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-1.9969</td>
+<td class="r data">87.7147</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">3</th>
+<th class="l data">6</th>
+<td class="r data">77.8986</td>
+<td class="r data">22.8842</td>
+<td class="r data">100</td>
+<td class="r data">3.40</td>
+<td class="r data">0.0010</td>
+<td class="r data">0.05</td>
+<td class="r data">32.4970</td>
+<td class="r data">123.30</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<th class="l data">5</th>
+<td class="r data">10.6207</td>
+<td class="r data">20.4625</td>
+<td class="r data">100</td>
+<td class="r data">0.52</td>
+<td class="r data">0.6049</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-29.9763</td>
+<td class="r data">51.2177</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">4</th>
+<th class="l data">6</th>
+<td class="r data">45.6604</td>
+<td class="r data">20.7853</td>
+<td class="r data">100</td>
+<td class="r data">2.20</td>
+<td class="r data">0.0303</td>
+<td class="r data">0.05</td>
+<td class="r data">4.4230</td>
+<td class="r data">86.8979</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">session</th>
+<th class="l data">5</th>
+<th class="l data">6</th>
+<td class="r data">35.0397</td>
+<td class="r data">18.1168</td>
+<td class="r data">100</td>
+<td class="r data">1.93</td>
+<td class="r data">0.0559</td>
+<td class="r data">0.05</td>
+<td class="r data" nowrap>-0.9035</td>
+<td class="r data">70.9829</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+<div class="branch">
+<p style="page-break-after: always;"><br></p><hr size="3">
+<a name="IDX48"></a>
+<table class="systitleandfootercontainer" width="100%" cellspacing="1" cellpadding="1" rules="none" frame="void" border="0" summary="Page Layout">
+<tr>
+<td class="l systemtitle9">Likelihood Ratio Test for FitUnivANOVA vs. FitMultivANOVA</td>
+</tr>
+</table><br>
+<div>
+<div align="left">
+<table class="table" cellspacing="0" cellpadding="5" rules="all" frame="box" bordercolor="#C1C1C1" summary="Procedure Print: Data Set WORK.FITCOMPARE">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="l header" scope="col">Name</th>
+<th class="r header" scope="col">Neg2LogLike</th>
+<th class="r header" scope="col">Parms</th>
+<th class="r header" scope="col">AIC</th>
+<th class="r header" scope="col">BIC</th>
+<th class="r header" scope="col">DevDiff</th>
+<th class="r header" scope="col">DFdiff</th>
+<th class="r header" scope="col">Pvalue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="l data">FitUnivANOVA</td>
+<td class="r data"> 8353.4</td>
+<td class="r data">   2</td>
+<td class="r data"> 8357.4</td>
+<td class="r data"> 8362.6</td>
+<td class="r data">   .   </td>
+<td class="r data"> .</td>
+<td class="r data">.</td>
+</tr>
+<tr>
+<td class="l data">FitMultivANOVA</td>
+<td class="r data"> 8229.8</td>
+<td class="r data">  21</td>
+<td class="r data"> 8271.8</td>
+<td class="r data"> 8326.7</td>
+<td class="r data">123.567</td>
+<td class="r data">19</td>
+<td class="r data">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</div>
+</body>
+</html>

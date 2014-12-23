@@ -1,0 +1,460 @@
+<!DOCTYPE html><html><head><title>C:\Dropbox\PilesOfVariance\Chapter9\SAS\SAS_Chapter9_Syntax.sas formatted</title><style type="text/css">
+body, pre { font-family: "Courier New", Courier, monospace; }
+.comment { color: #008000; font-weight: 700; }
+.string { color: #800080; font-weight: 700; }
+.number { color: #008080; font-weight: 700; }
+.macro { color: #008080; font-weight: 700; }
+.command { color: #000080; font-weight: 700; }
+.keywords { color: #0000ff; font-weight: 700; }
+.data-line { background-color: #ffffcc; font-weight: 400; }
+</style>
+</head><body><pre>
+<html><head></head><body><span class="comment">* Output options: all can be turned on/off by adding or removing the NO;</span>
+<span class="comment">* page number, date, centering, or page breaks, page length and width;</span>
+<span class="keywords">OPTIONS</span> NOnumber NOdate NOcenter FormDlim=<span class="string">' '</span> PageSize=<span class="keywords">MAX</span> LineSize=<span class="keywords">MAX</span>;
+<span class="comment">* Eliminate SAS default titles and names of tables in output (TRACE ON to show);</span>
+<span class="keywords">TITLE</span>; <span class="keywords">ODS</span> <span class="keywords">TRACE</span> <span class="keywords">OFF</span>; <span class="keywords">ODS</span> <span class="keywords">LISTING</span> <span class="keywords">CLOSE</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******   MACRO PROGRAMS TO AUTOMATE CALCULATIONS FOR CHAPTER 9 EXAMPLE     *******;</span>
+<span class="comment">*******               NOTHING IN HERE NEEDS TO BE CHANGED                   *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* To use FitTest macro;</span>
+<span class="comment">* FitFewer = name of infocrit table for nested model;</span>
+<span class="comment">* FitMore  = name of infocrit table for comparison model;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> FitTest(FitFewer=,FitMore=);
+<span class="command">DATA</span> <span class="macro">&amp;FitFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;FitFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;FitMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;FitMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;FitFewer.</span> <span class="macro">&amp;FitMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> FitCompare; <span class="keywords">SET</span> FitCompare; DevDiff=Lag1(Neg2LogLike)-Neg2LogLike;
+     DFdiff=Parms-LAG1(Parms); Pvalue=<span class="number">1</span>-PROBCHI(DevDiff,DFdiff);
+     <span class="keywords">DROP </span>AICC HQIC CAIC; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;Likelihood Ratio Test for <span class="string">&amp;FitFewer.</span> vs. <span class="string">&amp;FitMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=FitCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> FitTest;
+
+<span class="comment">* To use TotalR2 macro;</span>
+<span class="comment">* DV =        case-sensitive name of dependent variable;</span>
+<span class="comment">* PredFewer = name of dataset of predicted outcomes for nested model;</span>
+<span class="comment">* PredMore =  name of dataset of predicted outcomes for comparison model;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> TotalR2(DV=,PredFewer=,PredMore=);
+<span class="command">PROC CORR</span> <span class="keywords">NOPRINT</span> NOSIMPLE <span class="command">DATA</span>=<span class="macro">&amp;PredFewer.</span> <span class="keywords">OUTP</span>=CorrFewer; <span class="keywords">VAR</span> pred <span class="macro">&amp;DV.</span>; <span class="command">RUN</span>;
+<span class="command">PROC CORR</span> <span class="keywords">NOPRINT</span> NOSIMPLE <span class="command">DATA</span>=<span class="macro">&amp;PredMore.</span>  <span class="keywords">OUTP</span>=CorrMore;  <span class="keywords">VAR</span> pred <span class="macro">&amp;DV.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrFewer; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> CorrFewer; Name=<span class="string">&quot;<span class="string">&amp;PredFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrMore;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> CorrMore;  Name=<span class="string">&quot;<span class="string">&amp;PredMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> CorrFewer CorrMore; 
+     PredCorr=Pred; TotalR2=PredCorr*PredCorr; 
+     <span class="keywords">IF</span> _NAME_=<span class="string">&quot;Pred&quot;</span> OR MISSING(_NAME_)=<span class="number">1</span> <span class="keywords">THEN</span> <span class="keywords">DELETE</span>; <span class="keywords">DROP </span>Pred; <span class="command">RUN</span>;
+<span class="command">DATA</span> CorrCompare; <span class="keywords">SET</span> CorrCompare; TotalR2Diff=TotalR2-LAG1(TotalR2);
+     <span class="keywords">KEEP</span> Name PredCorr TotalR2 TotalR2Diff; <span class="command">RUN</span>; 
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;Total R2 (% Reduction) for <span class="string">&amp;PredFewer.</span> vs. <span class="string">&amp;PredMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=CorrCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>; 
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> TotalR2;
+
+<span class="comment">* To use PseudoR2 macro;</span>
+<span class="comment">* Ncov =     TOTAL # entries in covariance parameters output table;</span>
+<span class="comment">* CovFewer = name of covparms table for nested model;</span>
+<span class="comment">* CovMore =  name of covparms table for comparison modell;</span>
+<span class="command"><span class="keywords">%MACRO</span></span> PseudoR2(NCov=,CovFewer=,CovMore=);
+<span class="command">DATA</span> <span class="macro">&amp;CovFewer.</span>; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovFewer.</span>; Name=<span class="string">&quot;<span class="string">&amp;CovFewer.</span>&quot;</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> <span class="macro">&amp;CovMore.</span>;  <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovMore.</span>;  Name=<span class="string">&quot;<span class="string">&amp;CovMore.</span>&quot;</span>;  <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">LENGTH</span> Name $<span class="number">30</span>.; <span class="keywords">SET</span> <span class="macro">&amp;CovFewer.</span> <span class="macro">&amp;CovMore.</span>; <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare; 
+     PseudoR2=(LAG<span class="macro">&amp;Ncov.</span>(Estimate)-Estimate)/LAG<span class="macro">&amp;Ncov.</span>(Estimate); <span class="command">RUN</span>;
+<span class="command">DATA</span> CovCompare; <span class="keywords">SET</span> CovCompare; 
+     <span class="keywords">IF</span> CovParm IN(<span class="string">&quot;UN(2,1)&quot;</span>,<span class="string">&quot;UN(3,1)&quot;</span>,<span class="string">&quot;UN(4,1)&quot;</span>,<span class="string">&quot;UN(3,2)&quot;</span>,<span class="string">&quot;UN(4,2)&quot;</span>,<span class="string">&quot;UN(4,3)&quot;</span>) 
+     <span class="keywords">THEN</span> <span class="keywords">DELETE</span>; <span class="command">RUN</span>;
+<span class="keywords"><span class="keywords">TITLE</span>9</span> <span class="string">&quot;PsuedoR2 (% Reduction) for <span class="string">&amp;CovFewer.</span> vs. <span class="string">&amp;CovMore.</span>&quot;</span>;
+<span class="command">PROC PRINT</span> <span class="keywords">NOOBS</span> <span class="command">DATA</span>=CovCompare; <span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>9</span>;
+<span class="command"><span class="keywords">%M<span class="keywords">END</span></span></span> PseudoR2;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*******             BEGIN DATA MANIPULATION FOR CHAPTER 9 EXAMPLE           *******;</span>
+<span class="comment">*******                 CHANGE &quot;filesave&quot; to your directory                 *******;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Defining global variable for file location to be replaced in code below;</span>
+<span class="keywords">%LET</span> filesave= C:\Dropbox\PilesOfVariance\Chapter9\SAS;
+<span class="comment">* Location for SAS files for these models (uses macro variable filesave);</span>
+<span class="keywords">LIBNAME</span> filesave <span class="string">&quot;<span class="string">&amp;filesave.</span>&quot;</span>;
+
+<span class="comment">* Import chapter 9 multivariate data in work library;</span>
+<span class="comment">* Also make person mean monitoring;</span>
+<span class="command">DATA</span> work.Chapter9multiv; <span class="keywords">SET</span> filesave.SAS_Chapter9;
+PMmonitor = <span class="keywords">MEAN</span>(OF monitor12-monitor18);
+<span class="keywords">LABEL</span> PMmonitor = <span class="string">&quot;PMmonitor: Person Mean Monitoring&quot;</span>;
+<span class="command">RUN</span>;
+
+<span class="comment">* Stack multivariate data;</span>
+<span class="comment">* Also make a copy of monitor18 for later;</span>
+<span class="command">DATA</span> work.Chapter9; <span class="keywords">SET</span> work.Chapter9multiv;
+copymonitor18 = monitor18;
+occasion=<span class="number">12</span>; age=age12; risky=risky12; monitor=monitor12; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+occasion=<span class="number">13</span>; age=age13; risky=risky13; monitor=monitor13; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+occasion=<span class="number">14</span>; age=age14; risky=risky14; monitor=monitor14; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+occasion=<span class="number">15</span>; age=age15; risky=risky15; monitor=monitor15; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+occasion=<span class="number">16</span>; age=age16; risky=risky16; monitor=monitor16; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+occasion=<span class="number">17</span>; age=age17; risky=risky17; monitor=monitor17; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+occasion=<span class="number">18</span>; age=age18; risky=risky18; monitor=monitor18; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+<span class="comment">* Drop old unnecessary multivariate variables;</span>
+<span class="keywords">DROP </span>age12-age18 risky12-risky18 monitor12-monitor18;
+<span class="keywords">LABEL</span>   
+copymonitor18 = <span class="string">&quot;copymonitor18: Monitoring at Age <span class="string">18</span> (copy)&quot;</span>
+occasion = <span class="string">&quot;occasion: Occasion of Measurement (12-<span class="string">18</span>)&quot;</span>
+age = <span class="string">&quot;age: Exact Age at Occasion&quot;</span>
+risky = <span class="string">&quot;risky: Risky Behavior at Occasion&quot;</span>
+monitor = <span class="string">&quot;monitor: Monitoring at Occasion&quot;</span>;
+<span class="command">RUN</span>;
+
+<span class="comment">* Center predictors for analysis in stacked data;</span>
+<span class="command">DATA</span> work.Chapter9; <span class="keywords">SET</span> work.Chapter9;
+agec18 = age - <span class="number">18</span>;
+att4 = attitude12 - <span class="number">4</span>;
+mon3 = monitor - <span class="number">3</span>;
+PMmon3 = PMmonitor - <span class="number">3</span>;
+WPmon = monitor - PMmonitor;
+Age18mon3 = copymonitor18 - <span class="number">3</span>;
+Change18mon = monitor - copymonitor18;
+<span class="keywords">LABEL</span>
+agec18 = <span class="string">&quot;agec18: Exact Age (0=<span class="string">18</span>)&quot;</span>
+att4 = <span class="string">&quot;att4: Age <span class="string">12</span> Attitudes (0=<span class="string">4</span>)&quot;</span>
+mon3 = <span class="string">&quot;mon3: Monitoring (0=<span class="string">3</span>)&quot;</span>
+PMmon3 = <span class="string">&quot;PMmon3: Person Mean Monitoring (0=<span class="string">3</span>)&quot;</span>
+WPmon = <span class="string">&quot;WPmon: Within-Person Monitoring (0=PM)&quot;</span>
+Age18mon3 = <span class="string">&quot;Age18mon3: BP Monitoring at Age <span class="string">18</span> (0=<span class="string">3</span>)&quot;</span>
+Change18mon = <span class="string">&quot;Change18mon: WP Monitoring from Age <span class="string">18</span> (0=Age18)&quot;</span>;
+<span class="comment">* Subset sample to complete cases for all predictors;</span>
+<span class="keywords">IF</span> NMISS(agec18, att4, risky, PMmonitor, Age18mon3, monitor)&gt;0 <span class="keywords">THEN</span> <span class="keywords">DELETE</span>;
+<span class="command">RUN</span>;
+
+<span class="comment">***********************************************************************************;</span>
+<span class="comment">*****                         BEGIN CHAPTER 9 MODELS                          *****;</span>
+<span class="comment">*****  NOTE: Truly multivariate longitudinal models are not possible in MIXED  ****;</span>
+<span class="comment">***********************************************************************************;</span>
+
+<span class="comment">* Open output directory to save results to;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">FILE</span>=<span class="string">&quot;<span class="string">&amp;filesave.</span>\SAS_Chapter9_Output.html&quot;</span>
+         (<span class="keywords">URL</span>=<span class="string">&quot;SAS_Chapter9_Output.html&quot;</span>) <span class="keywords">STYLE</span>=HTMLBlue;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">9</span>: Descriptive Statistics for Time-Invariant Variables&quot;</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="command">DATA</span>=work.Chapter9multiv; 
+     <span class="keywords">VAR</span> attitude12 PMmonitor monitor18; 
+<span class="command">RUN</span>; 
+<span class="command">PROC CORR</span> <span class="command">DATA</span>=work.Chapter9multiv;
+     <span class="keywords">VAR</span> PMmonitor monitor12 monitor18;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">&quot;Chapter <span class="string">9</span>: Descriptive Statistics for Time-Varying Variables&quot;</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span> <span class="command">DATA</span>=work.Chapter9; 
+     <span class="keywords">VAR</span> age risky monitor WPmon Change18mon; 
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="command">PROC CORR</span> <span class="command">DATA</span>=work.Chapter9;
+     <span class="keywords">VAR</span> PMmon3 Age18mon3 WPmon Change18mon;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span>: Empty Means, Random Intercept Model for Monitoring'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> monitor =  / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredEmpty;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> V </span><span class="keywords">VCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovEmpty;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span>: Fixed Linear Age, Random Intercept Model for Monitoring'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> monitor = agec18 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovFixLin InfoCrit=FitFixLin;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">2</span>, CovFewer=CovEmpty, CovMore=CovFixLin);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span>: Random Linear Age Model for Monitoring'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> monitor = agec18 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovRandLin InfoCrit=FitRandLin;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFixLin, FitMore=FitRandLin);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span>: Fixed Quadratic, Random Linear Age Model for Monitoring'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> monitor = agec18 agec18*agec18 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovFixQuad InfoCrit=FitFixQuad;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">4</span>, CovFewer=CovRandLin, CovMore=CovFixQuad);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span>: Random Quadratic Age Model for Monitoring'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> monitor = agec18 agec18*agec18 / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 agec18*agec18 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitRandQuad;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitFixQuad, FitMore=FitRandQuad);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span>: Fixed Quadratic, Random Linear Age Model'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Conditional Baseline with Attitudes Predicting Linear Age Slope'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18
+                   att4 agec18*att4
+                    / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredAttOnly;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovAttOnly;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">9.1</span>: Predicting Quadratic Change in Risky Behavior'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'From Person Mean Monitoring as Between-Person Monitoring'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4
+                   PMmon3 agec18*PMmon3 agec18*agec18*PMmon3
+                    / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredPMBP;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovPMBP;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of PM Monitoring at Age <span class="string">12</span>'</span>          PMmon3 <span class="number">1</span> agec18*PMmon3 -<span class="number">6</span> agec18*agec18*PMmon3 <span class="number">36</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of PM Monitoring at Age <span class="string">14</span>'</span>          PMmon3 <span class="number">1</span> agec18*PMmon3 -<span class="number">4</span> agec18*agec18*PMmon3 <span class="number">16</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of PM Monitoring at Age <span class="string">16</span>'</span>          PMmon3 <span class="number">1</span> agec18*PMmon3 -<span class="number">2</span> agec18*agec18*PMmon3 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of PM Monitoring at Age <span class="string">18</span>'</span>          PMmon3 <span class="number">1</span> agec18*PMmon3 <span class="number">0</span>  agec18*agec18*PMmon3 <span class="number">0</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">4</span>, CovFewer=CovAttOnly, CovMore=CovPMBP);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=risky, PredFewer=PredAttOnly, PredMore=PredPMBP);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">9.1</span>: Predicting Quadratic Change in Risky Behavior'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'From Monitoring at Age <span class="string">18</span> as Between-Person Monitoring'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4
+                   Age18mon3 agec18*Age18mon3 agec18*agec18*Age18mon3
+                    / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=Pred18BP;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=Cov18BP;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Age <span class="string">18</span> Monitoring at Age <span class="string">12</span>'</span>      Age18mon3 <span class="number">1</span> agec18*Age18mon3 -<span class="number">6</span> agec18*agec18*Age18mon3 <span class="number">36</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Age <span class="string">18</span> Monitoring at Age <span class="string">14</span>'</span>      Age18mon3 <span class="number">1</span> agec18*Age18mon3 -<span class="number">4</span> agec18*agec18*Age18mon3 <span class="number">16</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Age <span class="string">18</span> Monitoring at Age <span class="string">16</span>'</span>      Age18mon3 <span class="number">1</span> agec18*Age18mon3 -<span class="number">2</span> agec18*agec18*Age18mon3 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Age <span class="string">18</span> Monitoring at Age <span class="string">18</span>'</span>      Age18mon3 <span class="number">1</span> agec18*Age18mon3 <span class="number">0</span>  agec18*agec18*Age18mon3 <span class="number">0</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">4</span>, CovFewer=CovAttOnly, CovMore=Cov18BP);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=risky, PredFewer=PredAttOnly, PredMore=Pred18BP);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">9.2</span>: Adding Within-Person Monitoring by Quadratic Age'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Deviation from Person Mean Monitoring as Within-Person Monitoring'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4
+                   PMmon3 agec18*PMmon3 agec18*agec18*PMmon3
+                   WPmon agec18*WPmon agec18*agec18*WPmon
+                    / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredPMBPWP;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=CovPMBPWP;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of PM Monitoring at Age <span class="string">12</span>'</span>          PMmon3 <span class="number">1</span> agec18*PMmon3 -<span class="number">6</span> agec18*agec18*PMmon3 <span class="number">36</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of PM Monitoring at Age <span class="string">14</span>'</span>          PMmon3 <span class="number">1</span> agec18*PMmon3 -<span class="number">4</span> agec18*agec18*PMmon3 <span class="number">16</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of PM Monitoring at Age <span class="string">16</span>'</span>          PMmon3 <span class="number">1</span> agec18*PMmon3 -<span class="number">2</span> agec18*agec18*PMmon3 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of PM Monitoring at Age <span class="string">18</span>'</span>          PMmon3 <span class="number">1</span> agec18*PMmon3 <span class="number">0</span>  agec18*agec18*PMmon3 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of WP Monitoring at Age <span class="string">12</span>'</span>          WPmon <span class="number">1</span> agec18*WPmon -<span class="number">6</span> agec18*agec18*WPmon <span class="number">36</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of WP Monitoring at Age <span class="string">14</span>'</span>          WPmon <span class="number">1</span> agec18*WPmon -<span class="number">4</span> agec18*agec18*WPmon <span class="number">16</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of WP Monitoring at Age <span class="string">16</span>'</span>          WPmon <span class="number">1</span> agec18*WPmon -<span class="number">2</span> agec18*agec18*WPmon <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of WP Monitoring at Age <span class="string">18</span>'</span>          WPmon <span class="number">1</span> agec18*WPmon <span class="number">0</span>  agec18*agec18*WPmon <span class="number">0</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">4</span>, CovFewer=CovPMBP, CovMore=CovPMBPWP);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=risky, PredFewer=PredPMBP, PredMore=PredPMBPWP);
+ 
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Eq <span class="string">9.2</span>: Adding Within-Person Monitoring by Quadratic Age'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Using Change from Age <span class="string">18</span> Monitoring as Within-Person Monitoring'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4
+                   Age18mon3 agec18*Age18mon3 agec18*agec18*Age18mon3
+                   Change18mon agec18*Change18mon agec18*agec18*Change18mon
+                    / <span class="keywords">SOLUTION</span><span class="keywords"> CL</span> <span class="keywords">CHISQ</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=Pred18BPWP;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> CovParms=Cov18BPWP;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Age <span class="string">18</span> Monitoring at Age <span class="string">12</span>'</span>           Age18mon3 <span class="number">1</span> agec18*Age18mon3 -<span class="number">6</span> agec18*agec18*Age18mon3 <span class="number">36</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Age <span class="string">18</span> Monitoring at Age <span class="string">14</span>'</span>           Age18mon3 <span class="number">1</span> agec18*Age18mon3 -<span class="number">4</span> agec18*agec18*Age18mon3 <span class="number">16</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Age <span class="string">18</span> Monitoring at Age <span class="string">16</span>'</span>           Age18mon3 <span class="number">1</span> agec18*Age18mon3 -<span class="number">2</span> agec18*agec18*Age18mon3 <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Age <span class="string">18</span> Monitoring at Age <span class="string">18</span>'</span>           Age18mon3 <span class="number">1</span> agec18*Age18mon3 <span class="number">0</span>  agec18*agec18*Age18mon3 <span class="number">0</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Change in Monitoring at Age <span class="string">12</span>'</span>        Change18mon <span class="number">1</span> agec18*Change18mon -<span class="number">6</span> agec18*agec18*Change18mon <span class="number">36</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Change in Monitoring at Age <span class="string">14</span>'</span>        Change18mon <span class="number">1</span> agec18*Change18mon -<span class="number">4</span> agec18*agec18*Change18mon <span class="number">16</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Change in Monitoring at Age <span class="string">16</span>'</span>        Change18mon <span class="number">1</span> agec18*Change18mon -<span class="number">2</span> agec18*agec18*Change18mon <span class="number">4</span> /<span class="keywords"> CL</span>;
+     <span class="keywords">ESTIMATE</span> <span class="string">'Effect of Change in Monitoring at Age <span class="string">18</span>'</span>        Change18mon <span class="number">1</span> agec18*Change18mon <span class="number">0</span>  agec18*agec18*Change18mon <span class="number">0</span> /<span class="keywords"> CL</span>;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate pseudo R2;</span>
+     %PseudoR2(NCov=<span class="number">4</span>, CovFewer=Cov18BP, CovMore=Cov18BPWP);
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=risky, PredFewer=Pred18BP, PredMore=Pred18BPWP);
+ 
+<span class="comment">* Create double-stacked dataset for multivariate analysis;</span>
+<span class="comment">* Also create dummy codes to serve as intercepts;</span>
+<span class="command">DATA</span> work.Chapter9doublestack; <span class="keywords">SET</span> work.Chapter9;
+DV=<span class="string">&quot;1risky  &quot;</span>; dvR=<span class="number">1</span>; dvM=<span class="number">0</span>; outcome=risky;   <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+DV=<span class="string">&quot;2monitor&quot;</span>; dvR=<span class="number">0</span>; dvM=<span class="number">1</span>; outcome=monitor; <span class="keywords"><span class="keywords">OUTP</span>UT</span>;
+<span class="keywords">LABEL</span>
+DV = <span class="string">&quot;DV: Categorical indicator for which DV the row is for&quot;</span>
+dvR = <span class="string">&quot;dvR: Intercept <span class="string">1</span>=risky, <span class="string">0</span>=monitor&quot;</span>
+dvM = <span class="string">&quot;dvM: Intercept <span class="string">0</span>=risky, <span class="string">1</span>=monitor&quot;</span>
+outcome = <span class="string">&quot;outcome: Combined outcome variable column&quot;</span>;
+<span class="command">RUN</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span> Eq <span class="string">9.3</span>: Multivariate Model of Risky Behavior and Monitoring'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Tricking Univariate Software'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9doublestack <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID occasion DV;
+     <span class="keywords">MODEL</span> outcome = dvR dvM dvR*agec18 dvM*agec18 dvR*agec18*agec18 
+                     dvR*att4 dvR*agec18*att4
+                       / <span class="keywords">NOINT</span> <span class="keywords">SOLUTION</span> <span class="keywords">CHISQ</span><span class="keywords"> CL</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> dvR dvM dvR*agec18 dvM*agec18 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">REPEATED</span> DV /<span class="keywords"> R </span><span class="keywords">RCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID*occasion;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span>: Random Linear Age Model for Monitoring'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Saving Predicted Random Effects and Residuals as Data'</span>;
+<span class="comment">* SOLUTION on RANDOM line asks for predicted Us (to be saved to data);</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> monitor = agec18  / <span class="keywords">SOLUTION</span> <span class="keywords">CHISQ</span><span class="keywords"> CL</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords">OUTP</span>=work.MonERandom;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 / <span class="keywords">SOLUTION</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> SolutionR=work.MonURandom;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+
+<span class="comment">* Save random intercept centered at 3 to new dataset (have to add fixed effect);</span>
+<span class="command">DATA</span> work.Uint; <span class="keywords">SET</span> work.MonURandom; 
+     <span class="keywords">WHERE</span> INDEX(Effect,<span class="string">&quot;Intercept&quot;</span>)&gt;0;
+     monUint=Estimate+3.0650-<span class="number">3</span>; <span class="keywords">KEEP</span> PersonID monUint; <span class="command">RUN</span>;
+<span class="comment">* Save random slope to new dataset uncentered since fixed effect is near 0;</span>
+<span class="command">DATA</span> work.Uage; <span class="keywords">SET</span> work.MonURandom; 
+     <span class="keywords">WHERE</span> INDEX(Effect,<span class="string">&quot;agec18&quot;</span>)&gt;0;
+     monUage=Estimate; <span class="keywords">KEEP</span> PersonID monUage; <span class="command">RUN</span>;
+<span class="comment">* Save residuals to new dataset;</span>
+<span class="command">DATA</span> work.Ures; <span class="keywords">SET</span> work.MonERandom; 
+     monEres=Resid; <span class="keywords">KEEP</span> PersonID occasion monEres; <span class="command">RUN</span>;
+<span class="comment">* Merge back into original data;</span>
+<span class="command">DATA</span> work.Chapter9; <span class="keywords">MERGE</span> work.Chapter9 work.Uint work.Uage;<span class="keywords"> BY</span> PersonID; <span class="command">RUN</span>;
+<span class="command">DATA</span> work.Chapter9; <span class="keywords">MERGE</span> work.Chapter9 work.Ures;<span class="keywords"> BY</span> PersonID occasion; <span class="command">RUN</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Descriptives for Random Effects and Residuals'</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span><span class="keywords"> N </span><span class="keywords">MEAN</span> <span class="keywords">VAR</span> <span class="keywords">MIN</span> <span class="keywords">MAX</span> <span class="command">DATA</span>=work.Chapter9; 
+     <span class="keywords">VAR</span> monUint monUage monEres; 
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span> Eq. <span class="string">9.6</span>: Predicting Risky Behavior from Monitoring Random Effects and Residuals'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4 
+                   monUint monUint*agec18 monUage monUage*agec18 monEres
+                   / <span class="keywords">SOLUTION</span> <span class="keywords">CHISQ</span><span class="keywords"> CL</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredMonRandom;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitUWPasfixed;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=risky, PredFewer=PredAttOnly, PredMore=PredMonRandom);
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span> Eq. <span class="string">9.6</span>: Predicting Risky Behavior from Monitoring Random Effects and Residuals'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Adding Random Effect of WP Monitoring Residual'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4 
+                   monUint monUint*agec18 monUage monUage*agec18 monEres
+                   / <span class="keywords">SOLUTION</span> <span class="keywords">CHISQ</span><span class="keywords"> CL</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 monEres /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitUWPasrandom;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitUWPasfixed, FitMore=FitUWPasrandom);
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span> Eq. <span class="string">9.6</span>: Predicting Risky Behavior from Monitoring Random Effects and Residuals'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Adding WP Monitoring by Age'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4 
+                   monUint monUint*agec18 monUage monUage*agec18 
+                   monEres agec18*monEres
+                   / <span class="keywords">SOLUTION</span> <span class="keywords">CHISQ</span><span class="keywords"> CL</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span>: Saving Predicted Fixed Effects and Residuals for Monitoring as Data'</span>;
+<span class="comment">* ID on CLASS creates fixed effects per ID variable;</span>
+<span class="comment">* SolutionF saves to dataset;</span>
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> monitor = PersonID PersonID*agec18  
+                     / <span class="keywords">NOINT</span> <span class="keywords">SOLUTION</span> <span class="keywords">CHISQ</span><span class="keywords"> CL</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords">OUTP</span>=work.MonEFixed;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> SolutionF=work.MonGFixed;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="comment">* Save fixed intercept centered at 3 to new dataset (have to add fixed effect);</span>
+<span class="command">DATA</span> work.Gint; <span class="keywords">SET</span> work.MonGFixed; 
+     <span class="keywords">WHERE</span> INDEX(Effect,<span class="string">&quot;PersonID&quot;</span>)&gt;0 AND INDEX(Effect,<span class="string">&quot;agec18&quot;</span>)=<span class="number">0</span>;
+     monGint=Estimate-<span class="number">3</span>; <span class="keywords">KEEP</span> PersonID monGint; <span class="command">RUN</span>;
+<span class="comment">* Save fixed slope to new dataset uncentered since fixed effect is near 0;</span>
+<span class="command">DATA</span> work.Gage; <span class="keywords">SET</span> work.MonGFixed; 
+     <span class="keywords">WHERE</span> INDEX(Effect,<span class="string">&quot;agec18&quot;</span>)&gt;0;
+     monGage=Estimate; <span class="keywords">KEEP</span> PersonID monGage; <span class="command">RUN</span>;
+<span class="comment">* Save residuals to new dataset;</span>
+<span class="command">DATA</span> work.Gres; <span class="keywords">SET</span> work.MonEFixed; 
+     monGres=Resid; <span class="keywords">KEEP</span> PersonID occasion monGres; <span class="command">RUN</span>;
+<span class="comment">* Merge back into original data;</span>
+<span class="command">DATA</span> work.Chapter9; <span class="keywords">MERGE</span> work.Chapter9 work.Gint work.Gage;<span class="keywords"> BY</span> PersonID; <span class="command">RUN</span>;
+<span class="command">DATA</span> work.Chapter9; <span class="keywords">MERGE</span> work.Chapter9 work.Gres;<span class="keywords"> BY</span> PersonID occasion; <span class="command">RUN</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Descriptives for Fixed Effects and Residuals'</span>;
+<span class="command">PROC <span class="keywords">MEAN</span>S</span><span class="keywords"> N </span><span class="keywords">MEAN</span> <span class="keywords">VAR</span> <span class="keywords">MIN</span> <span class="keywords">MAX</span> <span class="command">DATA</span>=work.Chapter9; 
+     <span class="keywords">VAR</span> monGint monGage monGres; 
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span> Eq. <span class="string">9.6</span>: Predicting Risky Behavior from Monitoring Fixed Effects and Residuals'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4 
+                   monGint monGint*agec18 monGage monGage*agec18 monGres
+                   / <span class="keywords">SOLUTION</span> <span class="keywords">CHISQ</span><span class="keywords"> CL</span> <span class="keywords">DDFM</span>=Satterthwaite <span class="keywords"><span class="keywords">OUTP</span>M</span>=PredMonFixed;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitGWPasfixed;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>;
+<span class="comment">     * Call macro to calculate Total R2 for overall model;</span>
+     %TotalR2(DV=risky, PredFewer=PredAttOnly, PredMore=PredMonFixed);
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span> Eq. <span class="string">9.6</span>: Predicting Risky Behavior from Monitoring Fixed Effects and Residuals'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Adding Random Effect of WP Monitoring Residual'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4 
+                   monGint monGint*agec18 monGage monGage*agec18 monGres
+                   / <span class="keywords">SOLUTION</span> <span class="keywords">CHISQ</span><span class="keywords"> CL</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 monGres /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+     <span class="keywords">ODS</span> <span class="keywords"><span class="keywords">OUTP</span>UT</span> InfoCrit=FitGWPasrandom;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">     * Call macro to calculate LRT for nested models;</span>
+     %FitTest(FitFewer=FitGWPasfixed, FitMore=FitGWPasrandom);
+
+<span class="keywords"><span class="keywords">TITLE</span>1</span> <span class="string">'Ch <span class="string">9</span> Eq. <span class="string">9.6</span>: Predicting Risky Behavior from Monitoring Fixed Effects and Residuals'</span>;
+<span class="keywords"><span class="keywords">TITLE</span>2</span> <span class="string">'Adding WP Monitoring by Age'</span>;
+<span class="command">PROC MIXED</span> <span class="command">DATA</span>=work.Chapter9 <span class="keywords">COVTEST</span> NOCLPRINT <span class="keywords">NAMELEN</span>=<span class="number">100</span><span class="keywords"> IC</span> <span class="keywords">METHOD</span>=ML;
+    <span class="keywords"><span class="keywords"> CL</span>ASS</span> PersonID;
+     <span class="keywords">MODEL</span> risky = agec18 agec18*agec18 att4 agec18*att4 
+                   monGint monGint*agec18 monGage monGage*agec18 
+                   monGres agec18*monGres
+                   / <span class="keywords">SOLUTION</span> <span class="keywords">CHISQ</span><span class="keywords"> CL</span> <span class="keywords">DDFM</span>=Satterthwaite;
+     <span class="keywords"><span class="keywords">RAN<span class="keywords">DO</span>M</span></span> INTERCEPT agec18 /<span class="keywords"> G </span><span class="keywords">GCORR</span><span class="keywords"> TYPE</span>=UN <span class="keywords">SUBJECT</span>=PersonID;
+<span class="command">RUN</span>; <span class="keywords"><span class="keywords">TITLE</span>1</span>; <span class="keywords"><span class="keywords">TITLE</span>2</span>;
+<span class="comment">****** END CHAPTER 9 MODELS ******;</span>
+
+<span class="comment">* Close output directory;</span>
+<span class="keywords">ODS</span> <span class="keywords">HTML </span><span class="keywords">CLOSE</span>;
+</body></html>
+</pre></body></html>
