@@ -42,7 +42,7 @@ Meeting |Week|Class| Topics  | Chapter | Report due (23:59) |
 10 Mar |10|17|[Time-Varying Predictors in Models of Within-Person Fluctuation](http://www.lesahoffman.com/944/944_Lecture09_TVPredictors_Fluctuation.pdf)                  |H-9|  |  	
 13 Mar |	|18|  |  |Time variant predictors|  
 17 Mar |11|19|[Multilevel Models for Clustered Data](http://www.lesahoffman.com/944/944_Lecture10_Clustered.pdf)                                          |RB-5|  |  	
-20 Mar |	|20|  |  |Hierarchical structures|  
+20 Mar |	|20|  |  |Clustered structures|  
 24 Mar |12|21|[Evaluating Alternative Metrics of Time](http://www.lesahoffman.com/944/944_Lecture11_Alt_Time.pdf)                                         |H-10|  |  	
 27 Mar |	|22|  |  |Alternative metrics of time|  
 31 Mar |13|23|Final  |  |  |  	
