@@ -15,7 +15,7 @@ Instructor | Dr. Scott M. Hofer | Dr. Andrey Koval
 Office       | Cornett A271 | Cornett B335d
 Hours | By appointment	  | By appointment
 Email | smhofer at uvic dot ca | andkov at uvic dot ca
-Phone | 853-3862 | 853-3862
+Phone | 853-3862 | 472-4864
 
 
 
