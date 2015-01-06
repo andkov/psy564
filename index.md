@@ -102,6 +102,10 @@ Report| Fridays | 10 | 10 | 100
 Final | March 31 | 1 | 20 | 20
 Total |  |  |  | **200**
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/gh-pages
 
 The final letter grade in the course will be based on total percent score rounded to the third decimal point as shown in the table:    
 
