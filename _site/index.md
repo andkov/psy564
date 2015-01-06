@@ -77,7 +77,7 @@ The course has been design in the "flipped classroom" format. Instead of listeni
 
 ## Mission Statement
 
-This course will provide an overview of current statistical approaches for the analysis of variation and change. Conceptual and research design issues will be discussed throughout with an emphasis on alternative models for explaining and predicting individual-level change. Hands-on training in analysis of longitudinal data will focus on use of Mplus, SAS, and R, comapring and exploring features of both traditional MLM and SEM approaches. A variety of models will be examined and applied to actual data including models with time invariant and time-varying covariates, factor-level outcomes, alternative time structures, and joint models of variation and change. Substantive examples will be used throughout the course based on published and unpublished results from several major longitudinal studies on developmental and aging-related change.  
+This course will provide an overview of current statistical approaches for the analysis of variation and change. Conceptual and research design issues will be discussed throughout with an emphasis on alternative models for explaining and predicting individual-level change. Hands-on training in analysis of longitudinal data will focus on use of Mplus, SAS, and R, comparing and exploring features of both traditional MLM and SEM approaches. A variety of models will be examined and applied to actual data including models with time invariant and time-varying covariates, factor-level outcomes, alternative time structures, and joint models of variation and change. Substantive examples will be used throughout the course based on published and unpublished results from several major longitudinal studies on developmental and aging-related change.  
 
 
 ## Evaluation and Grading Policy
@@ -120,9 +120,11 @@ Class participation involves two type of activities: recurring and wildcards. Re
 
 **Quiz Question** Please write the question about the content of the current chapter/lecture that you think should appear on the final exam? Post Anonymously into the corresponding comment thread on the page for the current week of the [course](http://andkov.github.io/psy564/).  
 
-**Guess Page** In the current chapter, what **page** can represent the entire chapter and why? Provide a number and answer why in less than 140 characters, omg, no abbr plz! Post Anonymously into the corresponding comment thread on the page for the current week of the [course](http://andkov.github.io/psy564/). 
+**Guess Page** In the current chapter, what **page** contains one of the most important ideas or concepts? Provide the page number and  the answer why in less than 140 characters, omg, no abbr plz! Post Anonymously into the corresponding comment thread on the page for the current week of the [course](http://andkov.github.io/psy564/). 
 
-**Guess Slide** In the current lecture, what **slide** can represent the entire lecture and why? Provide a number and answer why in less than 140 characters, omg, no abbr plz! Post Anonymously into the corresponding comment thread on the page for the current week of the [course](http://andkov.github.io/psy564/)
+**Guess Slide** In the current lecture, what **slide** contains one of the most important ideas or concepts? Provide the slide number and answer why in less than 140 characters, omg, no abbr plz! Post Anonymously into the corresponding comment thread on the page for the current week of the [course](http://andkov.github.io/psy564/)
+
+**NOTE** Quiz Quesion, Guess Page, and Guess Slide must be submitted into the respective comment threads **no later that 10:30 am** of the Tuesday of the current week.
 
 **Rosetta Stone** A question, a series of questions, or other activity that involves learning some programming language or comparing programming languages.
 
