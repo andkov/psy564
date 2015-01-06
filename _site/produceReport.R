@@ -1,7 +1,7 @@
 rm(list=ls(all=TRUE))
 ########## Production of reports from .Rmd files ###
 
-pathFilesToBuild <- base::file.path("./5.Rmd")
+pathFilesToBuild <- base::file.path("./index.Rmd")
 
 
 
