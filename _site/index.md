@@ -42,7 +42,7 @@ Meeting |Week|Class| Topics  | Chapter | Report due (23:59) |
 10 Mar |10|17|[Time-Varying Predictors in Models of Within-Person Fluctuation](http://www.lesahoffman.com/944/944_Lecture09_TVPredictors_Fluctuation.pdf)                  |H-9|  |  	
 13 Mar |	|18|  |  |Time variant predictors|  
 17 Mar |11|19|[Multilevel Models for Clustered Data](http://www.lesahoffman.com/944/944_Lecture10_Clustered.pdf)                                          |RB-5|  |  	
-20 Mar |	|20|  |  |Hierarchical structures|  
+20 Mar |	|20|  |  |Clustered structures|  
 24 Mar |12|21|[Evaluating Alternative Metrics of Time](http://www.lesahoffman.com/944/944_Lecture11_Alt_Time.pdf)                                         |H-10|  |  	
 27 Mar |	|22|  |  |Alternative metrics of time|  
 31 Mar |13|23|Final  |  |  |  	
@@ -111,16 +111,20 @@ The final letter grade in the course will be based on total percent score rounde
 
 Grade | Lowest  | Highest | Description
 ------|--------|---------|------------
-A+|90|100|exceptional
-A |85|89 |excellent
-A-|80|84 |strongly competent     
-B+|77|79 |competent
-B |73|76 |barely competent
-B-|70|72 |incompetent
-C+|65|69 |incompetent
-C |60|64 |incompetent
-D |50|59 |incompetent  
-F  | 0|49 |incompetent 
+A+|90|100|Exceptional Work   Technically flawless and original work demonstrating insight, understanding and independent application or extension of course expectations; often publishable. 
+A |85|89 |Outstanding Work   Demonstrates a very high level of integration of material demonstrating insight, understanding and independent application or extension of course expectations. 
+A-|80|84 |Excellent Work   Represents a high level of integration, comprehensiveness and complexity, as well as mastery of relevant techniques/concepts.      
+B+|77|79 |Very good work   Represents a satisfactory level of integration, comprehensiveness, and complexity; demonstrates a sound level of analysis with no major weaknesses. 
+B |73|76 |Acceptable work that fulfills the expectations of the course   Represents a satisfactory level of integration of key concepts/procedures. However, comprehensiveness or technical skills may be lacking. 
+B-|70|72 |Unacceptable work
+C+|65|69 |Unacceptable work
+C |60|64 |Unacceptable work
+D |50|59 |Unacceptable work  
+F  | 0|49 |Failing grade   Unsatisfactory performance. Wrote final examination and completed course requirements. 
+
+## Class dynamics 
+
+There are the total of 13 weeks in the semester.  weeks (except for the first, the last, and the reading week)
 
 ## Prerequisites
 
