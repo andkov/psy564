@@ -102,10 +102,7 @@ Report| Fridays | 10 | 10 | 100
 Final | March 31 | 1 | 20 | 20
 Total |  |  |  | **200**
 
-In addition, each week learners will have the opportunity to earn up to two (2) points of **extra credit**:   
 
-- 1 point will be awared on competitive basis (e.g. only top 3 persons get the point)    
-- 1 point will be awared on noncompetitive basis (e.g. all-or-nothing getting the answer correct)    
 
 The final letter grade in the course will be based on total percent score rounded to the third decimal point as shown in the table:    
 
@@ -122,9 +119,30 @@ C |60|64 |Unacceptable work
 D |50|59 |Unacceptable work  
 F  | 0|49 |Failing grade   Unsatisfactory performance. Wrote final examination and completed course requirements. 
 
-## Class dynamics 
+## How this will work 
 
-There are the total of 13 weeks in the semester.  weeks (except for the first, the last, and the reading week)
+There are the total of 13 weeks in the semester.  Every week (except for the first, the reading week, and the last) 18 points can be earned: 10 points from a dynamic report and 8 points from class participation. 
+
+Dynamic reports will be turned in electronically before 11:59 pm on the Friday the week they are due.
+
+Class participation involves two type of activities: recurring and wildcards. Recurring activities are: quiz question, guess page, guess slide, and Rosetta Stone.
+
+**Quiz Question** Please write the question about the content of the current chapter/lecture that you think should appear on the final exam? Post Anonymously into the corresponding comment thread on the page for the current week of the [course](http://andkov.github.io/psy564/).  
+
+**Guess Page** In the current chapter, what **page** can represent the entire chapter and why? Provide a number and answer why in less than 140 characters, omg, no abbr plz! Post Anonymously into the corresponding comment thread on the page for the current week of the [course](http://andkov.github.io/psy564/). 
+
+**Guess Slide** In the current lecture, what **slide** can represent the entire lecture and why? Provide a number and answer why in less than 140 characters, omg, no abbr plz! Post Anonymously into the corresponding comment thread on the page for the current week of the [course](http://andkov.github.io/psy564/)
+
+**Rosetta Stone** A question, a series of questions, or other activity that involves learning some programming language or comparing programming languages.
+
+The other 4 activities will be wildcards - you will not know what they will be ahead of time to keep things interesting. 
+
+
+**Extra Credit**  
+In addition, each week learners will have the opportunity to earn up to two (2) points of **extra credit**:   
+
+- 1 point will be awared on competitive basis (e.g. only top 3 persons get the point)    
+- 1 point will be awared on noncompetitive basis (e.g. all-or-nothing getting the answer correct)    
 
 ## Prerequisites
 
