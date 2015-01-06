@@ -1,18 +1,14 @@
+---- 
+Multilevel and Longitudinal Data Analysis
 ----
 
-**NOTICE**: page under construction. Stable version will be published by *January 6, 2015* | [edit page](https://github.com/andkov/MLMtime/edit/gh-pages/index.md)
-
-----
-
-
-
-**Session**:  	Spring 2015 (Jan 6 - Apr 2)  
-**Meeting Time**:		TF 12:30 a.m. -12:20 p.m.   
-**Meeting Place**:		HSD A150  
+**Session**:  	Spring 2015 (Jan 6 - Apr 2[)](https://github.com/andkov/psy564/edit/gh-pages/index.md)  
+**Meeting Time**:		TF 12:30 a.m. -13:50 p.m.   
+**Meeting Place**:		HSD A160  
 
 Instructor | Dr. Scott M. Hofer | Dr. Andrey Koval
 --- | --- | ---
-Office       | Cornett A271 | Cornett B335d
+Office       | Cornett A271 | Cornett B335g
 Hours | By appointment	  | By appointment
 Email | smhofer at uvic dot ca | andkov at uvic dot ca
 Phone | 853-3862 | 472-4864
@@ -102,10 +98,6 @@ Report| Fridays | 10 | 10 | 100
 Final | March 31 | 1 | 20 | 20
 Total |  |  |  | **200**
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/gh-pages
 
 The final letter grade in the course will be based on total percent score rounded to the third decimal point as shown in the table:    
 
@@ -138,7 +130,7 @@ Class participation involves two type of activities: recurring and wildcards. Re
 
 **Rosetta Stone** A question, a series of questions, or other activity that involves learning some programming language or comparing programming languages.
 
-The other 4 activities will be wildcards - you will not know what they will be ahead of time to keep things interesting. 
+The activities for the other 4 class participation points will be **wildcards** - you will not know what they will be ahead of time to keep things interesting. 
 
 
 **Extra Credit**  
