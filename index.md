@@ -13,7 +13,7 @@ Hours | By appointment	  | By appointment
 Email | smhofer at uvic dot ca | andkov at uvic dot ca
 Phone | 853-3862 | 472-4864
 
-
+ Class meets twice a week. On **Tuesday**s will focus on **conceptual** understanding of the processed material, whereas **Friday**s will be dedicated to development of **practical** skills in reporting statistical models.
 
 Meeting |Week|Class| Topics  | Chapter | Report due (23:59) |
 -------|----|------|---------|---------|--------------------|      
@@ -44,10 +44,18 @@ Meeting |Week|Class| Topics  | Chapter | Report due (23:59) |
 31 Mar |13|23|Final  |  |  |  	
 03 Apr |  |24|Wrap Up  |  |  |  
 
-
 Note: H - Hoffman, RB - Raudenbush & Bryk  
 
 
+The course has been design in the "flipped classroom" format. Instead of listening to lectures during class periods, the learners will work through lectures (prepared in advance) on their own. The course content for each week will be availible via three media:
+ 
+ - Textbook   
+ - Lecture slides  
+ - Video  
+ 
+ All three media were produced by Lesa Hoffman. This course will closely follow her [course](http://www.lesahoffman.com/944/index.html).
+ 
+ 
 ### Texts
 
 **Required**  
@@ -67,21 +75,9 @@ Note: H - Hoffman, RB - Raudenbush & Bryk
 
 - [Version 6 Mplus Users Guide](http://www.statmodel.com).  
 
-## Description
+## Mission Statement
 
-This course will provide an overview of current statistical approaches for the analysis of variation and change. Conceptual and research design issues will be discussed throughout with an emphasis on alternative models for explaining and predicting individual-level change. Hands-on training in analysis of longitudinal data will focus on use of Mplus, SAS, and R  a statistical program that has many features of both traditional MLM and SEM approaches. A variety of models will be examined and applied to actual data including models with time invariant and time-varying covariates, factor-level outcomes, alternative time structures, and joint models of variation and change. Substantive examples will be used throughout the course based on published and unpublished results from several major longitudinal studies on developmental and aging-related change.  
-
-## Organization 
-
-The course has been design in the "flipped classroom" format. Instead of listening to lectures during class periods, the learners will work through lectures (prepared in advance) on their own. The course content for each week will be availible via three media:
- 
- - Textbook   
- - Lecture slides  
- - Video  
- 
- All three media were produced by Lesa Hoffman. This course will closely follow her [course](http://www.lesahoffman.com/944/index.html).
- 
-The class meets twice a week. On **Tuesday**s the focus will be on **conceptual** understanding of the processed material, whereas **Friday**s will be dedicated to development of **practical** skills in reporting statistical models.
+This course will provide an overview of current statistical approaches for the analysis of variation and change. Conceptual and research design issues will be discussed throughout with an emphasis on alternative models for explaining and predicting individual-level change. Hands-on training in analysis of longitudinal data will focus on use of Mplus, SAS, and R, comapring and exploring features of both traditional MLM and SEM approaches. A variety of models will be examined and applied to actual data including models with time invariant and time-varying covariates, factor-level outcomes, alternative time structures, and joint models of variation and change. Substantive examples will be used throughout the course based on published and unpublished results from several major longitudinal studies on developmental and aging-related change.  
 
 
 ## Evaluation and Grading Policy
