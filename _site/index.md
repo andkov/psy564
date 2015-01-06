@@ -1,5 +1,5 @@
 ---- 
-Multilevel and Longitudinal Data Analysis
+psy564
 ----
 
 **Session**:  	Spring 2015 (Jan 6 - Apr 2[)](https://github.com/andkov/psy564/edit/gh-pages/index.md)  
