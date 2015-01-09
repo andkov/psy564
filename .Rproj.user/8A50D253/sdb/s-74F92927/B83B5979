@@ -11,6 +11,6 @@
     "project_path" : "produceReports.R",
     "properties" : {
     },
-    "source_on_save" : false,
+    "source_on_save" : true,
     "type" : "r_source"
 }
