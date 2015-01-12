@@ -1,0 +1,17 @@
+{
+    "contents" : "# remove all elements for a clean start\nrm(list=ls(all=TRUE))\n\n## @knitr LoadPackages\nrequire(sas7bdat)\n\n## @knitr LoadData\npathDir  <- getwd()\npathCh2  <- file.path(pathDir,\"Chapters/02/SAS_Chapter2/SAS_Chapter2.sas7bdat\")\ndsL2   <- read.sas7bdat(pathCh2, debug=TRUE) \nds <- dsL2\n\nnames(ds)\nstr(ds)\ntable(ds$sexMW, ds$demgroup)\n\n\nlibrary(nlme)\nm0 <- gls(cognition ~ 1,data=ds,method=\"ML\")\nds$m0 <- predict(m0)\nsummary(m0)\n",
+    "created" : 1421083446835.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3153818113",
+    "id" : "99087A14",
+    "lastKnownWriteTime" : 1421085589,
+    "path" : "~/GitHub/psy564/Chapters/02/R_Chapter2/hoffman-ch2.R",
+    "project_path" : "Chapters/02/R_Chapter2/hoffman-ch2.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
