@@ -26,6 +26,31 @@ ds$m0 <- predict(m0)
 
 ## @knitr AddingAge(0=85)
 ds$age85 <- ds$age - 85
-m1 <- nlme::gls(cognition ~ 1 + age85, data=ds, method="ML")
+# m1 <- nlme::gls(cognition ~ 1 + age85, data=ds, method="ML")
+m1 <- stats::glm(cognition ~ 1 + age85, data=ds)
 summary(m1)
 ds$m1 <- predict(m1)
+
+
+model <- m1
+logLik<- summary(model)$logLik
+deviance<- -2*logLik
+AIC<- AIC(model)
+BIC<- BIC(model)
+df.resid<- NA
+N<- summary(model)$dims$N
+p<- summary(model)$dims$p
+ids<- length(unique(ds$PersonID))
+df.resid<- N-p
+mInfo<- data.frame("logLik" = logLik, 
+                   "deviance"= deviance, 
+                   "AIC" = AIC, "BIC" = BIC,
+                   "df.resid" = df.resid, "N" = N, 
+                   "p" = p, "ids" = ids)
+t<- t(mInfo)
+rownames(t)<-colnames(mInfo)
+dsmInfo<- data.frame(new=t)
+colnames(dsmInfo) <- c("modelA")
+# dsmInfo$Coefficient <- rownames(dsmInfo)
+mA <- dsmInfo
+print(mA)
