@@ -1,0 +1,17 @@
+{
+    "contents" : "# remove all elements for a clean start\nrm(list=ls(all=TRUE))\n# Supplementary Material for Longitudinal Analysis: Modeling Within-Person Fluctuation and Change \n# Chapter 2: MPLUS Syntax and Output by Model\n\n## @knitr LoadPackages\nrequire(sas7bdat)\nlibrary(nlme)\n\n\n## @knitr LoadData\npathDir  <- getwd()\npathCh2  <- file.path(pathDir,\"Chapters/02/SAS_Chapter2/SAS_Chapter2.sas7bdat\")\ndsL2   <- read.sas7bdat(pathCh2, debug=TRUE) \nds <- dsL2\nnames(ds)\nstr(ds)\ntable(ds$sexMW, ds$demgroup)\n\n\n## @knitr EmptyMeansModel\nm0 <- nlme::gls(cognition ~ 1, data=ds, method=\"ML\")\nsummary(m0)\nds$m0 <- predict(m0)\n\n\n## @knitr AddingAge(0=85)\nds$age85 <- ds$age - 85\nm1 <- nlme::gls(cognition ~ 1 + age85, data=ds, method=\"ML\")\nsummary(m1)\nds$m1 <- predict(m1)",
+    "created" : 1421087715014.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1200305754",
+    "id" : "30854302",
+    "lastKnownWriteTime" : 1421088753,
+    "path" : "~/GitHub/psy564/Chapters/02/R_Chapter2/hoffman-ch2.R",
+    "project_path" : "Chapters/02/R_Chapter2/hoffman-ch2.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
