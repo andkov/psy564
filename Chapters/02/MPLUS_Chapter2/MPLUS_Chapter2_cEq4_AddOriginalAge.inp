@@ -1,0 +1,18 @@
+TITLE:
+  Eq 2.4: Adding Original Age Instead
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog age;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+MODEL:
+  cog ON age;

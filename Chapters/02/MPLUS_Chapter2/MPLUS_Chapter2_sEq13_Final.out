@@ -1,0 +1,266 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/09/2015  10:01 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Eq 2.13: Final Reported Model
+    Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)
+
+  DATA:
+    FILE = MPLUS_Chapter2.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+    age85 = age - 85;
+    grip9 = grip - 9;
+    IF demgroup EQ 1 THEN demNF=0;
+    IF demgroup EQ 1 THEN demNC=0;
+    IF demgroup EQ 2 THEN demNF=1;
+    IF demgroup EQ 2 THEN demNC=0;
+    IF demgroup EQ 3 THEN demNF=0;
+    IF demgroup EQ 3 THEN demNC=1;
+    agegrip = age85*grip9;
+    sexNF = sexMW*demNF;
+    sexNC = sexMW*demNC;
+
+  VARIABLE:
+    NAMES = PersonID cog age grip sexMW demgroup;
+    USEVARIABLES = cog sexMW age85 grip9 demNF demNC agegrip sexNF sexNC;
+    MISSING = ALL (-9999);
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+
+  MODEL:
+    cog ON age85 grip9 sexMW (bage85 bgrip9 bsexMW);
+    cog ON demNF demNC (bdemNF bdemNC);
+    cog ON agegrip sexNF sexNC (bagegrip bsexNF bsexNC);
+
+  MODEL TEST:
+  ! Omnibus Dementia*Sex Interaction Test
+    bsexNF=0;
+    bsexNC=0;
+
+  MODEL CONSTRAINT:
+    NEW(est1-est12);
+  ! est1: Sex Difference for No Dementia
+    est1 = bsexMW*1 + bsexNF*0 + bsexNC*0;
+  ! est2: Sex Difference for Future Dementia
+    est2 = bsexMW*1 + bsexNF*1 + bsexNC*0;
+  ! est3: Sex Difference for Current Dementia
+    est3 = bsexMW*1 + bsexNF*0 + bsexNC*1;
+  ! est4: None-Future Difference for Men
+    est4 = bdemNF*1 + bsexNF*0;
+  ! est5: None-Future Difference for Women
+    est5 = bdemNF*1 + bsexNF*1;
+  ! est6: None-Current Difference for Men
+    est6 = bdemNC*1 + bsexNC*0;
+  ! est7: None-Current Difference for Women
+    est7 = bdemNC*1 + bsexNC*1;
+  ! est8: Future-Current Difference for Men
+    est8 = -1*bdemNF + 1*bdemNC + 0*bsexNF + 0*bsexNC;
+  ! est9: Future-Current Difference for Women
+    est9 = -1*bdemNF + 1*bdemNC - 1*bsexNF + 1*bsexNC;
+  ! est10: None-Future Sex Difference
+    est10 = 1*bsexNF;
+  ! est11: None-Current Sex Difference
+    est11 = 1*bsexNC;
+  ! est12: Future-Current Sex Difference
+    est12 = -1*bsexNF + 1*bsexNC;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Eq 2.13: Final Reported Model
+Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         550
+
+Number of dependent variables                                    1
+Number of independent variables                                  8
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   COG
+
+Observed independent variables
+   SEXMW       AGE85       GRIP9       DEMNF       DEMNC       AGEGRIP
+   SEXNF       SEXNC
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  MPLUS_Chapter2.csv
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              COG           SEXMW         AGE85         GRIP9         DEMNF
+              ________      ________      ________      ________      ________
+ COG            1.000
+ SEXMW          1.000         1.000
+ AGE85          1.000         1.000         1.000
+ GRIP9          1.000         1.000         1.000         1.000
+ DEMNF          1.000         1.000         1.000         1.000         1.000
+ DEMNC          1.000         1.000         1.000         1.000         1.000
+ AGEGRIP        1.000         1.000         1.000         1.000         1.000
+ SEXNF          1.000         1.000         1.000         1.000         1.000
+ SEXNC          1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              DEMNC         AGEGRIP       SEXNF         SEXNC
+              ________      ________      ________      ________
+ DEMNC          1.000
+ AGEGRIP        1.000         1.000
+ SEXNF          1.000         1.000         1.000
+ SEXNC          1.000         1.000         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       10
+
+Loglikelihood
+
+          H0 Value                       -2000.736
+          H1 Value                       -2000.736
+
+Information Criteria
+
+          Akaike (AIC)                    4021.473
+          Bayesian (BIC)                  4064.572
+          Sample-Size Adjusted BIC        4032.827
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+Wald Test of Parameter Constraints
+
+          Value                              7.100
+          Degrees of Freedom                     2
+          P-Value                           0.0287
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.000
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                            194.946
+          Degrees of Freedom                     8
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ COG      ON
+    AGE85             -0.335      0.119     -2.816      0.005
+    GRIP9              0.618      0.147      4.207      0.000
+    SEXMW             -2.876      1.003     -2.867      0.004
+    DEMNF             -6.056      1.622     -3.734      0.000
+    DEMNC            -11.971      2.227     -5.376      0.000
+    AGEGRIP            0.122      0.040      3.052      0.002
+    SEXNF              0.165      2.053      0.080      0.936
+    SEXNC             -7.875      3.000     -2.625      0.009
+
+ Intercepts
+    COG               29.070      0.742     39.160      0.000
+
+ Residual Variances
+    COG               84.565      5.099     16.583      0.000
+
+New/Additional Parameters
+    EST1              -2.876      1.003     -2.867      0.004
+    EST2              -2.711      1.859     -1.459      0.145
+    EST3             -10.751      2.875     -3.739      0.000
+    EST4              -6.056      1.622     -3.734      0.000
+    EST5              -5.892      1.267     -4.649      0.000
+    EST6             -11.971      2.227     -5.376      0.000
+    EST7             -19.846      2.012     -9.864      0.000
+    EST8              -5.915      2.566     -2.305      0.021
+    EST9             -13.954      2.221     -6.284      0.000
+    EST10              0.165      2.053      0.080      0.936
+    EST11             -7.875      3.000     -2.625      0.009
+    EST12             -8.040      3.387     -2.374      0.018
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.155E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:01:54
+        Ending Time:  10:01:54
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

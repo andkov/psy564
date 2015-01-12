@@ -1,0 +1,21 @@
+TITLE:
+  Eq 2.4: Adding Age (0=85)
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  age85 = age - 85;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog age85;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+MODEL:
+  cog ON age85;

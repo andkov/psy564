@@ -1,0 +1,219 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/09/2015  10:01 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Eq 2.8: Adding Dementia Group
+    Using Manual Group Contrasts so Reference=None
+
+  DATA:
+    FILE = MPLUS_Chapter2.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+    age85 = age - 85;
+    grip9 = grip - 9;
+    IF demgroup EQ 1 THEN demNF=0;
+    IF demgroup EQ 1 THEN demNC=0;
+    IF demgroup EQ 2 THEN demNF=1;
+    IF demgroup EQ 2 THEN demNC=0;
+    IF demgroup EQ 3 THEN demNF=0;
+    IF demgroup EQ 3 THEN demNC=1;
+
+  VARIABLE:
+    NAMES = PersonID cog age grip sexMW demgroup;
+    USEVARIABLES = cog sexMW age85 grip9 demNF demNC;
+    MISSING = ALL (-9999);
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+
+  MODEL:
+    cog ON age85 grip9 sexMW (bage85 bgrip9 bsexMW);
+    cog ON demNF demNC (bdemNF bdemNC);
+
+  MODEL TEST:
+  ! Omnibus Dementia Group Test
+    bdemNF=0;
+    bdemNC=0;
+
+  MODEL CONSTRAINT:
+    NEW(est1);
+  ! est1: Future vs Current
+    est1 = -1*bdemNF + 1*bdemNC;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Eq 2.8: Adding Dementia Group
+Using Manual Group Contrasts so Reference=None
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         550
+
+Number of dependent variables                                    1
+Number of independent variables                                  5
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   COG
+
+Observed independent variables
+   SEXMW       AGE85       GRIP9       DEMNF       DEMNC
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  MPLUS_Chapter2.csv
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              COG           SEXMW         AGE85         GRIP9         DEMNF
+              ________      ________      ________      ________      ________
+ COG            1.000
+ SEXMW          1.000         1.000
+ AGE85          1.000         1.000         1.000
+ GRIP9          1.000         1.000         1.000         1.000
+ DEMNF          1.000         1.000         1.000         1.000         1.000
+ DEMNC          1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              DEMNC
+              ________
+ DEMNC          1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        7
+
+Loglikelihood
+
+          H0 Value                       -2008.889
+          H1 Value                       -2008.889
+
+Information Criteria
+
+          Akaike (AIC)                    4031.777
+          Bayesian (BIC)                  4061.947
+          Sample-Size Adjusted BIC        4039.726
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+Wald Test of Parameter Constraints
+
+          Value                            135.591
+          Degrees of Freedom                     2
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.000
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                            178.641
+          Degrees of Freedom                     5
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ COG      ON
+    AGE85             -0.406      0.118     -3.431      0.001
+    GRIP9              0.604      0.149      4.056      0.000
+    SEXMW             -3.657      0.887     -4.125      0.000
+    DEMNF             -5.722      1.014     -5.646      0.000
+    DEMNC            -16.480      1.514    -10.882      0.000
+
+ Intercepts
+    COG               29.264      0.695     42.126      0.000
+
+ Residual Variances
+    COG               87.111      5.253     16.583      0.000
+
+New/Additional Parameters
+    EST1             -10.758      1.699     -6.333      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.303E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:01:32
+        Ending Time:  10:01:32
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

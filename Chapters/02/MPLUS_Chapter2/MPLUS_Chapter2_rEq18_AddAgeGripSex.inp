@@ -1,0 +1,77 @@
+TITLE:
+  Eq 2.18: Adding Adding Age by Grip by Sex Three-Way Interaction
+  Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  age85 = age - 85;
+  grip9 = grip - 9;
+  IF demgroup EQ 1 THEN demNF=0;
+  IF demgroup EQ 1 THEN demNC=0;
+  IF demgroup EQ 2 THEN demNF=1;
+  IF demgroup EQ 2 THEN demNC=0;
+  IF demgroup EQ 3 THEN demNF=0;
+  IF demgroup EQ 3 THEN demNC=1;
+  agegrip = age85*grip9;
+  sexNF = sexMW*demNF;
+  sexNC = sexMW*demNC;
+  agesex = age85*sexMW;
+  gripsex = grip9*sexMW;
+  ags = age85*grip9*sexMW;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog sexMW age85 grip9 demNF demNC agegrip sexNF sexNC agesex gripsex ags;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+MODEL:
+  cog ON age85 grip9 sexMW (bage85 bgrip9 bsexMW);
+  cog ON demNF demNC (bdemNF bdemNC);
+  cog ON agegrip sexNF sexNC (bagegrip bsexNF bsexNC);
+  cog ON agesex gripsex ags (bagesex bgripsex bags);
+
+MODEL CONSTRAINT:
+  NEW(est1-est18);
+! est1: Age for Men
+  est1 = bage85*1 + bagesex*0;
+! est2: Age for Women
+  est2 = bage85*1 + bagesex*1;
+! est3: Grip for Men
+  est3 = bgrip9*1 + bgripsex*0;
+! est4: Grip for Women
+  est4 = bgrip9*1 + bgripsex*1;
+! est5: Sex for None
+  est5 = bsexMW*1 + bsexNF*0 + bsexNC*0;
+! est6: Sex for Future
+  est6 = bsexMW*1 + bsexNF*1 + bsexNC*0;
+! est7: Sex for Current
+  est7 = bsexMW*1 + bsexNF*0 + bsexNC*1;
+! est8: Men: None vs Future
+  est8 = 1*bdemNF + 0*bdemNC + 0*bsexNF + 0*bsexNC;
+! est9: Men: None vs Current
+  est9 = 0*bdemNF + 1*bdemNC + 0*bsexNF + 0*bsexNC;
+! est10: Men: Future vs Current
+  est10 = -1*bdemNF + 1*bdemNC + 0*bsexNF + 0*bsexNC;
+! est11: Women: None vs Future
+  est11 = 1*bdemNF + 0*bdemNC + 1*bsexNF + 0*bsexNC;
+! est12: Women: None vs Current
+  est12 = 0*bdemNF + 1*bdemNC + 0*bsexNF + 1*bsexNC;
+! est13: Women: Future vs Current
+  est13 = -1*bdemNF + 1*bdemNC - 1*bsexNF + 1*bsexNC;
+! est14: Sex by None vs Future
+  est14 = 1*bsexNF + 0*bsexNC;
+! est15: Sex by None vs Current
+  est15 = 0*bsexNF + 1*bsexNC;
+! est16: Sex by Future vs Current
+  est16 = -1*bsexNF + 1*bsexNC;
+! est17: Age by Grip for Men
+  est17 = 1*bagegrip + 0*bags;
+! est18: Age by Grip for Women
+  est18 = 1*bagegrip + 1*bags;

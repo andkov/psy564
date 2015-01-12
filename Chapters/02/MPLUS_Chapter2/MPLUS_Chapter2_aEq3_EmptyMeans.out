@@ -1,0 +1,168 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/09/2015  10:01 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Eq 2.3: Empty Means Model
+
+  DATA:
+    FILE = MPLUS_Chapter2.csv;
+    FORMAT = FREE;
+
+  VARIABLE:
+    NAMES = PersonID cog age grip sexMW demgroup;
+    USEVARIABLES = cog;
+    MISSING = ALL (-9999);
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+
+  MODEL:
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables in the model.
+  Check that this is what is intended.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Eq 2.3: Empty Means Model
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         550
+
+Number of dependent variables                                    1
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   COG
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  MPLUS_Chapter2.csv
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              COG
+              ________
+ COG            1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        2
+
+Loglikelihood
+
+          H0 Value                       -2098.209
+          H1 Value                       -2098.209
+
+Information Criteria
+
+          Akaike (AIC)                    4200.418
+          Bayesian (BIC)                  4209.038
+          Sample-Size Adjusted BIC        4202.689
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.000
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                0.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ Means
+    COG               24.822      0.468     53.021      0.000
+
+ Variances
+    COG              120.539      7.269     16.583      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.978E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:01:22
+        Ending Time:  10:01:22
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

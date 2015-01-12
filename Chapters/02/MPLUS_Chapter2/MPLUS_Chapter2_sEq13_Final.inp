@@ -1,0 +1,66 @@
+TITLE:
+  Eq 2.13: Final Reported Model
+  Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  age85 = age - 85;
+  grip9 = grip - 9;
+  IF demgroup EQ 1 THEN demNF=0;
+  IF demgroup EQ 1 THEN demNC=0;
+  IF demgroup EQ 2 THEN demNF=1;
+  IF demgroup EQ 2 THEN demNC=0;
+  IF demgroup EQ 3 THEN demNF=0;
+  IF demgroup EQ 3 THEN demNC=1;
+  agegrip = age85*grip9;
+  sexNF = sexMW*demNF;
+  sexNC = sexMW*demNC;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog sexMW age85 grip9 demNF demNC agegrip sexNF sexNC;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+MODEL:
+  cog ON age85 grip9 sexMW (bage85 bgrip9 bsexMW);
+  cog ON demNF demNC (bdemNF bdemNC);
+  cog ON agegrip sexNF sexNC (bagegrip bsexNF bsexNC);
+
+MODEL TEST:
+! Omnibus Dementia*Sex Interaction Test
+  bsexNF=0;
+  bsexNC=0;
+
+MODEL CONSTRAINT:
+  NEW(est1-est12);
+! est1: Sex Difference for No Dementia
+  est1 = bsexMW*1 + bsexNF*0 + bsexNC*0;
+! est2: Sex Difference for Future Dementia
+  est2 = bsexMW*1 + bsexNF*1 + bsexNC*0;
+! est3: Sex Difference for Current Dementia
+  est3 = bsexMW*1 + bsexNF*0 + bsexNC*1;
+! est4: None-Future Difference for Men
+  est4 = bdemNF*1 + bsexNF*0;
+! est5: None-Future Difference for Women
+  est5 = bdemNF*1 + bsexNF*1;
+! est6: None-Current Difference for Men
+  est6 = bdemNC*1 + bsexNC*0;
+! est7: None-Current Difference for Women
+  est7 = bdemNC*1 + bsexNC*1;
+! est8: Future-Current Difference for Men
+  est8 = -1*bdemNF + 1*bdemNC + 0*bsexNF + 0*bsexNC;
+! est9: Future-Current Difference for Women
+  est9 = -1*bdemNF + 1*bdemNC - 1*bsexNF + 1*bsexNC;
+! est10: None-Future Sex Difference
+  est10 = 1*bsexNF;
+! est11: None-Current Sex Difference
+  est11 = 1*bsexNC;
+! est12: Future-Current Sex Difference
+  est12 = -1*bsexNF + 1*bsexNC;

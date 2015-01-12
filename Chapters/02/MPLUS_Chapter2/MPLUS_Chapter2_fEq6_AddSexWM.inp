@@ -1,0 +1,24 @@
+TITLE:
+  Eq 2.7: Adding Sex (1=M 0=W)
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  age85 = age - 85;
+  grip9 = grip - 9;
+  IF sexMW EQ 0 THEN sexWM=1;
+  IF sexMW EQ 1 THEN sexWM=0;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog age85 grip9 sexWM;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+MODEL:
+  cog ON age85 grip9 sexWM;

@@ -1,0 +1,537 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/09/2015  10:01 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Eq 2.13: Adding Sex by Dementia Interaction
+    Sex (0=Men), Dementia (0=None)
+
+  DATA:
+    FILE = MPLUS_Chapter2.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+    age85 = age - 85;
+    grip9 = grip - 9;
+    IF demgroup EQ 1 THEN demNF=0;
+    IF demgroup EQ 1 THEN demNC=0;
+    IF demgroup EQ 2 THEN demNF=1;
+    IF demgroup EQ 2 THEN demNC=0;
+    IF demgroup EQ 3 THEN demNF=0;
+    IF demgroup EQ 3 THEN demNC=1;
+    agegrip = age85*grip9;
+    sexNF = sexMW*demNF;
+    sexNC = sexMW*demNC;
+
+  VARIABLE:
+    NAMES = PersonID cog age grip sexMW demgroup;
+    USEVARIABLES = cog sexMW age85 grip9 demNF demNC agegrip sexNF sexNC;
+    MISSING = ALL (-9999);
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+
+  OUTPUT:
+    TECH3;
+
+  MODEL:
+    cog ON age85 grip9 sexMW (bage85 bgrip9 bsexMW);
+    cog ON demNF demNC (bdemNF bdemNC);
+    cog ON agegrip sexNF sexNC (bagegrip bsexNF bsexNC);
+    [cog] (int);
+
+  MODEL TEST:
+  ! Omnibus Dementia*Sex Interaction Test
+    bsexNF=0;
+    bsexNC=0;
+
+  MODEL CONSTRAINT:
+    NEW(est1-est18);
+  ! est1: Cognition for Men   None
+    est1 = int*1 + bsexMW*0 + bdemNF*0 + bdemNC*0 + bsexNF*0 + bsexNC*0;
+  ! est2: Cognition for Women None
+    est2 = int*1 + bsexMW*1 + bdemNF*0 + bdemNC*0 + bsexNF*0 + bsexNC*0;
+  ! est3: Cognition for Men   Future
+    est3 = int*1 + bsexMW*0 + bdemNF*1 + bdemNC*0 + bsexNF*0 + bsexNC*0;
+  ! est4: Cognition for Women Future
+    est4 = int*1 + bsexMW*1 + bdemNF*1 + bdemNC*0 + bsexNF*1 + bsexNC*0;
+  ! est5: Cognition for Men   Current
+    est5 = int*1 + bsexMW*0 + bdemNF*0 + bdemNC*1 + bsexNF*0 + bsexNC*0;
+  ! est6: Cognition for Women Current
+    est6 = int*1 + bsexMW*1 + bdemNF*0 + bdemNC*1 + bsexNF*0 + bsexNC*1;
+  ! est7: Sex Difference for No Dementia
+    est7 = bsexMW*1 + bsexNF*0 + bsexNC*0;
+  ! est8: Sex Difference for Future Dementia
+    est8 = bsexMW*1 + bsexNF*1 + bsexNC*0;
+  ! est9: Sex Difference for Current Dementia
+    est9 = bsexMW*1 + bsexNF*0 + bsexNC*1;
+  ! est10: None-Future Difference for Men
+    est10 = bdemNF*1 + bsexNF*0;
+  ! est11: None-Future Difference for Women
+    est11 = bdemNF*1 + bsexNF*1;
+  ! est12: None-Current Difference for Men
+    est12 = bdemNC*1 + bsexNC*0;
+  ! est13: None-Current Difference for Women
+    est13 = bdemNC*1 + bsexNC*1;
+  ! est14: Future-Current Difference for Men
+    est14 = -1*bdemNF + 1*bdemNC + 0*bsexNF + 0*bsexNC;
+  ! est15: Future-Current Difference for Women
+    est15 = -1*bdemNF + 1*bdemNC - 1*bsexNF + 1*bsexNC;
+  ! est16: None-Future Sex Difference
+    est16 = 1*bsexNF;
+  ! est17: None-Current Sex Difference
+    est17 = 1*bsexNC;
+  ! est18: Future-Current Sex Difference
+    est18 = -1*bsexNF + 1*bsexNC;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Eq 2.13: Adding Sex by Dementia Interaction
+Sex (0=Men), Dementia (0=None)
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         550
+
+Number of dependent variables                                    1
+Number of independent variables                                  8
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   COG
+
+Observed independent variables
+   SEXMW       AGE85       GRIP9       DEMNF       DEMNC       AGEGRIP
+   SEXNF       SEXNC
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  MPLUS_Chapter2.csv
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              COG           SEXMW         AGE85         GRIP9         DEMNF
+              ________      ________      ________      ________      ________
+ COG            1.000
+ SEXMW          1.000         1.000
+ AGE85          1.000         1.000         1.000
+ GRIP9          1.000         1.000         1.000         1.000
+ DEMNF          1.000         1.000         1.000         1.000         1.000
+ DEMNC          1.000         1.000         1.000         1.000         1.000
+ AGEGRIP        1.000         1.000         1.000         1.000         1.000
+ SEXNF          1.000         1.000         1.000         1.000         1.000
+ SEXNC          1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              DEMNC         AGEGRIP       SEXNF         SEXNC
+              ________      ________      ________      ________
+ DEMNC          1.000
+ AGEGRIP        1.000         1.000
+ SEXNF          1.000         1.000         1.000
+ SEXNC          1.000         1.000         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       10
+
+Loglikelihood
+
+          H0 Value                       -2000.736
+          H1 Value                       -2000.736
+
+Information Criteria
+
+          Akaike (AIC)                    4021.473
+          Bayesian (BIC)                  4064.572
+          Sample-Size Adjusted BIC        4032.827
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+Wald Test of Parameter Constraints
+
+          Value                              7.100
+          Degrees of Freedom                     2
+          P-Value                           0.0287
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.000
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                            194.946
+          Degrees of Freedom                     8
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ COG      ON
+    AGE85             -0.335      0.119     -2.816      0.005
+    GRIP9              0.618      0.147      4.207      0.000
+    SEXMW             -2.876      1.003     -2.867      0.004
+    DEMNF             -6.056      1.622     -3.734      0.000
+    DEMNC            -11.971      2.227     -5.376      0.000
+    AGEGRIP            0.122      0.040      3.052      0.002
+    SEXNF              0.164      2.053      0.080      0.936
+    SEXNC             -7.875      3.000     -2.625      0.009
+
+ Intercepts
+    COG               29.070      0.742     39.160      0.000
+
+ Residual Variances
+    COG               84.566      5.100     16.583      0.000
+
+New/Additional Parameters
+    EST1              29.070      0.742     39.160      0.000
+    EST2              26.195      0.634     41.343      0.000
+    EST3              23.014      1.480     15.545      0.000
+    EST4              20.303      1.109     18.300      0.000
+    EST5              17.099      2.123      8.056      0.000
+    EST6               6.349      1.932      3.286      0.001
+    EST7              -2.876      1.003     -2.867      0.004
+    EST8              -2.711      1.859     -1.459      0.145
+    EST9             -10.751      2.876     -3.739      0.000
+    EST10             -6.056      1.622     -3.734      0.000
+    EST11             -5.892      1.267     -4.649      0.000
+    EST12            -11.971      2.227     -5.376      0.000
+    EST13            -19.846      2.012     -9.864      0.000
+    EST14             -5.915      2.566     -2.306      0.021
+    EST15            -13.954      2.221     -6.284      0.000
+    EST16              0.164      2.053      0.080      0.936
+    EST17             -7.875      3.000     -2.625      0.009
+    EST18             -8.039      3.387     -2.374      0.018
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.155E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 3 OUTPUT
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                  1             2             3             4             5
+              ________      ________      ________      ________      ________
+      1     0.551086D+00
+      2    -0.577763D+00  0.100587D+01
+      3     0.157772D-02  0.293988D-02  0.141379D-01
+      4    -0.304120D-01  0.531361D-01  0.322454D-02  0.215688D-01
+      5    -0.494553D+00  0.477380D+00 -0.951856D-02 -0.104594D-01  0.262990D+01
+      6    -0.501428D+00  0.505916D+00 -0.290854D-02 -0.630886D-03  0.502697D+00
+      7     0.192066D-02  0.253589D-02  0.934732D-03  0.197898D-03 -0.265261D-02
+      8     0.512875D+00 -0.883966D+00  0.884654D-02 -0.415747D-02 -0.262034D+01
+      9     0.504707D+00 -0.867742D+00  0.314650D-02  0.661641D-03 -0.506489D+00
+     10    -0.224979D-05  0.266392D-06 -0.272885D-07 -0.212670D-06  0.201363D-04
+     11     0.551086D+00 -0.577763D+00  0.157772D-02 -0.304120D-01 -0.494553D+00
+     12    -0.266767D-01  0.428109D+00  0.451760D-02  0.227241D-01 -0.171727D-01
+     13     0.565331D-01 -0.100382D+00 -0.794084D-02 -0.408713D-01  0.213535D+01
+     14    -0.835425D-02  0.215235D-01  0.384559D-02  0.810731D-02 -0.761060D-02
+     15     0.496578D-01 -0.718469D-01 -0.133082D-02 -0.310429D-01  0.814407D-02
+     16    -0.233973D-01  0.662830D-01  0.475556D-02  0.227549D-01 -0.209644D-01
+     17    -0.577763D+00  0.100587D+01  0.293988D-02  0.531361D-01  0.477380D+00
+     18    -0.648873D-01  0.121906D+00  0.117864D-01  0.489786D-01 -0.214296D+01
+     19    -0.730551D-01  0.138130D+00  0.608638D-02  0.537978D-01 -0.291085D-01
+     20    -0.494553D+00  0.477380D+00 -0.951856D-02 -0.104594D-01  0.262990D+01
+     21     0.183225D-01 -0.406586D+00 -0.672014D-03 -0.146168D-01  0.956211D-02
+     22    -0.501428D+00  0.505916D+00 -0.290854D-02 -0.630886D-03  0.502697D+00
+     23     0.327946D-02 -0.361826D+00  0.237956D-03  0.307545D-04 -0.379174D-02
+     24    -0.687523D-02  0.285356D-01  0.661002D-02  0.982847D-02 -0.212720D+01
+     25    -0.150430D-01  0.447595D-01  0.909970D-03  0.146476D-01 -0.133539D-01
+     26     0.512875D+00 -0.883966D+00  0.884654D-02 -0.415747D-02 -0.262034D+01
+     27     0.504707D+00 -0.867742D+00  0.314650D-02  0.661641D-03 -0.506489D+00
+     28    -0.816778D-02  0.162239D-01 -0.570005D-02  0.481911D-02  0.211385D+01
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                  6             7             8             9            10
+              ________      ________      ________      ________      ________
+      6     0.495737D+01
+      7     0.179379D-02  0.160172D-02
+      8    -0.505865D+00  0.726563D-04  0.421674D+01
+      9    -0.495386D+01  0.984699D-03  0.871180D+00  0.899817D+01
+     10     0.468669D-05 -0.344186D-07 -0.196835D-04 -0.497020D-05  0.260053D+02
+     11    -0.501428D+00  0.192066D-02  0.512875D+00  0.504707D+00 -0.224979D-05
+     12     0.448764D-02  0.445655D-02 -0.371091D+00 -0.363034D+00 -0.198340D-05
+     13     0.126884D-02 -0.731955D-03 -0.210746D+01 -0.178112D-02  0.178865D-04
+     14     0.131942D-02  0.187659D-02  0.122531D+01  0.165731D-02 -0.153062D-05
+     15     0.445594D+01  0.371445D-02  0.701018D-02 -0.444915D+01  0.243690D-05
+     16     0.800193D-02  0.723504D-02 -0.577533D-02  0.368128D+01 -0.226691D-05
+     17     0.505916D+00  0.253589D-02 -0.883966D+00 -0.867742D+00  0.266392D-06
+     18     0.505808D-04  0.260855D-02  0.333277D+01  0.343843D-02 -0.194171D-04
+     19    -0.444794D+01  0.352059D-02 -0.127855D-01  0.813043D+01 -0.470381D-05
+     20     0.502697D+00 -0.265261D-02 -0.262034D+01 -0.506489D+00  0.201363D-04
+     21    -0.316823D-02 -0.257995D-02  0.159640D+01  0.364692D+00  0.452779D-06
+     22     0.495737D+01  0.179379D-02 -0.505865D+00 -0.495386D+01  0.468669D-05
+     23     0.351429D-02  0.277849D-02  0.365315D+00  0.404431D+01 -0.283507D-06
+     24     0.445467D+01  0.444640D-02  0.211447D+01 -0.444737D+01 -0.154496D-04
+     25     0.668251D-02  0.535844D-02 -0.123109D+01  0.367962D+01 -0.736286D-06
+     26    -0.505865D+00  0.726563D-04  0.421674D+01  0.871180D+00 -0.196835D-04
+     27    -0.495386D+01  0.984699D-03  0.871180D+00  0.899817D+01 -0.497020D-05
+     28    -0.444799D+01  0.912043D-03 -0.334556D+01  0.812699D+01  0.147133D-04
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                 11            12            13            14            15
+              ________      ________      ________      ________      ________
+     11     0.551086D+00
+     12    -0.266767D-01  0.401433D+00
+     13     0.565331D-01 -0.438494D-01  0.219188D+01
+     14    -0.835425D-02  0.131693D-01 -0.159648D-01  0.123087D+01
+     15     0.496578D-01 -0.221891D-01  0.578019D-01 -0.703483D-02  0.450560D+01
+     16    -0.233973D-01  0.428858D-01 -0.443617D-01  0.161460D-01 -0.153953D-01
+     17    -0.577763D+00  0.428109D+00 -0.100382D+00  0.215235D-01 -0.718469D-01
+     18    -0.648873D-01  0.570187D-01 -0.220784D+01  0.124683D+01 -0.648367D-01
+     19    -0.730551D-01  0.650748D-01 -0.102164D+00  0.231808D-01 -0.452099D+01
+     20    -0.494553D+00 -0.171727D-01  0.213535D+01 -0.761060D-02  0.814407D-02
+     21     0.183225D-01 -0.388263D+00  0.278846D-01  0.121770D+01  0.151542D-01
+     22    -0.501428D+00  0.448764D-02  0.126884D-02  0.131942D-02  0.445594D+01
+     23     0.327946D-02 -0.358547D+00 -0.512281D-03  0.297673D-02  0.679375D-02
+     24    -0.687523D-02  0.216603D-01 -0.213408D+01  0.893002D-02  0.444780D+01
+     25    -0.150430D-01  0.297165D-01 -0.283969D-01 -0.121472D+01 -0.836049D-02
+     26     0.512875D+00 -0.371091D+00 -0.210746D+01  0.122531D+01  0.701018D-02
+     27     0.504707D+00 -0.363034D+00 -0.178112D-02  0.165731D-02 -0.444915D+01
+     28    -0.816778D-02  0.805616D-02  0.210568D+01 -0.122365D+01 -0.445616D+01
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                 16            17            18            19            20
+              ________      ________      ________      ________      ________
+     16     0.373217D+01
+     17     0.662830D-01  0.100587D+01
+     18     0.605077D-01  0.121906D+00  0.345468D+01
+     19     0.374756D+01  0.138130D+00  0.125344D+00  0.826856D+01
+     20    -0.209644D-01  0.477380D+00 -0.214296D+01 -0.291085D-01  0.262990D+01
+     21    -0.267398D-01 -0.406586D+00  0.118982D+01 -0.418940D-01  0.956211D-02
+     22     0.800193D-02  0.505916D+00  0.505808D-04 -0.444794D+01  0.502697D+00
+     23     0.368928D+01 -0.361826D+00  0.348901D-02  0.368249D+01 -0.379174D-02
+     24     0.289664D-01  0.285356D-01  0.214301D+01 -0.441883D+01 -0.212720D+01
+     25     0.371602D+01  0.447595D-01 -0.118633D+01  0.372438D+01 -0.133539D-01
+     26    -0.577533D-02 -0.883966D+00  0.333277D+01 -0.127855D-01 -0.262034D+01
+     27     0.368128D+01 -0.867742D+00  0.343843D-02  0.813043D+01 -0.506489D+00
+     28     0.368706D+01  0.162239D-01 -0.332933D+01  0.814321D+01  0.211385D+01
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                 21            22            23            24            25
+              ________      ________      ________      ________      ________
+     21     0.160596D+01
+     22    -0.316823D-02  0.495737D+01
+     23     0.361523D+00  0.351429D-02  0.404783D+01
+     24    -0.127303D-01  0.445467D+01  0.730603D-02  0.658187D+01
+     25    -0.124444D+01  0.668251D-02  0.368631D+01  0.200364D-01  0.493075D+01
+     26     0.159640D+01 -0.505865D+00  0.365315D+00  0.211447D+01 -0.123109D+01
+     27     0.364692D+00 -0.495386D+01  0.404431D+01 -0.444737D+01  0.367962D+01
+     28    -0.123171D+01 -0.444799D+01  0.367900D+01 -0.656184D+01  0.491071D+01
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                 26            27            28
+              ________      ________      ________
+     26     0.421674D+01
+     27     0.871180D+00  0.899817D+01
+     28    -0.334556D+01  0.812699D+01  0.114725D+02
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                  1             2             3             4             5
+              ________      ________      ________      ________      ________
+      1         1.000
+      2        -0.776         1.000
+      3         0.018         0.025         1.000
+      4        -0.279         0.361         0.185         1.000
+      5        -0.411         0.294        -0.049        -0.044         1.000
+      6        -0.303         0.227        -0.011        -0.002         0.139
+      7         0.065         0.063         0.196         0.034        -0.041
+      8         0.336        -0.429         0.036        -0.014        -0.787
+      9         0.227        -0.288         0.009         0.002        -0.104
+     10         0.000         0.000         0.000         0.000         0.000
+     11         1.000        -0.776         0.018        -0.279        -0.411
+     12        -0.057         0.674         0.060         0.244        -0.017
+     13         0.051        -0.068        -0.045        -0.188         0.889
+     14        -0.010         0.019         0.029         0.050        -0.004
+     15         0.032        -0.034        -0.005        -0.100         0.002
+     16        -0.016         0.034         0.021         0.080        -0.007
+     17        -0.776         1.000         0.025         0.361         0.294
+     18        -0.047         0.065         0.053         0.179        -0.711
+     19        -0.034         0.048         0.018         0.127        -0.006
+     20        -0.411         0.294        -0.049        -0.044         1.000
+     21         0.019        -0.320        -0.004        -0.079         0.005
+     22        -0.303         0.227        -0.011        -0.002         0.139
+     23         0.002        -0.179         0.001         0.000        -0.001
+     24        -0.004         0.011         0.022         0.026        -0.511
+     25        -0.009         0.020         0.003         0.045        -0.004
+     26         0.336        -0.429         0.036        -0.014        -0.787
+     27         0.227        -0.288         0.009         0.002        -0.104
+     28        -0.003         0.005        -0.014         0.010         0.385
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                  6             7             8             9            10
+              ________      ________      ________      ________      ________
+      6         1.000
+      7         0.020         1.000
+      8        -0.111         0.001         1.000
+      9        -0.742         0.008         0.141         1.000
+     10         0.000         0.000         0.000         0.000         1.000
+     11        -0.303         0.065         0.336         0.227         0.000
+     12         0.003         0.176        -0.285        -0.191         0.000
+     13         0.000        -0.012        -0.693         0.000         0.000
+     14         0.001         0.042         0.538         0.000         0.000
+     15         0.943         0.044         0.002        -0.699         0.000
+     16         0.002         0.094        -0.001         0.635         0.000
+     17         0.227         0.063        -0.429        -0.288         0.000
+     18         0.000         0.035         0.873         0.001         0.000
+     19        -0.695         0.031        -0.002         0.943         0.000
+     20         0.139        -0.041        -0.787        -0.104         0.000
+     21        -0.001        -0.051         0.613         0.096         0.000
+     22         1.000         0.020        -0.111        -0.742         0.000
+     23         0.001         0.035         0.088         0.670         0.000
+     24         0.780         0.043         0.401        -0.578         0.000
+     25         0.001         0.060        -0.270         0.552         0.000
+     26        -0.111         0.001         1.000         0.141         0.000
+     27        -0.742         0.008         0.141         1.000         0.000
+     28        -0.590         0.007        -0.481         0.800         0.000
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                 11            12            13            14            15
+              ________      ________      ________      ________      ________
+     11         1.000
+     12        -0.057         1.000
+     13         0.051        -0.047         1.000
+     14        -0.010         0.019        -0.010         1.000
+     15         0.032        -0.016         0.018        -0.003         1.000
+     16        -0.016         0.035        -0.016         0.008        -0.004
+     17        -0.776         0.674        -0.068         0.019        -0.034
+     18        -0.047         0.048        -0.802         0.605        -0.016
+     19        -0.034         0.036        -0.024         0.007        -0.741
+     20        -0.411        -0.017         0.889        -0.004         0.002
+     21         0.019        -0.484         0.015         0.866         0.006
+     22        -0.303         0.003         0.000         0.001         0.943
+     23         0.002        -0.281         0.000         0.001         0.002
+     24        -0.004         0.013        -0.562         0.003         0.817
+     25        -0.009         0.021        -0.009        -0.493        -0.002
+     26         0.336        -0.285        -0.693         0.538         0.002
+     27         0.227        -0.191         0.000         0.000        -0.699
+     28        -0.003         0.004         0.420        -0.326        -0.620
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                 16            17            18            19            20
+              ________      ________      ________      ________      ________
+     16         1.000
+     17         0.034         1.000
+     18         0.017         0.065         1.000
+     19         0.675         0.048         0.023         1.000
+     20        -0.007         0.294        -0.711        -0.006         1.000
+     21        -0.011        -0.320         0.505        -0.011         0.005
+     22         0.002         0.227         0.000        -0.695         0.139
+     23         0.949        -0.179         0.001         0.637        -0.001
+     24         0.006         0.011         0.449        -0.599        -0.511
+     25         0.866         0.020        -0.287         0.583        -0.004
+     26        -0.001        -0.429         0.873        -0.002        -0.787
+     27         0.635        -0.288         0.001         0.943        -0.104
+     28         0.563         0.005        -0.529         0.836         0.385
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                 21            22            23            24            25
+              ________      ________      ________      ________      ________
+     21         1.000
+     22        -0.001         1.000
+     23         0.142         0.001         1.000
+     24        -0.004         0.780         0.001         1.000
+     25        -0.442         0.001         0.825         0.004         1.000
+     26         0.613        -0.111         0.088         0.401        -0.270
+     27         0.096        -0.742         0.670        -0.578         0.552
+     28        -0.287        -0.590         0.540        -0.755         0.653
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                 26            27            28
+              ________      ________      ________
+     26         1.000
+     27         0.141         1.000
+     28        -0.481         0.800         1.000
+
+
+     Beginning Time:  10:01:39
+        Ending Time:  10:01:39
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

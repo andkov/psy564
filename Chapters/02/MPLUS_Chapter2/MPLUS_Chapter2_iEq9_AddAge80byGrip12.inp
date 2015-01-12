@@ -1,0 +1,37 @@
+TITLE:
+  Eq 2.9: Adding Age by Grip Interaction
+  Age (0=80), Grip (0=12)
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  age80 = age - 80;
+  grip12 = grip - 12;
+  IF demgroup EQ 1 THEN demNF=0;
+  IF demgroup EQ 1 THEN demNC=0;
+  IF demgroup EQ 2 THEN demNF=1;
+  IF demgroup EQ 2 THEN demNC=0;
+  IF demgroup EQ 3 THEN demNF=0;
+  IF demgroup EQ 3 THEN demNC=1;
+  agegrip = age80*grip12;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog sexMW age80 grip12 demNF demNC agegrip;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+MODEL:
+  cog ON age80 grip12 sexMW (bage80 bgrip12 bsexMW);
+  cog ON demNF demNC (bdemNF bdemNC);
+  cog ON agegrip (bagegrip);
+
+MODEL CONSTRAINT:
+  NEW(est1);
+! est1: Future vs Current
+  est1 = -1*bdemNF + 1*bdemNC;

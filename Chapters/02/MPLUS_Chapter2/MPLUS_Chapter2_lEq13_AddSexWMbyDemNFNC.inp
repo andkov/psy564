@@ -1,0 +1,36 @@
+TITLE:
+  Eq 2.13: Adding Sex by Dementia Interaction
+  Sex (0=Women), Dementia (0=None)
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  age85 = age - 85;
+  grip9 = grip - 9;
+  IF sexMW EQ 0 THEN sexWM=1;
+  IF sexMW EQ 1 THEN sexWM=0;
+  IF demgroup EQ 1 THEN demNF=0;
+  IF demgroup EQ 1 THEN demNC=0;
+  IF demgroup EQ 2 THEN demNF=1;
+  IF demgroup EQ 2 THEN demNC=0;
+  IF demgroup EQ 3 THEN demNF=0;
+  IF demgroup EQ 3 THEN demNC=1;
+  agegrip = age85*grip9;
+  sexNF = sexWM*demNF;
+  sexNC = sexWM*demNC;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog age85 grip9 sexWM demNF demNC agegrip sexNF sexNC;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+MODEL:
+  cog ON age85 grip9 sexWM (bage85 bgrip9 bsexWM);
+  cog ON demNF demNC (bdemNF bdemNC);
+  cog ON agegrip sexNF sexNC (bagegrip bsexNF bsexNC);

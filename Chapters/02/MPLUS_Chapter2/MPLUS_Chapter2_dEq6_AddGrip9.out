@@ -1,0 +1,190 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/09/2015  10:01 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Eq 2.6: Adding Grip (0=9)
+
+  DATA:
+    FILE = MPLUS_Chapter2.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+    age85 = age - 85;
+    grip9 = grip - 9;
+
+  VARIABLE:
+    NAMES = PersonID cog age grip sexMW demgroup;
+    USEVARIABLES = cog age85 grip9;
+    MISSING = ALL (-9999);
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+
+  MODEL:
+    cog ON age85 grip9 (bage85 bgrip9);
+
+  MODEL TEST:
+  ! Model R2 Test
+    bage85=0;
+    bgrip9=0;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Eq 2.6: Adding Grip (0=9)
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         550
+
+Number of dependent variables                                    1
+Number of independent variables                                  2
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   COG
+
+Observed independent variables
+   AGE85       GRIP9
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  MPLUS_Chapter2.csv
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              COG           AGE85         GRIP9
+              ________      ________      ________
+ COG            1.000
+ AGE85          1.000         1.000
+ GRIP9          1.000         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        4
+
+Loglikelihood
+
+          H0 Value                       -2076.801
+          H1 Value                       -2076.801
+
+Information Criteria
+
+          Akaike (AIC)                    4161.601
+          Bayesian (BIC)                  4178.841
+          Sample-Size Adjusted BIC        4166.143
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+Wald Test of Parameter Constraints
+
+          Value                             44.528
+          Degrees of Freedom                     2
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.000
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                             42.817
+          Degrees of Freedom                     2
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ COG      ON
+    AGE85             -0.418      0.134     -3.124      0.002
+    GRIP9              0.802      0.154      5.221      0.000
+
+ Intercepts
+    COG               24.701      0.451     54.812      0.000
+
+ Residual Variances
+    COG              111.512      6.724     16.583      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.521E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:01:27
+        Ending Time:  10:01:27
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

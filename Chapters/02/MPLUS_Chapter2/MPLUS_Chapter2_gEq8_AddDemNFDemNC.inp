@@ -1,0 +1,40 @@
+TITLE:
+  Eq 2.8: Adding Dementia Group
+  Using Manual Group Contrasts so Reference=None
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  age85 = age - 85;
+  grip9 = grip - 9;
+  IF demgroup EQ 1 THEN demNF=0;
+  IF demgroup EQ 1 THEN demNC=0;
+  IF demgroup EQ 2 THEN demNF=1;
+  IF demgroup EQ 2 THEN demNC=0;
+  IF demgroup EQ 3 THEN demNF=0;
+  IF demgroup EQ 3 THEN demNC=1;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog sexMW age85 grip9 demNF demNC;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+MODEL:
+  cog ON age85 grip9 sexMW (bage85 bgrip9 bsexMW);
+  cog ON demNF demNC (bdemNF bdemNC);
+
+MODEL TEST:
+! Omnibus Dementia Group Test
+  bdemNF=0;
+  bdemNC=0;
+
+MODEL CONSTRAINT:
+  NEW(est1);
+! est1: Future vs Current
+  est1 = -1*bdemNF + 1*bdemNC;

@@ -1,0 +1,216 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/09/2015  10:01 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Eq 2.15: Adding Sex by Dementia Interaction
+    Sex (0=Women), Dementia (0=Future)
+
+  DATA:
+    FILE = MPLUS_Chapter2.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+    age85 = age - 85;
+    grip9 = grip - 9;
+    IF sexMW EQ 0 THEN sexWM=1;
+    IF sexMW EQ 1 THEN sexWM=0;
+    IF demgroup EQ 1 THEN demFN=1;
+    IF demgroup EQ 1 THEN demFC=0;
+    IF demgroup EQ 2 THEN demFN=0;
+    IF demgroup EQ 2 THEN demFC=0;
+    IF demgroup EQ 3 THEN demFN=0;
+    IF demgroup EQ 3 THEN demFC=1;
+    agegrip = age85*grip9;
+    sexFN = sexWM*demFN;
+    sexFC = sexWM*demFC;
+
+  VARIABLE:
+    NAMES = PersonID cog age grip sexMW demgroup;
+    USEVARIABLES = cog age85 grip9 sexWM demFN demFC agegrip sexFN sexFC;
+    MISSING = ALL (-9999);
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+
+  MODEL:
+    cog ON age85 grip9 sexWM (bage85 bgrip9 bsexWM);
+    cog ON demFN demFC (bdemFN bdemFC);
+    cog ON agegrip sexFN sexFC (bagegrip bsexFN bsexFC);
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Eq 2.15: Adding Sex by Dementia Interaction
+Sex (0=Women), Dementia (0=Future)
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         550
+
+Number of dependent variables                                    1
+Number of independent variables                                  8
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   COG
+
+Observed independent variables
+   AGE85       GRIP9       SEXWM       DEMFN       DEMFC       AGEGRIP
+   SEXFN       SEXFC
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  MPLUS_Chapter2.csv
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              COG           AGE85         GRIP9         SEXWM         DEMFN
+              ________      ________      ________      ________      ________
+ COG            1.000
+ AGE85          1.000         1.000
+ GRIP9          1.000         1.000         1.000
+ SEXWM          1.000         1.000         1.000         1.000
+ DEMFN          1.000         1.000         1.000         1.000         1.000
+ DEMFC          1.000         1.000         1.000         1.000         1.000
+ AGEGRIP        1.000         1.000         1.000         1.000         1.000
+ SEXFN          1.000         1.000         1.000         1.000         1.000
+ SEXFC          1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              DEMFC         AGEGRIP       SEXFN         SEXFC
+              ________      ________      ________      ________
+ DEMFC          1.000
+ AGEGRIP        1.000         1.000
+ SEXFN          1.000         1.000         1.000
+ SEXFC          1.000         1.000         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       10
+
+Loglikelihood
+
+          H0 Value                       -2000.736
+          H1 Value                       -2000.736
+
+Information Criteria
+
+          Akaike (AIC)                    4021.473
+          Bayesian (BIC)                  4064.572
+          Sample-Size Adjusted BIC        4032.827
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.000
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                            194.946
+          Degrees of Freedom                     8
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ COG      ON
+    AGE85             -0.335      0.119     -2.816      0.005
+    GRIP9              0.618      0.147      4.207      0.000
+    SEXWM              2.711      1.859      1.459      0.145
+    DEMFN              5.892      1.267      4.649      0.000
+    DEMFC            -13.954      2.221     -6.284      0.000
+    AGEGRIP            0.122      0.040      3.052      0.002
+    SEXFN              0.164      2.053      0.080      0.936
+    SEXFC              8.039      3.387      2.374      0.018
+
+ Intercepts
+    COG               20.303      1.109     18.300      0.000
+
+ Residual Variances
+    COG               84.566      5.099     16.583      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.201E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:01:44
+        Ending Time:  10:01:45
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

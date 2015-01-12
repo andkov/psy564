@@ -1,0 +1,80 @@
+TITLE:
+  Eq 2.9: Adding Age by Grip Interaction
+  Age (0=85), Grip (0=9)
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  age85 = age - 85;
+  grip9 = grip - 9;
+  IF demgroup EQ 1 THEN demNF=0;
+  IF demgroup EQ 1 THEN demNC=0;
+  IF demgroup EQ 2 THEN demNF=1;
+  IF demgroup EQ 2 THEN demNC=0;
+  IF demgroup EQ 3 THEN demNF=0;
+  IF demgroup EQ 3 THEN demNC=1;
+  agegrip = age85*grip9;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog sexMW age85 grip9 demNF demNC agegrip;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+OUTPUT:
+  TECH3;
+
+MODEL:
+  cog ON age85 grip9 sexMW (bage85 bgrip9 bsexMW);
+  cog ON demNF demNC (bdemNF bdemNC);
+  cog ON agegrip (bagegrip);
+  [cog] (int);
+
+MODEL TEST:
+! Model R2 Test
+  bage85=0;
+  bgrip9=0;
+  bsexMW=0;
+  bdemNF=0;
+  bdemNC=0;
+  bagegrip=0;
+
+MODEL CONSTRAINT:
+  NEW(est1-est16);
+! est1: Future vs Current
+  est1 = -1*bdemNF + 1*bdemNC;
+! est2: Age Slope at Grip Strength =  6
+  est2 = bage85*1 - bagegrip*3;
+! est3: Age Slope at Grip Strength =  9
+  est3 = bage85*1 + bagegrip*0;
+! est4: Age Slope at Grip Strength = 12
+  est4 = bage85*1 + bagegrip*3;
+! est5: Grip Strength Slope at Age = 80
+  est5 = bgrip9*1 - bagegrip*5;
+! est6: Grip Strength Slope at Age = 85
+  est6 = bgrip9*1 + bagegrip*0;
+! est7: Grip Strength Slope at Age = 90
+  est7 = bgrip9*1 + bagegrip*5;
+! est8: Cognition at Grip = 12 Age = 80
+  est8 = int*1 - bage85*5 + bgrip9*3 - bagegrip*15;
+! est9: Cognition at Grip = 12 Age = 85
+  est9 = int*1 + bage85*0 + bgrip9*3 + bagegrip*0;
+! est10: Cognition at Grip = 12 Age = 90
+  est10 = int*1 + bage85*5 + bgrip9*3 + bagegrip*15;
+! est11: Cognition at Grip =  9 Age = 80
+  est11 = int*1 - bage85*5 + bgrip9*0 + bagegrip*0;
+! est12: Cognition at Grip =  9 Age = 85
+  est12 = int*1 + bage85*0 + bgrip9*0 + bagegrip*0;
+! est13: Cognition at Grip =  9 Age = 90
+  est13 = int*1 + bage85*5 + bgrip9*0 + bagegrip*0;
+! est14: Cognition at Grip =  6 Age = 80
+  est14 = int*1 - bage85*5 - bgrip9*3 + bagegrip*15;
+! est15: Cognition at Grip =  6 Age = 85
+  est15 = int*1 + bage85*0 - bgrip9*3 + bagegrip*0;
+! est16: Cognition at Grip =  6 Age = 90
+  est16 = int*1 + bage85*5 - bgrip9*3 - bagegrip*15;

@@ -1,0 +1,282 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/09/2015  10:01 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Eq 2.17: Adding Age by Sex and Grip by Sex Interactions
+    Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)
+
+  DATA:
+    FILE = MPLUS_Chapter2.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+    age85 = age - 85;
+    grip9 = grip - 9;
+    IF demgroup EQ 1 THEN demNF=0;
+    IF demgroup EQ 1 THEN demNC=0;
+    IF demgroup EQ 2 THEN demNF=1;
+    IF demgroup EQ 2 THEN demNC=0;
+    IF demgroup EQ 3 THEN demNF=0;
+    IF demgroup EQ 3 THEN demNC=1;
+    agegrip = age85*grip9;
+    sexNF = sexMW*demNF;
+    sexNC = sexMW*demNC;
+    agesex = age85*sexMW;
+    gripsex = grip9*sexMW;
+
+  VARIABLE:
+    NAMES = PersonID cog age grip sexMW demgroup;
+    USEVARIABLES = cog sexMW age85 grip9 demNF demNC agegrip sexNF sexNC agesex gripsex;
+    MISSING = ALL (-9999);
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+
+  MODEL:
+    cog ON age85 grip9 sexMW (bage85 bgrip9 bsexMW);
+    cog ON demNF demNC (bdemNF bdemNC);
+    cog ON agegrip sexNF sexNC (bagegrip bsexNF bsexNC);
+    cog ON agesex gripsex (bagesex bgripsex);
+
+  MODEL CONSTRAINT:
+    NEW(est1-est16);
+  ! est1: Age for Men
+    est1 = bage85*1 + bagesex*0;
+  ! est2: Age for Women
+    est2 = bage85*1 + bagesex*1;
+  ! est3: Grip for Men
+    est3 = bgrip9*1 + bgripsex*0;
+  ! est4: Grip for Women
+    est4 = bgrip9*1 + bgripsex*1;
+  ! est5: Sex for None
+    est5 = bsexMW*1 + bsexNF*0 + bsexNC*0;
+  ! est6: Sex for Future
+    est6 = bsexMW*1 + bsexNF*1 + bsexNC*0;
+  ! est7: Sex for Current
+    est7 = bsexMW*1 + bsexNF*0 + bsexNC*1;
+  ! est8: Men: None vs Future
+    est8 = 1*bdemNF + 0*bdemNC + 0*bsexNF + 0*bsexNC;
+  ! est9: Men: None vs Current
+    est9 = 0*bdemNF + 1*bdemNC + 0*bsexNF + 0*bsexNC;
+  ! est10: Men: Future vs Current
+    est10 = -1*bdemNF + 1*bdemNC + 0*bsexNF + 0*bsexNC;
+  ! est11: Women: None vs Future
+    est11 = 1*bdemNF + 0*bdemNC + 1*bsexNF + 0*bsexNC;
+  ! est12: Women: None vs Current
+    est12 = 0*bdemNF + 1*bdemNC + 0*bsexNF + 1*bsexNC;
+  ! est13: Women: Future vs Current
+    est13 = -1*bdemNF + 1*bdemNC - 1*bsexNF + 1*bsexNC;
+  ! est14: Sex by None vs Future
+    est14 = 1*bsexNF + 0*bsexNC;
+  ! est15: Sex by None vs Current
+    est15 = 0*bsexNF + 1*bsexNC;
+  ! est16: Sex by Future vs Current
+    est16 = -1*bsexNF + 1*bsexNC;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Eq 2.17: Adding Age by Sex and Grip by Sex Interactions
+Age (0=85), Grip (0=9), Sex (0=Men), Dementia (0=None)
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         550
+
+Number of dependent variables                                    1
+Number of independent variables                                 10
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   COG
+
+Observed independent variables
+   SEXMW       AGE85       GRIP9       DEMNF       DEMNC       AGEGRIP
+   SEXNF       SEXNC       AGESEX      GRIPSEX
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  MPLUS_Chapter2.csv
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              COG           SEXMW         AGE85         GRIP9         DEMNF
+              ________      ________      ________      ________      ________
+ COG            1.000
+ SEXMW          1.000         1.000
+ AGE85          1.000         1.000         1.000
+ GRIP9          1.000         1.000         1.000         1.000
+ DEMNF          1.000         1.000         1.000         1.000         1.000
+ DEMNC          1.000         1.000         1.000         1.000         1.000
+ AGEGRIP        1.000         1.000         1.000         1.000         1.000
+ SEXNF          1.000         1.000         1.000         1.000         1.000
+ SEXNC          1.000         1.000         1.000         1.000         1.000
+ AGESEX         1.000         1.000         1.000         1.000         1.000
+ GRIPSEX        1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              DEMNC         AGEGRIP       SEXNF         SEXNC         AGESEX
+              ________      ________      ________      ________      ________
+ DEMNC          1.000
+ AGEGRIP        1.000         1.000
+ SEXNF          1.000         1.000         1.000
+ SEXNC          1.000         1.000         1.000         1.000
+ AGESEX         1.000         1.000         1.000         1.000         1.000
+ GRIPSEX        1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              GRIPSEX
+              ________
+ GRIPSEX        1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       12
+
+Loglikelihood
+
+          H0 Value                       -2000.519
+          H1 Value                       -2000.519
+
+Information Criteria
+
+          Akaike (AIC)                    4025.039
+          Bayesian (BIC)                  4076.758
+          Sample-Size Adjusted BIC        4038.665
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.000
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                            195.380
+          Degrees of Freedom                    10
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ COG      ON
+    AGE85             -0.384      0.193     -1.992      0.046
+    GRIP9              0.723      0.234      3.087      0.002
+    SEXMW             -2.755      1.019     -2.703      0.007
+    DEMNF             -6.083      1.623     -3.747      0.000
+    DEMNC            -11.947      2.227     -5.365      0.000
+    AGEGRIP            0.129      0.046      2.845      0.004
+    SEXNF              0.227      2.060      0.110      0.912
+    SEXNC             -7.889      2.999     -2.631      0.009
+    AGESEX             0.079      0.272      0.290      0.772
+    GRIPSEX           -0.164      0.301     -0.545      0.586
+
+ Intercepts
+    COG               28.905      0.790     36.592      0.000
+
+ Residual Variances
+    COG               84.499      5.096     16.583      0.000
+
+New/Additional Parameters
+    EST1              -0.384      0.193     -1.992      0.046
+    EST2              -0.305      0.169     -1.803      0.071
+    EST3               0.723      0.234      3.087      0.002
+    EST4               0.559      0.190      2.942      0.003
+    EST5              -2.755      1.019     -2.703      0.007
+    EST6              -2.528      1.882     -1.343      0.179
+    EST7             -10.644      2.879     -3.697      0.000
+    EST8              -6.083      1.623     -3.747      0.000
+    EST9             -11.947      2.227     -5.365      0.000
+    EST10             -5.863      2.566     -2.285      0.022
+    EST11             -5.856      1.269     -4.613      0.000
+    EST12            -19.836      2.011     -9.862      0.000
+    EST13            -13.980      2.222     -6.293      0.000
+    EST14              0.227      2.060      0.110      0.912
+    EST15             -7.889      2.999     -2.631      0.009
+    EST16             -8.116      3.389     -2.395      0.017
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.156E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:01:50
+        Ending Time:  10:01:50
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

@@ -1,0 +1,82 @@
+TITLE:
+  Eq 2.13: Adding Sex by Dementia Interaction
+  Sex (0=Men), Dementia (0=None)
+
+DATA:
+  FILE = MPLUS_Chapter2.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  age85 = age - 85;
+  grip9 = grip - 9;
+  IF demgroup EQ 1 THEN demNF=0;
+  IF demgroup EQ 1 THEN demNC=0;
+  IF demgroup EQ 2 THEN demNF=1;
+  IF demgroup EQ 2 THEN demNC=0;
+  IF demgroup EQ 3 THEN demNF=0;
+  IF demgroup EQ 3 THEN demNC=1;
+  agegrip = age85*grip9;
+  sexNF = sexMW*demNF;
+  sexNC = sexMW*demNC;
+
+VARIABLE:
+  NAMES = PersonID cog age grip sexMW demgroup;
+  USEVARIABLES = cog sexMW age85 grip9 demNF demNC agegrip sexNF sexNC;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+OUTPUT:
+  TECH3;
+
+MODEL:
+  cog ON age85 grip9 sexMW (bage85 bgrip9 bsexMW);
+  cog ON demNF demNC (bdemNF bdemNC);
+  cog ON agegrip sexNF sexNC (bagegrip bsexNF bsexNC);
+  [cog] (int);
+
+MODEL TEST:
+! Omnibus Dementia*Sex Interaction Test
+  bsexNF=0;
+  bsexNC=0;
+
+MODEL CONSTRAINT:
+  NEW(est1-est18);
+! est1: Cognition for Men   None
+  est1 = int*1 + bsexMW*0 + bdemNF*0 + bdemNC*0 + bsexNF*0 + bsexNC*0;
+! est2: Cognition for Women None
+  est2 = int*1 + bsexMW*1 + bdemNF*0 + bdemNC*0 + bsexNF*0 + bsexNC*0;
+! est3: Cognition for Men   Future
+  est3 = int*1 + bsexMW*0 + bdemNF*1 + bdemNC*0 + bsexNF*0 + bsexNC*0;
+! est4: Cognition for Women Future
+  est4 = int*1 + bsexMW*1 + bdemNF*1 + bdemNC*0 + bsexNF*1 + bsexNC*0;
+! est5: Cognition for Men   Current
+  est5 = int*1 + bsexMW*0 + bdemNF*0 + bdemNC*1 + bsexNF*0 + bsexNC*0;
+! est6: Cognition for Women Current
+  est6 = int*1 + bsexMW*1 + bdemNF*0 + bdemNC*1 + bsexNF*0 + bsexNC*1;
+! est7: Sex Difference for No Dementia
+  est7 = bsexMW*1 + bsexNF*0 + bsexNC*0;
+! est8: Sex Difference for Future Dementia
+  est8 = bsexMW*1 + bsexNF*1 + bsexNC*0;
+! est9: Sex Difference for Current Dementia
+  est9 = bsexMW*1 + bsexNF*0 + bsexNC*1;
+! est10: None-Future Difference for Men
+  est10 = bdemNF*1 + bsexNF*0;
+! est11: None-Future Difference for Women
+  est11 = bdemNF*1 + bsexNF*1;
+! est12: None-Current Difference for Men
+  est12 = bdemNC*1 + bsexNC*0;
+! est13: None-Current Difference for Women
+  est13 = bdemNC*1 + bsexNC*1;
+! est14: Future-Current Difference for Men
+  est14 = -1*bdemNF + 1*bdemNC + 0*bsexNF + 0*bsexNC;
+! est15: Future-Current Difference for Women
+  est15 = -1*bdemNF + 1*bdemNC - 1*bsexNF + 1*bsexNC;
+! est16: None-Future Sex Difference
+  est16 = 1*bsexNF;
+! est17: None-Current Sex Difference
+  est17 = 1*bsexNC;
+! est18: Future-Current Sex Difference
+  est18 = -1*bsexNF + 1*bsexNC;
