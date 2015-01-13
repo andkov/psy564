@@ -1,0 +1,16 @@
+{
+    "contents" : "----\n\n**NOTICE**: page under construction. Stable version will be published by *January 13, 2015* [edit page](https://github.com/andkov/MLMtime/edit/gh-pages/2.md)\n\n----\n\n**Admission requirements** *What you need to read before coming to class on Tuesday* \n\n**Chapter**: *2 - Between-Person Analysis and Interpretation of Interactions*   \n\n**Lecture**: *Interpreting General Linear Models*  [slides](http://www.lesahoffman.com/944/944_Lecture01_Intro_MLM.pdf) |  [watch](http://camrelay1.unl.edu/inbox/lhoffman2/944_Lecture02_-_Flash_%28Large%29_-_20130111_12.21.32PM.html) |  [download](http://camrelay1.unl.edu/inbox/lhoffman2/944_Lecture02_-_iPod_and_iPhone_-_20130111_12.21.32PM.mp4)   \n\n---- \n\n\n## Plan for the week \n\n### Week at a glance\n\n#### Tuesday\nTopic Title\n\n#### Friday \nReport Title\n\n#### Homework \nDue Friday, 23:59\n\n\n### Learning objectives: Concepts\n\n\n#### Basic\n- objective 1  \n- objective 2  \n- objective 3  \n\n#### Intermediate  \n- General Linear Model \n- objective 2  \n\n#### Advanced \n- difference b/w contrasts and  \n- Three-way interactions\n\n\n### Learning objectives: Skills \n\n\n#### Basic\n- load data  \n- basic file types in MPlus \n- reading the output\n\n#### Intermediate \n- re-center a continuous predictor  \n- write dummy variable\n\n#### Advanced \n- plot interactions\n\n\n----\n \n## Tuesday Session  \n\n\n### Activities\n\n#### Intro Quiz   \n\n#### Guess page\n\n#### Guess slide\n\n#### Tip of the Day / Resource Monitor\n\n\n\n### Checklist for Friday session\n\n- Starter quiz \n\n- Jeopardy!\n\n### Extra credit\n\n#### Competitive EC\n - today at Jeopardy: best question in each category gets 1 point of EC. \n \n#### Non-competitive EC\n  - **Theme** : online resources for learning markdown\n  - closes at 23:59 Friday\n  - post as a reply to\n  - \n\n### Report due\n\n**Assignment** Summarize the first two chapters in a markdown report. Use this [cheatsheet](http://support.mashery.com/docs/customizing_your_portal/Markdown_Cheat_Sheet) to ensure that your report contains at least:  \n \n - 3 different headings  \n - 1 ordered list\n - 1 unordered list\n - 1 definition list\n - 3 kinds of emphasis  \n - 1 link to a webpage\n - 1 image call\n - 2 tables \n\n\n\n\n\n---- \n\n",
+    "created" : 1421175176225.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4151820172",
+    "id" : "E4EFD204",
+    "lastKnownWriteTime" : 1421177568,
+    "path" : "~/GitHub/psy564/2.md",
+    "project_path" : "2.md",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "markdown"
+}
