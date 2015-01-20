@@ -9,7 +9,7 @@ library(nlme)
 library(dplyr)
 library(reshape2)
 library(ggplot2)
-
+library(psych)
 
 ## @knitr LoadData
 pathDir  <- getwd()
@@ -22,6 +22,7 @@ str(data.frame(ds))
 head(ds)
 
 summary(ds)
+psych:summary(ds)
 
 table(ds$group)
 
@@ -61,7 +62,7 @@ p <- p + theme1
 p <- p + scale_x_discrete(limits=c(1,2), labels=c("Pre-Test","Post-Test"))
 p <- p + scale_y_continuous(limits=c(30,70), 
                             breaks=seq(30,70, by=5))
-p <- p + facet_grid(.~group)
+# p <- p + facet_grid(.~group)
 # p <- p + labs(list(
 #   title="How often did you attend worship last year?",
 #   x="Year of observation", y="Church attendance"))
@@ -72,9 +73,12 @@ p
 
 
 ## @knitr EmptyMeansModel
-m3.1 <- nlme::gls(outcome ~ 1, data=ds, method="ML")
+m3.1 <- nlme::gls(outcome ~ 1, data=ds, method="ML", correlation=corSymm(form = ~ 1|id))
 summary(m3.1)
+str(summary(m3.1))
 ds$m3.1 <- predict(m3.1)
+
+var(ds$outcome - ds$m3.1)
 
 
 model <- m3.1
@@ -104,10 +108,12 @@ print(mo3.1)
 
 
 
+
 ## @knitr EmptyMeansModel
 m3.2 <- lme4::lmer(outcome ~ 1 + (1|id), data=ds, REML=FALSE)
 summary(m3.2)
 ds$m3.2 <- predict(m3.2)
+var(ds$outcome - ds$m3.2)
 
 model <- m3.2
 mInfo<-summary(model)$AICtab
