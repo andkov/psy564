@@ -1,0 +1,231 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/09/2015  10:03 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Eq 3a.7: Conditional Between-Person Model (top of Eq. 3.7)
+    Manual Contrasts for Time and Group
+
+  DATA:
+    FILE = MPLUS_Chapter3a.csv;
+    FORMAT = FREE;
+
+  DATA WIDETOLONG:
+    WIDE = outcome1-outcome2;
+    LONG = outcome;
+    IDVARIABLE = PersonID;
+    REPETITION = time1;
+
+  DEFINE:
+    treat = group - 1;
+
+  VARIABLE:
+    NAMES = PersonID group outcome1 outcome2;
+    USEVARIABLES = outcome time1 treat;
+    MISSING = ALL (-9999);
+    CLUSTER = PersonID;
+    WITHIN = time1;
+    BETWEEN = treat;
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+    TYPE = TWOLEVEL RANDOM;
+
+  MODEL:
+
+  %WITHIN%
+    outcome (resvar);
+    time | outcome ON time1;
+
+  %BETWEEN%
+    [outcome time] (int btime1);
+    outcome@0 time@0;
+    outcome time ON treat (btreat btimtreat);
+
+  MODEL CONSTRAINT:
+    NEW(est1-est8);
+  ! est1: Mean: Control Group at Pre-Test
+    est1 = int*1 + btime1*0 + btreat*0 + btimtreat*0;
+  ! est2: Mean: Control Group at Post-Test
+    est2 = int*1 + btime1*1 + btreat*0 + btimtreat*0;
+  ! est3: Mean: Treatment Group at Pre-Test
+    est3 = int*1 + btime1*0 + btreat*1 + btimtreat*0;
+  ! est4: Mean: Treatment Group at Post-Test
+    est4 = int*1 + btime1*1 + btreat*1 + btimtreat*1;
+  ! est5: Time  Effect for Control Group
+    est5 = btime1*1 + btimtreat*0;
+  ! est6: Time  Effect for Treatment Group
+    est6 = btime1*1 + btimtreat*1;
+  ! est7: Group Effect at Pre-Tmplusest
+    est7 = btreat*1 + btimtreat*0;
+  ! est8: Group Effect at Post-Tmplusest
+    est8 = btreat*1 + btimtreat*1;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Eq 3a.7: Conditional Between-Person Model (top of Eq. 3.7)
+Manual Contrasts for Time and Group
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         100
+
+Number of dependent variables                                    1
+Number of independent variables                                  2
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   OUTCOME
+
+Observed independent variables
+   TIME1       TREAT
+
+Continuous latent variables
+   TIME
+
+Variables with special functions
+
+  Cluster variable      PERSONID
+
+  Within variables
+   TIME1
+
+  Between variables
+   TREAT
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  MPLUS_Chapter3a.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                         50
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              OUTCOME       TIME1         TREAT
+              ________      ________      ________
+ OUTCOME        1.000
+ TIME1          1.000         1.000
+ TREAT          1.000         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        5
+
+Loglikelihood
+
+          H0 Value                        -305.059
+
+Information Criteria
+
+          Akaike (AIC)                     620.117
+          Bayesian (BIC)                   633.143
+          Sample-Size Adjusted BIC         617.352
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Residual Variances
+    OUTCOME           26.135      3.696      7.071      0.000
+
+Between Level
+
+ TIME       ON
+    TREAT              2.037      2.071      0.984      0.325
+
+ OUTCOME    ON
+    TREAT              1.683      1.452      1.159      0.246
+
+ Intercepts
+    OUTCOME           49.077      1.025     47.897      0.000
+    TIME               5.827      1.455      4.004      0.000
+
+ Residual Variances
+    OUTCOME            0.000      0.000    999.000    999.000
+    TIME               0.000      0.000    999.000    999.000
+
+New/Additional Parameters
+    EST1              49.077      1.025     47.897      0.000
+    EST2              54.904      1.029     53.370      0.000
+    EST3              50.760      1.025     49.540      0.000
+    EST4              58.624      1.029     56.986      0.000
+    EST5               5.827      1.455      4.004      0.000
+    EST6               7.863      1.455      5.404      0.000
+    EST7               1.683      1.452      1.159      0.246
+    EST8               3.720      1.464      2.542      0.011
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.696E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:03:42
+        Ending Time:  10:03:42
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

@@ -1,0 +1,297 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/09/2015  10:08 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Eq 3b.10: Univariate Repeated Measures ANOVA
+
+  DATA:
+    FILE = MPLUS_Chapter3b.csv;
+    FORMAT = FREE;
+
+  DATA LONGTOWIDE:
+    LONG = rt;
+    WIDE = rt1-rt6;
+    IDVARIABLE = PersonID;
+    REPETITION = session (1-6);
+
+  DEFINE:
+    ! Rescale original rt so Mplus will show all results
+    rt = rt/10;
+
+  VARIABLE:
+    NAMES = PersonID session rt;
+    USEVARIABLES = rt1-rt6;
+    MISSING = ALL (-9999);
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+
+  OUTPUT:
+    STDYX;
+
+  MODEL:
+    rt1-rt6 (totvar);
+    rt1-rt6 WITH rt1-rt6 (totcov);
+    [rt1-rt6] (mean1-mean6);
+
+  MODEL TEST:
+  ! Omnibus Test of Session Mean Differences
+    0=mean6-mean1;
+    0=mean6-mean2;
+    0=mean6-mean3;
+    0=mean6-mean4;
+    0=mean6-mean5;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Eq 3b.10: Univariate Repeated Measures ANOVA
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         101
+
+Number of dependent variables                                    6
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   RT1         RT2         RT3         RT4         RT5         RT6
+
+Variables with special functions
+
+  ID variable           PERSONID
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  MPLUS_Chapter3b.csv
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              RT1           RT2           RT3           RT4           RT5
+              ________      ________      ________      ________      ________
+ RT1            1.000
+ RT2            1.000         1.000
+ RT3            1.000         1.000         1.000
+ RT4            1.000         1.000         1.000         1.000
+ RT5            1.000         1.000         1.000         1.000         1.000
+ RT6            1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              RT6
+              ________
+ RT6            1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        8
+
+Loglikelihood
+
+          H0 Value                       -2806.079
+          H1 Value                       -2743.678
+
+Information Criteria
+
+          Akaike (AIC)                    5628.158
+          Bayesian (BIC)                  5649.079
+          Sample-Size Adjusted BIC        5623.811
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            124.802
+          Degrees of Freedom                    19
+          P-Value                           0.0000
+
+Wald Test of Parameter Constraints
+
+          Value                            165.879
+          Degrees of Freedom                     5
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.235
+          90 Percent C.I.                    0.197  0.275
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                0.884
+          TLI                                0.909
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                            928.646
+          Degrees of Freedom                    15
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.146
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ RT1      WITH
+    RT2             2006.729    290.338      6.912      0.000
+    RT3             2006.729    290.338      6.912      0.000
+    RT4             2006.729    290.338      6.912      0.000
+    RT5             2006.729    290.338      6.912      0.000
+    RT6             2006.729    290.338      6.912      0.000
+
+ RT2      WITH
+    RT3             2006.729    290.338      6.912      0.000
+    RT4             2006.729    290.338      6.912      0.000
+    RT5             2006.729    290.338      6.912      0.000
+    RT6             2006.729    290.338      6.912      0.000
+
+ RT3      WITH
+    RT4             2006.729    290.338      6.912      0.000
+    RT5             2006.729    290.338      6.912      0.000
+    RT6             2006.729    290.338      6.912      0.000
+
+ RT4      WITH
+    RT5             2006.729    290.338      6.912      0.000
+    RT6             2006.729    290.338      6.912      0.000
+
+ RT5      WITH
+    RT6             2006.729    290.338      6.912      0.000
+
+ Means
+    RT1              196.189      4.818     40.718      0.000
+    RT2              181.517      4.818     37.673      0.000
+    RT3              175.003      4.818     36.321      0.000
+    RT4              171.779      4.818     35.652      0.000
+    RT5              170.717      4.818     35.432      0.000
+    RT6              167.213      4.818     34.705      0.000
+
+ Variances
+    RT1             2344.712    290.857      8.061      0.000
+    RT2             2344.712    290.857      8.061      0.000
+    RT3             2344.712    290.857      8.061      0.000
+    RT4             2344.712    290.857      8.061      0.000
+    RT5             2344.712    290.857      8.061      0.000
+    RT6             2344.712    290.857      8.061      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ RT1      WITH
+    RT2                0.856      0.020     43.775      0.000
+    RT3                0.856      0.020     43.775      0.000
+    RT4                0.856      0.020     43.775      0.000
+    RT5                0.856      0.020     43.775      0.000
+    RT6                0.856      0.020     43.775      0.000
+
+ RT2      WITH
+    RT3                0.856      0.020     43.775      0.000
+    RT4                0.856      0.020     43.775      0.000
+    RT5                0.856      0.020     43.775      0.000
+    RT6                0.856      0.020     43.775      0.000
+
+ RT3      WITH
+    RT4                0.856      0.020     43.775      0.000
+    RT5                0.856      0.020     43.775      0.000
+    RT6                0.856      0.020     43.775      0.000
+
+ RT4      WITH
+    RT5                0.856      0.020     43.775      0.000
+    RT6                0.856      0.020     43.775      0.000
+
+ RT5      WITH
+    RT6                0.856      0.020     43.775      0.000
+
+ Means
+    RT1                4.052      0.270     14.990      0.000
+    RT2                3.749      0.253     14.822      0.000
+    RT3                3.614      0.245     14.736      0.000
+    RT4                3.548      0.241     14.690      0.000
+    RT5                3.526      0.240     14.675      0.000
+    RT6                3.453      0.236     14.622      0.000
+
+ Variances
+    RT1                1.000      0.000    999.000    999.000
+    RT2                1.000      0.000    999.000    999.000
+    RT3                1.000      0.000    999.000    999.000
+    RT4                1.000      0.000    999.000    999.000
+    RT5                1.000      0.000    999.000    999.000
+    RT6                1.000      0.000    999.000    999.000
+
+
+R-SQUARE
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.131E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:08:10
+        Ending Time:  10:08:10
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

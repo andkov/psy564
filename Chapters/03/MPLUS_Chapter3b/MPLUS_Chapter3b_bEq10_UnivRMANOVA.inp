@@ -1,0 +1,41 @@
+TITLE:
+  Eq 3b.10: Univariate Repeated Measures ANOVA
+
+DATA:
+  FILE = MPLUS_Chapter3b.csv;
+  FORMAT = FREE;
+
+DATA LONGTOWIDE:
+  LONG = rt;
+  WIDE = rt1-rt6;
+  IDVARIABLE = PersonID;
+  REPETITION = session (1-6);
+
+DEFINE:
+  ! Rescale original rt so Mplus will show all results
+  rt = rt/10;
+
+VARIABLE:
+  NAMES = PersonID session rt;
+  USEVARIABLES = rt1-rt6;
+  MISSING = ALL (-9999);
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+
+OUTPUT:
+  STDYX;
+
+MODEL:
+  rt1-rt6 (totvar);
+  rt1-rt6 WITH rt1-rt6 (totcov);
+  [rt1-rt6] (mean1-mean6);
+
+MODEL TEST:
+! Omnibus Test of Session Mean Differences
+  0=mean6-mean1;
+  0=mean6-mean2;
+  0=mean6-mean3;
+  0=mean6-mean4;
+  0=mean6-mean5;

@@ -1,0 +1,61 @@
+TITLE:
+  Eq 3a.7: Conditional Within-Person Model (bottom of Eq. 3.7)
+  Manual Contrasts for Time and Group
+
+DATA:
+  FILE = MPLUS_Chapter3a.csv;
+  FORMAT = FREE;
+
+DATA WIDETOLONG:
+  WIDE = outcome1-outcome2;
+  LONG = outcome;
+  IDVARIABLE = PersonID;
+  REPETITION = time1;
+
+DEFINE:
+  treat = group - 1;
+
+VARIABLE:
+  NAMES = PersonID group outcome1 outcome2;
+  USEVARIABLES = outcome time1 treat;
+  MISSING = ALL (-9999);
+  CLUSTER = PersonID;
+  WITHIN = time1;
+  BETWEEN = treat;
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+  TYPE = TWOLEVEL RANDOM;
+
+MODEL:
+
+%WITHIN%
+  outcome (resvar);
+  time | outcome ON time1;
+
+%BETWEEN%
+  [outcome time] (int btime1);
+  outcome time@0 (intvar);
+  outcome time ON treat (btreat btimtreat);
+
+MODEL CONSTRAINT:
+  NEW(est1-est9);
+! est1: Mean: Control Group at Pre-Test
+  est1 = int*1 + btime1*0 + btreat*0 + btimtreat*0;
+! est2: Mean: Control Group at Post-Test
+  est2 = int*1 + btime1*1 + btreat*0 + btimtreat*0;
+! est3: Mean: Treatment Group at Pre-Test
+  est3 = int*1 + btime1*0 + btreat*1 + btimtreat*0;
+! est4: Mean: Treatment Group at Post-Test
+  est4 = int*1 + btime1*1 + btreat*1 + btimtreat*1;
+! est5: Time  Effect for Control Group
+  est5 = btime1*1 + btimtreat*0;
+! est6: Time  Effect for Treatment Group
+  est6 = btime1*1 + btimtreat*1;
+! est7: Group Effect at Pre-Tmplusest
+  est7 = btreat*1 + btimtreat*0;
+! est8: Group Effect at Post-Tmplusest
+  est8 = btreat*1 + btimtreat*1;
+! est9: Conditional Intraclass Correlation
+  est9 = intvar/(intvar+resvar);

@@ -1,0 +1,17 @@
+{
+    "contents" : "rm(list=ls(all=TRUE)) # clears environment\ncat(\"\\014\") # clears console\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(reshape2)\n\n\n# create a vector of data called Y containing numbers 4, 6, 5, 7, 8\nY <- c(4, 6, 5, 7, 8) \n\n# at this moment Y is of class...\nclass(Y)\n\n# we can make it a matrix using matric() function\nY <- matrix(Y,5,1,byrow=TRUE) # matrix (data,#rows,#columns,...)\n\n\n# create six data vectors of length 5 , one for each person (i)\ni1 <- c(1, 11,  11.5, 11.8, 10.3, 9.5) \ni2 <- c(2, 9,    9.8,  9.7,  9.6, 9.3) \ni3 <- c(3, 9,    7.8,  8.1,  9.1, 7.8) \ni4 <- c(4, 6.8,  7.9,  7,    7.8, 6.8) \ni5 <- c(5, 6.4,  6.2,  6.8,  7.1, 7.2) \ni6 <- c(6, 4,    5.6,  4.5,  5.2, 6.8) \n\n# combine\ndata <- cbind(i1, i2, i3, i4, i5, i6)\ndata\n\nclass(data)\nX <- matrix(data,6,6, byrow=TRUE)\nX\n\n\ni <- paste0(\"i\",1:6)\nvars <- c(\"id\",paste0(\"t\",1:5))\nX\nrownames(X) <- i\nX\ncolnames(X) <- vars\nX\n\nds <- data.frame(X)\nds\n\n\ndsLong <- reshape2::melt(ds, id.vars=\"id\")\n\n\n# sort for visual inspection\ndsLong <- dsLong[order(dsLong$id, dsLong$variable),]\nhead(dsLong,12)\n# tweak the datatset\ndsLong$variable <- gsub(pattern=\"t\", replacement='', x=dsLong$variable)\nhead(dsLong,12)\nstr(dsLong)\ndsLong$variable <- as.integer(dsLong$variable)\nstr(dsLong)\n",
+    "created" : 1421765335536.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "976240682",
+    "id" : "D4764287",
+    "lastKnownWriteTime" : 30681274979123311,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

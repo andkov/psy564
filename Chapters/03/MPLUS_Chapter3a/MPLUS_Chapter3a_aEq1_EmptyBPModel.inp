@@ -1,0 +1,32 @@
+TITLE:
+  Eq 3a.1: Empty Between-Person Model
+
+DATA:
+  FILE = MPLUS_Chapter3a.csv;
+  FORMAT = FREE;
+
+DATA WIDETOLONG:
+  WIDE = outcome1-outcome2;
+  LONG = outcome;
+  IDVARIABLE = PersonID;
+  REPETITION = time1;
+
+VARIABLE:
+  NAMES = PersonID group outcome1 outcome2;
+  USEVARIABLES = outcome;
+  MISSING = ALL (-9999);
+  CLUSTER = PersonID;
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+  TYPE = TWOLEVEL RANDOM;
+
+MODEL:
+
+%WITHIN%
+  outcome;
+
+%BETWEEN%
+  [outcome];
+  outcome@0;
