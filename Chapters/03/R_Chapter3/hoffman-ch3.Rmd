@@ -31,7 +31,7 @@ warningChunks<- FALSE
 messageChunks<- FALSE
 outwidthChunks <- "90%"
 options(width=120) #So the output is 50% wider than the default.
-read_chunk("./Chapters/02/R_Chapter2/hoffman-ch3.R") # the file to which knitr calls for the chunks
+read_chunk("./Chapters/03/R_Chapter3/hoffman-ch3.R") # the file to which knitr calls for the chunks
 ```
 
 
