@@ -1,0 +1,14 @@
+#TOC {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  overflow:auto;
+  line-height:200%;
+}
+
+.emphasized {
+   font-size: 1.2em;
+   color: red;
+}

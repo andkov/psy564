@@ -1,8 +1,8 @@
 rm(list=ls(all=TRUE))
 ########## Production of reports from .Rmd files ###
 
-pathFilesToBuild <- base::file.path("./Reports/Temp.Rmd")
-
+pathFilesToBuild <- base::file.path("./Chapters/03/R_Chapter3/hoffman-ch3.Rmd")
+                                    
 
 
 
@@ -16,8 +16,8 @@ for( pathFile in pathFilesToBuild ) {
                     output_format=c(
                       #                        "pdf_document"
                       #                       ,"md_document"
-                      #                       ,"html_document"
-                      "ioslides_presentation"
+                                            "html_document"
+#                       "ioslides_presentation"
                     ),
                     clean=TRUE)
 }

@@ -13,9 +13,9 @@ library(psych)
 
 ## @knitr LoadData
 pathDir  <- getwd()
-pathChapter  <- file.path(pathDir,"Chapters/03/SAS_Chapter3a/SAS_Chapter3a.sas7bdat")
-dsL3   <- read.sas7bdat(pathChapter, debug=TRUE) 
-ds <- data.frame(dsL3)
+pathChapter  <- file.path(pathDir,"Chapters/05/SAS_Chapter5/SAS_Chapter5.sas7bdat")
+dsL5   <- read.sas7bdat(pathChapter, debug=TRUE) 
+ds <- data.frame(dsL5)
 names(ds)
 str(data.frame(ds))
 # basic tables
