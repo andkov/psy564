@@ -1,0 +1,67 @@
+---
+title: "Untitled"
+author: "Andrey Koval"
+date: "Monday, January 12, 2015"
+output: html_document
+---
+
+<!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of only one directory.-->
+```{r, echo=F, message=F} 
+library(knitr)
+opts_knit$set(root.dir='../../../')  #Don't combine this call with any other chunk -especially one that uses file paths.
+```
+
+<!-- Set the report-wide options, and point to the external script file. -->
+```{r, echo=F, message=T}
+require(knitr)
+opts_chunk$set(
+  results='show', 
+  message = TRUE,
+  comment = NA, 
+  tidy = FALSE,
+#   fig.height = 4.8, 
+#   fig.width = 6.5, 
+  out.width = NULL,
+  fig.path = 'figure_rmd/',     
+  dev = "png",
+  dpi = 70
+)
+echoChunks <- FALSE
+warningChunks<- FALSE
+messageChunks<- FALSE
+outwidthChunks <- "90%"
+options(width=120) #So the output is 50% wider than the default.
+read_chunk("./Chapters/03/R_Chapter3/hoffman-ch3.R") # the file to which knitr calls for the chunks
+```
+
+
+## Beginnings of modeling
+
+There are several packages in R suited to fit linear and non-linear models. Some of them that we will use are:  
+ - <code> stats </code>   
+ - <code> nlme  </code>   
+ - <code> lme4  </code>   
+ 
+ 
+### <code>stats</code>  package  
+  - [Official Documentation](http://www.rdocumentation.org/packages/stats)  
+  - [lm()](http://www.rdocumentation.org/packages/stats/functions/lm) function    
+  - [glm()](http://www.rdocumentation.org/packages/stats/functions/glm) function     
+  
+  
+### <code>nlme</code>  package  
+  - [Official Documentation](http://www.rdocumentation.org/packages/nlme)  
+  - [gls()](http://www.rdocumentation.org/packages/nlme/functions/gls) function    
+  - see a basic example of model result processing in the slides on [Statistical Modeling](http://ialsa.github.io/COAG-colloquium-2014F/2014-11-18-Statistical-Modeling.html#35) of the COAG [Colloquium series](http://ialsa.github.io/COAG-colloquium-2014F) on reproducible research.  
+  
+
+### <code>lme4</code>  package  
+  - [Official Documentation](http://www.rdocumentation.org/packages/lme4)  
+  - [lmer](http://www.rdocumentation.org/packages/nlme/functions/gls) function 
+  - [lmer guide](http://htmlpreview.github.io/?https://github.com/andkov/Longitudinal_Models_of_Religiosity_NLSY97/blob/master/Vignettes/lmer/for%20Appendix/lmerGuide.html#adding-model-output)
+  
+
+  
+
+  
+ 
