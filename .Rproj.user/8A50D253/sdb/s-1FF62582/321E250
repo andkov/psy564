@@ -1,0 +1,16 @@
+{
+    "contents" : "rm(list=ls(all=TRUE))\n########## Production of reports from .Rmd files ###\n\n# patternToBuild <- \"(?<!README)\\\\.Rmd$\" #Gets all 'Rmd' , that aren't named `README`.\npatternToBuild <- \"(?<!README)\\\\.(R){0,1}md$\" #Gets all 'Rmd' and 'md' files, that aren't named `README`.\npathFilesToBuild <- list.files(full.names=TRUE, recursive=TRUE)\npathFilesToBuild <- grep(patternToBuild, pathFilesToBuild, perl=TRUE, value=TRUE)\n\ntestit::assert(\"The knitr Rmd files should exist.\", base::file.exists(pathFilesToBuild))\nfor( pathFile in pathFilesToBuild ) {\n  #   pathMd <- base::gsub(pattern=\".Rmd$\", replacement=\".md\", x=pathRmd)\n  rmarkdown::render(input = pathFile, \n                    output_format=c(\n                      #                        \"pdf_document\"\n                      #                       ,\"md_document\"\n                      \"html_document\"\n                    ),\n                    clean=TRUE)\n}\n\nbase::system(\"bundle exec jekyll build\")",
+    "created" : 1422044705231.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1727549063",
+    "id" : "321E250",
+    "lastKnownWriteTime" : 1422041798,
+    "path" : "~/GitHub/psy564/produceReports.R",
+    "project_path" : "produceReports.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
