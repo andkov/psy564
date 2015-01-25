@@ -35,31 +35,33 @@ read_chunk("./Chapters/05/R_Chapter5/hoffman-ch5.R") # the file to which knitr c
 ```
 
 
-## Beginnings of modeling
+## Resources
 
-There are several packages in R suited to fit linear and non-linear models. Some of them that we will use are:  
- - <code> stats </code>   
- - <code> nlme  </code>   
- - <code> lme4  </code>   
- 
- 
-### <code>stats</code>  package  
-  - [Official Documentation](http://www.rdocumentation.org/packages/stats)  
-  - [lm()](http://www.rdocumentation.org/packages/stats/functions/lm) function    
-  - [glm()](http://www.rdocumentation.org/packages/stats/functions/glm) function     
-  
-  
-### <code>nlme</code>  package  
-  - [Official Documentation](http://www.rdocumentation.org/packages/nlme)  
-  - [gls()](http://www.rdocumentation.org/packages/nlme/functions/gls) function    
+#### General R
+
+
+- [A GOOD PLACE TO START LEARNING R](http://www.rstudio.com/resources/training/online-learning/) - The RStudio team collects the best online resources.  
+
+- [Swirl](http://swirlstats.com/students.html) and [DataCamp](https://www.datacamp.com/courses/introduction-to-r)  offer interactive courses.  
+
+- for brief reviews of key books and resources see Will Beasley's [Resources Opinions](https://github.com/OuhscBbmc/RedcapExamplesAndPatterns/blob/master/DocumentationGlobal/ResourcesOpinions.md)  
+
+ - another presentation by Will provides an excellent overview of [Statistical Collaboration with GitHub](http://htmlpreview.github.io/?https://raw.githubusercontent.com/OuhscBbmc/StatisticalComputing/master/2014_Presentations/05_May/BeasleyScugGitHub2014-05.html#/)
+ - Winston Chan's [R Cookbook](http://shop.oreilly.com/product/9780596809164.do) is a perfect book to get you started with producing graphs with RStudio  
+ - [Quick-R](http://www.statmethods.net/) Quick and convenient resource for R reference  
+ - [60+ resources for learning R](http://www.computerworld.com/article/2497464/business-intelligence-60-r-resources-to-improve-your-data-skills.html) Will give you more than you can handle. Browse and see which resource fits your learning style and organizes information in the manner that makes sense to you.
+
+#### Modeling
+
+  - [stats::lm()](http://www.rdocumentation.org/packages/stats/functions/lm) function, see [Gelman & Hill](http://www.stat.columbia.edu/~gelman/arm/), pages 38-39       
+  - [stats::glm()](http://www.rdocumentation.org/packages/stats/functions/glm) function     
+  - [nlme::gls()](http://www.rdocumentation.org/packages/nlme/functions/gls) function    
   - see a basic example of model result processing in the slides on [Statistical Modeling](http://ialsa.github.io/COAG-colloquium-2014F/2014-11-18-Statistical-Modeling.html#35) of the COAG [Colloquium series](http://ialsa.github.io/COAG-colloquium-2014F) on reproducible research.  
-  
+  - [lme4::lmer](http://www.rdocumentation.org/packages/nlme/functions/gls) function,  see [Gelman & Hill](http://www.stat.columbia.edu/~gelman/arm/), pages 259-262 and Appendix C. 
+  - [lmer guide](http://htmlpreview.github.io/?https://github.com/andkov/Longitudinal_Models_of_Religiosity_NLSY97/blob/master/Vignettes/lmer/for%20Appendix/lmerGuide.html#adding-model-output). Shows direct interaction with the model object, not through functions like Gelman & Hill show.
 
-### <code>lme4</code>  package  
-  - [Official Documentation](http://www.rdocumentation.org/packages/lme4)  
-  - [lmer](http://www.rdocumentation.org/packages/nlme/functions/gls) function 
-  - [lmer guide](http://htmlpreview.github.io/?https://github.com/andkov/Longitudinal_Models_of_Religiosity_NLSY97/blob/master/Vignettes/lmer/for%20Appendix/lmerGuide.html#adding-model-output)
-  
+
+
 
   
 
