@@ -4,7 +4,7 @@
         "filePatterns" : [
         ],
         "path" : "~/GitHub/psy564",
-        "query" : "lme4 package",
+        "query" : "sidebar",
         "regex" : false
     }
 }
