@@ -13,10 +13,11 @@
 <title>week 4</title>
 
 <script src="libs/jquery-1.11.0/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="libs/bootstrap-2.3.2/css/spacelab.min.css" rel="stylesheet" />
-<link href="libs/bootstrap-2.3.2/css/bootstrap-responsive.min.css" rel="stylesheet" />
-<script src="libs/bootstrap-2.3.2/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.1/css/spacelab.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.1/shim/respond.min.js"></script>
 <style type="text/css">
 
 /* padding for bootstrap navbar */
@@ -69,6 +70,14 @@ body {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
 }
 </style>
 <div class="container-fluid main-container">
@@ -137,7 +146,10 @@ body {
 
 <div id="TOC">
 <ul>
-<li><a href="#week-4-random-effect-of-time.-lab-dynamic-reporting">Week 4 : Random effect of time. Lab: dynamic reporting</a></li>
+<li><a href="#week-4-random-effect-of-time.-lab-dynamic-reporting">Week 4 : Random effect of time. Lab: dynamic reporting</a><ul>
+<li><a href="#mplus">Mplus</a></li>
+<li><a href="#report-due">Report Due</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -153,10 +165,34 @@ body {
 <td align="left"><strong>Chapter</strong>: <em>5 - INTRODUCTION TO RANDOM EFFECTS OF TIME AND MODEL ESTIMATION</em></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Lecture</strong>: <em>Introduction to Within-Person Analysis and RM ANOVA</em> <a href="http://www.lesahoffman.com/944/944_Lecture05_Random_Effects.pdf">slides</a> | <a href="http://www.lesahoffman.com/944/index.html">watch parts 1,2, and 3 of Lecture 5</a></td>
+<td align="left"><strong>Lecture</strong>: <em>Introduction to Random Effects of Time and Model Estimation</em> <a href="http://www.lesahoffman.com/944/944_Lecture05_Random_Effects.pdf">slides</a> | <a href="http://www.lesahoffman.com/944/index.html">watch parts 1,2, and 3 of Lecture 5</a></td>
 </tr>
 </tbody>
 </table>
+<div id="mplus" class="section level3">
+<h3>Mplus</h3>
+<p>Today we’ll take a closer look at three models, identified in the book by equations (5.1), (5.3), and (5.5).</p>
+<p>The files needed for today’s demonstration are located in the <a href="https://github.com/andkov/psy564/tree/master">master branch</a> of the class’s repository on GitHub. You may <a href="https://github.com/andkov/psy564/archive/master.zip">download the entire repo</a> ( but MAKE SURE TO UNZIP IT BEFORE working from it) or download files individually from <a href="https://github.com/andkov/psy564/tree/master/Chapters/05/Class_Chapter5">./Chapters/05/MPlus_Chapter5</a> on GitHub.</p>
+<div id="files-of-interest" class="section level4">
+<h4>Files of interest:</h4>
+<ul>
+<li><a href="https://github.com/andkov/psy564/blob/master/Chapters/05/MPlus_Chapter5/Ch5_Mplus.pdf">Ch5_Mplus.pdf</a> is today’s slides<br /></li>
+<li><a href="https://github.com/andkov/psy564/blob/master/Chapters/05/MPlus_Chapter5/ELSA_LONG_n1000.dat">ELSA_LONG_n1000.dat</a> is a subsample of <a href="http://www.elsa-project.ac.uk/">English Longitudinal Study of Ageing</a><br /></li>
+<li><a href="https://github.com/andkov/psy564/blob/master/Chapters/05/MPlus_Chapter5/ELSA_MLMGROWTH_EMPTY.inp">ELSA_MLMGROWTH_EMPTY.inp</a> is the MPlus input file we will use as the starting point.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="report-due" class="section level3">
+<h3>Report Due</h3>
+<p><em>Details will be provided in class</em></p>
+<p><strong>Assignment</strong> Using provided <a href="">data</a> produce a dynamic report analyzing the performance of three (3) within-person models:</p>
+<ol style="list-style-type: decimal">
+<li><p>Empty WP model with random intercept<br /> <code>lmer(y ~ 1  + ( 1 | PersonID))</code></p></li>
+<li><p>WP model with random intercept and fixed effect of linear time<br /> <code>lmer(y ~ 1 + time + ( 1 | PersonID))</code></p></li>
+<li><p>WP model with random intercept and random effect of linear time<br /> <code>lmer(y ~ 1 + time + ( 1 + time | PersonID))</code></p></li>
+</ol>
+</div>
 </div>
 
 
