@@ -6,7 +6,7 @@ output:
   html_document:
     css: ~/GitHub/psy564/libs/css/sidebar.css
     highlight: haddock
-    theme: cerulean
+    theme: spacelab
     toc: yes
 ---
 

@@ -5,8 +5,9 @@ date: "Friday, January 23, 2015"
 output:
   html_document:
     css: ~/GitHub/psy564/libs/css/sidebar.css
-    highlight: zenburn
-    theme: cerulean
+    highlight: haddock
+    keep_md: no
+    theme: spacelab
     toc: yes
 ---
 
