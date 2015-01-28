@@ -1,10 +1,10 @@
 {
     "dialog-state" : {
-        "caseSensitive" : false,
+        "caseSensitive" : true,
         "filePatterns" : [
         ],
         "path" : "~/GitHub/psy564",
-        "query" : "sidebar",
+        "query" : "TOC",
         "regex" : false
     }
 }

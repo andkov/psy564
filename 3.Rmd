@@ -2,9 +2,8 @@
 title: "week 3"
 output:
   html_document:
-    toc: yes
-    keep_md: false
     theme: spacelab
+    toc: yes
 ---
 
 ```{r child, child = '3.md'}
