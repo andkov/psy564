@@ -1,10 +1,10 @@
 {
     "dialog-state" : {
-        "caseSensitive" : true,
+        "caseSensitive" : false,
         "filePatterns" : [
         ],
         "path" : "~/GitHub/psy564",
-        "query" : "TOC",
+        "query" : "lme4 package",
         "regex" : false
     }
 }
