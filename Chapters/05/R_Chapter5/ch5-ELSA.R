@@ -18,11 +18,11 @@ library(arm)  # process model objects
 ## @knitr LoadData
 pathDir  <- getwd() # get working directory, e.i. residence of .Rproj file
 pathFile  <- file.path(pathDir,"Chapters/05/SAS_Chapter5/SAS_Chapter5.sas7bdat") # location of the file
-ds0   <- read.sas7bdat(pathFile, debug=TRUE) # import file 
-# ds0 <- readRDS("~/GitHub/psy564/Data/Raw/ELSA/ds0_ELSA.rds")
+# ds0   <- read.sas7bdat(pathFile, debug=TRUE) # import file 
+ds0 <- readRDS("~/GitHub/psy564/Data/Derived/ELSA/dsM_ELSA.rds")
 ds0 <- data.frame(ds0) # save as a data frame 
 
-
+ 
 
 
 ## @knitr BasicDescriptive
@@ -41,13 +41,14 @@ dsL <- ds0
 
 ## @knitr TweakLong
 dsM <- dsL
+dsM <- dplyr::filter(dsM, id %in% sample(unique(id),100))
 
 ## @knitr dummyChunk
 #### Basic Graphs  ####
 
 ## @knitr GraphingData0
-p <- ggplot2::ggplot(dsM,aes(x=wave,y=outcome)) # map data dimension
-p <- p + geom_line(aes(group=PersonID)) # draw lines and map unit of measurement
+p <- ggplot2::ggplot(dsM,aes(x=wave,y=irecall)) # map data dimension
+p <- p + geom_line(aes(group=id)) # draw lines and map unit of measurement
 p
 
 ## @knitr LoadGraphThemes
@@ -61,12 +62,12 @@ theme1 <- ggplot2::theme_bw(base_size=baseSize) +
   ggplot2::theme(text = element_text(size =baseSize+7)) 
 
 ## @knitr GraphingData1
-p <- ggplot2::ggplot(dsM,aes(x=wave,y=outcome))
-p <- p + geom_line(aes(group=PersonID)) # draw lines
+p <- ggplot2::ggplot(dsM,aes(x=wave,y=irecall))
+p <- p + geom_line(aes(group=id)) # draw lines
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
-p <- p + scale_y_continuous(limits=c(5,25), 
-                            breaks=seq(5,25, by=5)) # Y axis
+p <- p + scale_y_continuous(limits=c(0,10), 
+                            breaks=seq(0,10, by=1)) # Y axis
 p <- p + labs(list(
   title="Does outcome change over time?", # main title
   x="Wave of measurement", y="Performance on the outcome")) # axes titles
@@ -74,13 +75,13 @@ p
 
 
 ## @knitr GraphingData2
-p <- ggplot2::ggplot(dsM,aes(x=wave,y=outcome))
-p <- p + geom_line(aes(group=PersonID)) 
+p <- ggplot2::ggplot(dsM,aes(x=wave,y=irecall))
+p <- p + geom_line(aes(group=id)) 
 p <- p + geom_point(size=6, shape=21, fill="purple", color="black", alpha=.5)
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
-p <- p + scale_y_continuous(limits=c(5,25), 
-                            breaks=seq(5,25, by=5)) # Y axis
+p <- p + scale_y_continuous(limits=c(0,10), 
+                            breaks=seq(0,10, by=1)) # Y axis
 p <- p + labs(list(
   title="Does outcome change over time?", # main title
   x="Wave of measurement", y="Performance on the outcome")) # axes titles
@@ -90,7 +91,7 @@ p
 ####  MODEL 3.1  ####
 
 ## @knitr RunM3_1
-m3.1 <- nlme::gls(outcome ~ 1, data=dsM, method="ML") # create model object
+m3.1 <- nlme::gls(irecall ~ 1, data=dsM, method="ML") # create model object
 dsM$m3.1 <- predict(m3.1) # stores values predicted by the model
 summary(m3.1) # print a bit more info
 # str(summary(m3.1)) # to inspect object directly
@@ -106,7 +107,7 @@ BIC <- BIC(model) # extract Bayesian information criterion
 df.resid <- NA # empty slot for later use
 N <- summary(model)$dims$N  # Number of distinct data points
 p <- summary(model)$dims$p  # Number of estimated parameters
-ids <- length(unique(dsM$PersonID)) # Number of unique units
+ids <- length(unique(dsM$id)) # Number of unique units
 df.resid <- N-p # residual degrees of freedom
 mInfo <- data.frame("logLik" = logLik,   # collect model information indo a dataframe
                     "deviance"= deviance, 
@@ -125,14 +126,15 @@ head(dsM) # visual check
 
 
 ## @knitr GraphM3_1
-p <- ggplot2::ggplot(dsM,aes(x=wave, y=outcome))
-p <- p + geom_line(aes(group=PersonID), color="firebrick", alpha=.5)  # individual trajectories
-p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.4) # cross-section data points
-p <- p + geom_line(aes(y=m3.1, group=PersonID), color="royalblue3", size=3, alpha=.05) # modelled data
+p <- ggplot2::ggplot(dsM,aes(x=wave, y=irecall))
+p <- p + geom_line(aes(group=id), color="firebrick", alpha=.5)  # individual trajectories
+p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6,
+                    position=position_jitter(h=.3,w=0)) # cross-section data points
+p <- p + geom_line(aes(y=m3.1, group=id), color="royalblue3", size=3, alpha=.05) # modelled data
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
-p <- p + scale_y_continuous(limits=c(5,25), 
-                            breaks=seq(5,25, by=1)) # Y axis
+p <- p + scale_y_continuous(limits=c(0,10), 
+                            breaks=seq(0,10, by=1)) # Y axis
 p <- p + labs(list(
   title="Does outcome change over time?", # main title
   x="Wave of measurement", y="Performance on the outcome")) # axes titles
@@ -142,7 +144,7 @@ p
 ####  MODEL 5.1  ####
 
 ## @knitr RunM5_1
-m5.1 <- lme4::lmer(outcome ~ 1 + (1 | PersonID), data=dsM, REML=FALSE)# create model object
+m5.1 <- lme4::lmer(irecall ~ 1 + (1 | id), data=dsM, REML=FALSE)# create model object
 dsM$m5.1 <- predict(m5.1) # stores values predicted by the model
 display(m5.1) # tidy results
 
@@ -162,14 +164,15 @@ mi5.1 #  model information
 head(dsM) # visual check
 
 ## @knitr GraphM5_1
-p <- ggplot2::ggplot(dsM,aes(x=wave, y=outcome))
-p <- p + geom_line(aes(group=PersonID), color="firebrick", alpha=.2)  # individual trajectories
-p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6) # cross-section data points
-p <- p + geom_line(aes(y=m5.1, group=PersonID), color="royalblue3", alpha=.7) # modelled data
+p <- ggplot2::ggplot(dsM,aes(x=wave, y=irecall))
+p <- p + geom_line(aes(group=id), color="firebrick", alpha=.2)  # individual trajectories
+p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6,
+                    position=position_jitter(h=.3,w=0)) # cross-section data points
+p <- p + geom_line(aes(y=m5.1, group=id), color="royalblue3", alpha=.7) # modelled data
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
-p <- p + scale_y_continuous(limits=c(5,25), 
-                            breaks=seq(5,25, by=1)) # Y axis
+p <- p + scale_y_continuous(limits=c(0,10), 
+                            breaks=seq(0,10, by=1)) # Y axis
 p <- p + labs(list(
   title="Does outcome change over time?", # main title
   x="Wave of measurement", y="Performance on the outcome")) # axes titles
@@ -179,7 +182,7 @@ p
 ####  MODEL 5.3  ####
 
 ## @knitr RunM5_3
-m5.3 <- lme4::lmer(outcome ~ 1 + wave + (1 | PersonID), data=dsM, REML=FALSE)# create model object
+m5.3 <- lme4::lmer(irecall ~ 1 + wave + (1 | id), data=dsM, REML=FALSE)# create model object
 dsM$m5.3 <- predict(m5.3) # stores values predicted by the model
 display(m5.3) # tidy results
 
@@ -199,14 +202,15 @@ mi5.3 #  model information
 head(dsM) # visual check
 
 ## @knitr GraphM5_3
-p <- ggplot2::ggplot(dsM,aes(x=wave, y=outcome))
-p <- p + geom_line(aes(group=PersonID), color="firebrick", alpha=.2)  # individual trajectories
-p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6) # cross-section data points
-p <- p + geom_line(aes(y=m5.3, group=PersonID), color="royalblue3", alpha=.7) # modelled data
+p <- ggplot2::ggplot(dsM,aes(x=wave, y=irecall))
+p <- p + geom_line(aes(group=id), color="firebrick", alpha=.2)  # individual trajectories
+p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6,
+                    position=position_jitter(h=.3,w=0)) # cross-section data points
+p <- p + geom_line(aes(y=m5.3, group=id), color="royalblue3", alpha=.7) # modelled data
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
-p <- p + scale_y_continuous(limits=c(5,25), 
-                            breaks=seq(5,25, by=1)) # Y axis
+p <- p + scale_y_continuous(limits=c(0,10), 
+                            breaks=seq(0,10, by=1)) # Y axis
 p <- p + labs(list(
   title="Does outcome change over time?", # main title
   x="Wave of measurement", y="Performance on the outcome")) # axes titles
@@ -216,7 +220,7 @@ p
 ####  MODEL 5.5  ####
 
 ## @knitr RunM5_5
-m5.5 <- lme4::lmer(outcome ~ 1 + wave + (1 + wave | PersonID), data=dsM, REML=FALSE)# create model object
+m5.5 <- lme4::lmer(irecall ~ 1 + wave + (1 + wave | id), data=dsM, REML=FALSE)# create model object
 dsM$m5.5 <- predict(m5.5) # stores values predicted by the model
 display(m5.5) # tidy results
 
@@ -236,14 +240,15 @@ mi5.5 #  model information
 head(dsM) # visual check
 
 ## @knitr GraphM5_5
-p <- ggplot2::ggplot(dsM,aes(x=wave, y=outcome))
-p <- p + geom_line(aes(group=PersonID), color="firebrick", alpha=.2)  # individual trajectories
-p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6) # cross-section data points
-p <- p + geom_line(aes(y=m5.5, group=PersonID), color="royalblue3", alpha=.7) # modelled data
+p <- ggplot2::ggplot(dsM,aes(x=wave, y=irecall))
+p <- p + geom_line(aes(group=id), color="firebrick", alpha=.2)  # individual trajectories
+p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6,
+                    position=position_jitter(h=.3,w=0)) # cross-section data points
+p <- p + geom_line(aes(y=m5.5, group=id), color="royalblue3", alpha=.7) # modelled data
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
-p <- p + scale_y_continuous(limits=c(5,25), 
-                            breaks=seq(5,25, by=1)) # Y axis
+p <- p + scale_y_continuous(limits=c(0,10), 
+                            breaks=seq(0,10, by=1)) # Y axis
 p <- p + labs(list(
   title="Does outcome change over time?", # main title
   x="Wave of measurement", y="Performance on the outcome")) # axes titles

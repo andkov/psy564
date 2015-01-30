@@ -1,0 +1,32 @@
+How to adapt "hoffman-ch5.R" to analyze ELSA data 
+
+0. Input new data, replace line 22
+ 
+  ds0 <- readRDS("~/GitHub/psy564/Data/Derived/ELSA/dsM_ELSA.rds")
+
+1. Add on line 44
+
+dsM <- dplyr::filter(dsM, id %in% sample(unique(id),100))
+
+
+2. Change all "PersonID" to "id"
+
+3. Change all "outcome" to "irecall"
+
+4. Change  "limits=c(5,25)" to "limits=c(0,10)"
+
+5. Change "breaks=seq(5,25, by=5)" to "breaks=seq(0,10, by=1)"
+
+6. Add jitter for dots in the graphs
+
+change
+
+geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6)
+
+into 
+
+geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6,
+                    position=position_jitter(h=.3,w=0))
+
+
+7. Link new RMD to a new R file
