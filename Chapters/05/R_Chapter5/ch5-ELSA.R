@@ -128,8 +128,7 @@ head(dsM) # visual check
 ## @knitr GraphM3_1
 p <- ggplot2::ggplot(dsM,aes(x=wave, y=irecall))
 p <- p + geom_line(aes(group=id), color="firebrick", alpha=.5)  # individual trajectories
-p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6,
-                    position=position_jitter(h=.3,w=0)) # cross-section data points
+p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6) # cross-section data points
 p <- p + geom_line(aes(y=m3.1, group=id), color="royalblue3", size=3, alpha=.05) # modelled data
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
@@ -166,8 +165,7 @@ head(dsM) # visual check
 ## @knitr GraphM5_1
 p <- ggplot2::ggplot(dsM,aes(x=wave, y=irecall))
 p <- p + geom_line(aes(group=id), color="firebrick", alpha=.2)  # individual trajectories
-p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6,
-                    position=position_jitter(h=.3,w=0)) # cross-section data points
+p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6) # cross-section data points
 p <- p + geom_line(aes(y=m5.1, group=id), color="royalblue3", alpha=.7) # modelled data
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
@@ -204,8 +202,7 @@ head(dsM) # visual check
 ## @knitr GraphM5_3
 p <- ggplot2::ggplot(dsM,aes(x=wave, y=irecall))
 p <- p + geom_line(aes(group=id), color="firebrick", alpha=.2)  # individual trajectories
-p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6,
-                    position=position_jitter(h=.3,w=0)) # cross-section data points
+p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6) # cross-section data points
 p <- p + geom_line(aes(y=m5.3, group=id), color="royalblue3", alpha=.7) # modelled data
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
@@ -242,8 +239,7 @@ head(dsM) # visual check
 ## @knitr GraphM5_5
 p <- ggplot2::ggplot(dsM,aes(x=wave, y=irecall))
 p <- p + geom_line(aes(group=id), color="firebrick", alpha=.2)  # individual trajectories
-p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6,
-                    position=position_jitter(h=.3,w=0)) # cross-section data points
+p <- p + geom_point(size=3, shape=21, fill=NA, color="black", alpha=.6) # cross-section data points
 p <- p + geom_line(aes(y=m5.5, group=id), color="royalblue3", alpha=.7) # modelled data
 p <- p + theme1 
 p <- p + scale_x_continuous(limits=c(1,4), breaks=c(1:4)) # X axis
