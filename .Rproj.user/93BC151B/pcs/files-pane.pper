@@ -1,6 +1,10 @@
 {
-    "path" : "~/GitHub/psy564",
+    "path" : "~/GitHub/psy564/weeks/02/images",
     "sortOrder" : [
+        {
+            "ascending" : false,
+            "columnIndex" : 1
+        },
         {
             "ascending" : true,
             "columnIndex" : 2
