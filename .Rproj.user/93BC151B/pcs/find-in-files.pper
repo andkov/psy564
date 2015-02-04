@@ -1,0 +1,10 @@
+{
+    "dialog-state" : {
+        "caseSensitive" : false,
+        "filePatterns" : [
+        ],
+        "path" : "~/GitHub/psy564",
+        "query" : "seq_along",
+        "regex" : false
+    }
+}
