@@ -1,7 +1,7 @@
 rm(list=ls(all=TRUE))
 ########## Production of reports from .Rmd files ###
 
-pathFilesToBuild <- base::file.path("./4.Rmd")
+pathFilesToBuild <- base::file.path("./7.Rmd")
 
 
 
@@ -21,3 +21,5 @@ for( pathFile in pathFilesToBuild ) {
                     ),
                     clean=TRUE)
 }
+
+base::system("bundle exec jekyll build")
