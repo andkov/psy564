@@ -11,7 +11,7 @@ pathCh3a <- file.path(pathDir,"Chapters/03/SAS_Chapter3a/SAS_Chapter3a.sas7bdat"
 pathCh3b <- file.path(pathDir,"Chapters/03/SAS_Chapter3b/SAS_Chapter3b.sas7bdat")
 pathCh4  <- file.path(pathDir,"Chapters/04/SAS_Chapter4/SAS_Chapter4.sas7bdat")
 pathCh5  <- file.path(pathDir,"Chapters/05/SAS_Chapter4/SAS_Chapter5.sas7bdat")
-pathCh6  <- file.path(pathDir,"Chapters/06/SAS_Chapter4/SAS_Chapter6.sas7bdat")
+pathCh6  <- file.path(pathDir,"Chapters/06/SAS_Chapter6/SAS_Chapter6.sas7bdat")
 pathCh7a <- file.path(pathDir,"Chapters/07/SAS_Chapter7a/SAS_Chapter7a.sas7bdat")
 pathCh7b <- file.path(pathDir,"Chapters/07/SAS_Chapter7b/SAS_Chapter7b.sas7bdat")
 pathCh8  <- file.path(pathDir,"Chapters/08/SAS_Chapter8/SAS_Chapter8.sas7bdat")
@@ -44,3 +44,6 @@ dsL12  <- read.sas7bdat(pathCh12, debug=TRUE)
 # saveRDS(object=ds0, file=path_ds0, compress="xz")   # Use this when running for the first time
 # ### Either use ds0 definition above or below.
 # ds0<-readRDS(path_ds0) # This saves time              # Use for subsequent run
+
+
+write.csv(dsL6, file="Data/Derived/MPLUS_Chpater6.csv")
