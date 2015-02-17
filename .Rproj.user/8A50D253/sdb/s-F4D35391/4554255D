@@ -1,0 +1,16 @@
+{
+    "contents" : "----\n\n**NOTICE**: page under construction. Stable version will be published by *February 17, 2015* [edit page](https://github.com/andkov/MLMtime/edit/gh-pages/7.md)\n\n----\n\n**Admission requirements** *What you need to read before coming to class on Tuesday* \n\n**Chapter**: *6 - Describing Within-Person Change*   \n\n**Lecture**: *Describing Within-Person Change*\n[slides](http://www.lesahoffman.com/944/944_Lecture06_Describing_Change.pdf) |  [watch](http://www.lesahoffman.com/944/index.html)\n\n\n## Mplus on UVic server\n\nEstablish VPN connection to [vpn1.uvic.ca](http://vpn1.uvic.ca) using your **netlink id** and password. Use Remote Desktop Connection to get access to the mplus.uvic.ca server. ( *Start -> All Programs -> Accessories -> Remote Desktop Connection* )     \n\n**Please note**: When you open Remote Desktop Connection, click on the Local Resources tab and under *Local devices and resources*, click *More* and be sure that *drives* is checked. This will allow you to analyze your local computer data on the Mplus server and will save all of your scripts locally.  \n\n(re)view slides on [Introduction to Mplus statistical software and command language](weeks/01/Introduction to Mplus statistical software and command language.pdf).\n\n\n## Mplus syntax\n\nWhen working with wide data, the following interactive document ([MPlus Primer](weeks/LMG_Mplus_primer.pdf)) can help you learn and remember the syntax of model estimation in MPlus\n\n\n",
+    "created" : 1424203750565.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3935234900",
+    "id" : "4554255D",
+    "lastKnownWriteTime" : 1424204320,
+    "path" : "~/GitHub/psy564/7.md",
+    "project_path" : "7.md",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "markdown"
+}
