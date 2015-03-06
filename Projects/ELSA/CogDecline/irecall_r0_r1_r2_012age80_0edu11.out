@@ -1,0 +1,236 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/06/2015  11:49 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   Modeling Cognitive Decline in ELSA study: irecall
+
+  DATA:
+    FILE = dsL_ELSA.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+  ! choose the metric of time
+    timeL = wave;
+    timeQ = wave*wave;
+  ! choose the outcome
+    outcome = irecall;
+
+  !123456789!123456789!123456789!123456789!123456789!123456789!123456789!123456789!
+  VARIABLE:
+    NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A
+    evrsmk1A htnw1A dmw1A timeToIn irecall animal prospect drecall age80 edu11 hptn
+    dbts condition wave year Age waveF female;
+    USEVARIABLES = age80 edu11 outcome timeL timeQ;
+    MISSING = ALL (-9999);
+    CLUSTER = id;
+    WITHIN = timeL timeQ;
+    BETWEEN = age80 edu11;
+
+
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+    TYPE = TWOLEVEL RANDOM;
+
+  MODEL:
+
+  %WITHIN%
+    outcome;
+    linear | outcome ON timeL;
+    quad   | outcome ON timeQ;
+
+  %BETWEEN%
+    [outcome linear quad] (int btimeL btimeQ);
+    outcome linear quad;
+    outcome linear quad WITH outcome linear quad;
+    outcome linear quad ON age80 (bage80I bage80S bage80Q);
+    outcome linear ON edu11 (bedu11I);
+
+
+
+
+
+
+
+*** WARNING
+  Data set contains cases with missing on x-variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on x-variables:  520
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Modeling Cognitive Decline in ELSA study: irecall
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       21596
+
+Number of dependent variables                                    1
+Number of independent variables                                  4
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   OUTCOME
+
+Observed independent variables
+   AGE80       EDU11       TIMEL       TIMEQ
+
+Continuous latent variables
+   LINEAR      QUAD
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   TIMEL       TIMEQ
+
+  Between variables
+   AGE80       EDU11
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  dsL_ELSA.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                       5399
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              OUTCOME       TIMEL         TIMEQ         AGE80         EDU11
+              ________      ________      ________      ________      ________
+ OUTCOME        1.000
+ TIMEL          1.000         1.000
+ TIMEQ          1.000         1.000         1.000
+ AGE80          1.000         1.000         1.000         1.000
+ EDU11          1.000         1.000         1.000         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       14
+
+Loglikelihood
+
+          H0 Value                      -38478.450
+
+Information Criteria
+
+          Akaike (AIC)                   76984.900
+          Bayesian (BIC)                 77096.624
+          Sample-Size Adjusted BIC       77052.132
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Residual Variances
+    OUTCOME            1.525      0.029     53.207      0.000
+
+Between Level
+
+ LINEAR     ON
+    AGE80              0.006      0.005      1.285      0.199
+    EDU11              0.044      0.002     19.574      0.000
+
+ QUAD       ON
+    AGE80             -0.002      0.001     -2.430      0.015
+
+ OUTCOME    ON
+    AGE80             -0.056      0.005    -10.182      0.000
+    EDU11              0.044      0.002     19.574      0.000
+
+ OUTCOME  WITH
+    LINEAR            -0.441      0.291     -1.518      0.129
+    QUAD               0.077      0.055      1.400      0.162
+
+ LINEAR   WITH
+    QUAD              -0.089      0.053     -1.677      0.093
+
+ Intercepts
+    OUTCOME            4.689      0.105     44.559      0.000
+    LINEAR             0.337      0.094      3.585      0.000
+    QUAD              -0.089      0.018     -4.848      0.000
+
+ Residual Variances
+    OUTCOME            1.111      0.335      3.319      0.001
+    LINEAR             0.506      0.273      1.849      0.064
+    QUAD               0.016      0.011      1.532      0.126
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.675E-07
+       (ratio of smallest to largest eigenvalue)
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  11:49:47
+        Ending Time:  11:50:10
+       Elapsed Time:  00:00:23
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

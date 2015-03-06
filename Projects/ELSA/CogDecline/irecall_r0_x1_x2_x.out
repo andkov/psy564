@@ -1,0 +1,228 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/06/2015  10:48 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   Modeling Cognitive Decline in ELSA study: irecall
+
+  DATA:
+    FILE = dsL_ELSA.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+  ! choose the metric of time
+  ! timeL = wave;
+  ! timeQ = wave*wave;
+  ! choose the outcome
+    outcome = irecall;
+
+  !123456789!123456789!123456789!123456789!123456789!123456789!123456789!123456789!
+  VARIABLE:
+    NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A
+    evrsmk1A htnw1A dmw1A timeToIn irecall animal prospect drecall age80 edu11 hptn
+    dbts condition wave year Age waveF female;
+    USEVARIABLES = id outcome ;
+    MISSING = ALL (-9999);
+    CLUSTER = id;
+  ! WITHIN = timeL ;
+
+
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+    TYPE = TWOLEVEL RANDOM;
+
+  MODEL:
+
+  %WITHIN%
+    outcome;
+
+
+  %BETWEEN%
+    [outcome] ;
+
+
+
+
+
+
+
+*** WARNING in MODEL command
+  Variable is uncorrelated with all other variables: OUTCOME
+*** WARNING in MODEL command
+  At least one variable is uncorrelated with all other variables in the model.
+  Check that this is what is intended.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Modeling Cognitive Decline in ELSA study: irecall
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       22116
+
+Number of dependent variables                                    1
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   OUTCOME
+
+Variables with special functions
+
+  Cluster variable      ID
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  dsL_ELSA.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                       5529
+
+     Average cluster size        4.000
+
+     Estimated Intraclass Correlations for the Y Variables
+
+                Intraclass
+     Variable  Correlation
+
+     OUTCOME      0.436
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              OUTCOME
+              ________
+ OUTCOME        1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        3
+
+Loglikelihood
+
+          H0 Value                      -40334.482
+          H1 Value                      -40334.482
+
+Information Criteria
+
+          Akaike (AIC)                   80674.964
+          Bayesian (BIC)                 80698.976
+          Sample-Size Adjusted BIC       80689.442
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+
+CFI/TLI
+
+          CFI                                0.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value for Within                   0.000
+          Value for Between                  0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Variances
+    OUTCOME            1.579      0.017     91.075      0.000
+
+Between Level
+
+ Means
+    OUTCOME            5.824      0.017    340.440      0.000
+
+ Variances
+    OUTCOME            1.224      0.031     39.353      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.352E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  10:48:49
+        Ending Time:  10:48:51
+       Elapsed Time:  00:00:02
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

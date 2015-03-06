@@ -1,0 +1,43 @@
+TITLE:
+ Modeling Cognitive Decline in ELSA study: irecall
+
+DATA:
+  FILE = dsL_ELSA.csv;
+  FORMAT = FREE;
+
+DEFINE:
+! choose the metric of time
+! timeL = wave;
+! timeQ = wave*wave;
+! choose the outcome
+  outcome = irecall;
+
+!123456789!123456789!123456789!123456789!123456789!123456789!123456789!123456789!
+VARIABLE:
+  NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A 
+  evrsmk1A htnw1A dmw1A timeToIn irecall animal prospect drecall age80 edu11 hptn
+  dbts condition wave year Age waveF female;
+  USEVARIABLES = id outcome ;
+  MISSING = ALL (-9999);
+  CLUSTER = id;
+! WITHIN = timeL ;
+
+
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+  TYPE = TWOLEVEL RANDOM;
+
+MODEL:
+
+%WITHIN%
+  outcome;
+
+
+%BETWEEN%
+  [outcome] ;
+
+
+
+
