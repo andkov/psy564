@@ -1,0 +1,206 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/06/2015  10:58 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   Modeling Cognitive Decline in ELSA study: irecall
+
+  DATA:
+    FILE = dsL_ELSA.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+  ! choose the metric of time
+    timeL = wave;
+  ! timeQ = wave*wave;
+  ! choose the outcome
+    outcome = irecall;
+
+  !123456789!123456789!123456789!123456789!123456789!123456789!123456789!123456789!
+  VARIABLE:
+    NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A
+    evrsmk1A htnw1A dmw1A timeToIn irecall animal prospect drecall age80 edu11 hptn
+    dbts condition wave year Age waveF female;
+    USEVARIABLES = outcome timeL;
+    MISSING = ALL (-9999);
+    CLUSTER = id;
+    WITHIN = timeL ;
+
+
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+    TYPE = TWOLEVEL RANDOM;
+
+  MODEL:
+
+  %WITHIN%
+    outcome;
+    linear | outcome on timeL;
+
+
+  %BETWEEN%
+    [outcome linear] (int btimeL);
+    outcome linear;
+    outcome WITH linear;
+
+
+
+
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Modeling Cognitive Decline in ELSA study: irecall
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       22116
+
+Number of dependent variables                                    1
+Number of independent variables                                  1
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   OUTCOME
+
+Observed independent variables
+   TIMEL
+
+Continuous latent variables
+   LINEAR
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   TIMEL
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  dsL_ELSA.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                       5529
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              OUTCOME       TIMEL
+              ________      ________
+ OUTCOME        1.000
+ TIMEL          1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        6
+
+Loglikelihood
+
+          H0 Value                      -40299.902
+
+Information Criteria
+
+          Akaike (AIC)                   80611.803
+          Bayesian (BIC)                 80659.828
+          Sample-Size Adjusted BIC       80640.760
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Residual Variances
+    OUTCOME            1.563      0.021     74.380      0.000
+
+Between Level
+
+ OUTCOME  WITH
+    LINEAR             0.053      0.020      2.643      0.008
+
+ Means
+    OUTCOME            5.872      0.024    242.172      0.000
+    LINEAR            -0.019      0.008     -2.490      0.013
+
+ Variances
+    OUTCOME            0.906      0.069     13.061      0.000
+    LINEAR             0.009      0.007      1.250      0.211
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.730E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  10:58:29
+        Ending Time:  10:58:32
+       Elapsed Time:  00:00:03
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

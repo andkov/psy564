@@ -1,0 +1,233 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/06/2015  11:15 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   Modeling Cognitive Decline in ELSA study: irecall
+
+  DATA:
+    FILE = dsL_ELSA.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+  ! choose the metric of time
+    timeL = wave;
+    timeQ = wave*wave;
+  ! choose the outcome
+    outcome = irecall;
+
+  !123456789!123456789!123456789!123456789!123456789!123456789!123456789!123456789!
+  VARIABLE:
+    NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A
+    evrsmk1A htnw1A dmw1A timeToIn irecall animal prospect drecall age80 edu11 hptn
+    dbts condition wave year Age waveF female;
+    USEVARIABLES = age80 outcome timeL timeQ;
+    MISSING = ALL (-9999);
+    CLUSTER = id;
+    WITHIN = timeL timeQ;
+    BETWEEN = age80;
+
+
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+    TYPE = TWOLEVEL RANDOM;
+
+  MODEL:
+
+  %WITHIN%
+    outcome;
+    linear | outcome ON timeL;
+    quad   | outcome ON timeQ;
+
+
+  %BETWEEN%
+    [outcome linear quad] (int btimeL btimeQ);
+    outcome linear quad;
+    outcome linear quad WITH outcome linear quad;
+    outcome linear quad ON age80 (bage80I bage80S bage80Q);
+
+
+
+
+
+
+
+*** WARNING
+  Data set contains cases with missing on x-variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on x-variables:  4
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Modeling Cognitive Decline in ELSA study: irecall
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       22112
+
+Number of dependent variables                                    1
+Number of independent variables                                  3
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   OUTCOME
+
+Observed independent variables
+   AGE80       TIMEL       TIMEQ
+
+Continuous latent variables
+   LINEAR      QUAD
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   TIMEL       TIMEQ
+
+  Between variables
+   AGE80
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  dsL_ELSA.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                       5528
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              OUTCOME       TIMEL         TIMEQ         AGE80
+              ________      ________      ________      ________
+ OUTCOME        1.000
+ TIMEL          1.000         1.000
+ TIMEQ          1.000         1.000         1.000
+ AGE80          1.000         1.000         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       13
+
+Loglikelihood
+
+          H0 Value                      -39581.456
+
+Information Criteria
+
+          Akaike (AIC)                   79188.911
+          Bayesian (BIC)                 79292.962
+          Sample-Size Adjusted BIC       79251.648
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Residual Variances
+    OUTCOME            1.516      0.028     53.934      0.000
+
+Between Level
+
+ LINEAR     ON
+    AGE80              0.005      0.005      1.008      0.313
+
+ QUAD       ON
+    AGE80             -0.002      0.001     -2.612      0.009
+
+ OUTCOME    ON
+    AGE80             -0.059      0.005    -10.947      0.000
+
+ OUTCOME  WITH
+    LINEAR            -0.452      0.286     -1.582      0.114
+    QUAD               0.080      0.054      1.484      0.138
+
+ LINEAR   WITH
+    QUAD              -0.092      0.052     -1.754      0.079
+
+ Intercepts
+    OUTCOME            4.607      0.104     44.310      0.000
+    LINEAR             0.322      0.093      3.469      0.001
+    QUAD              -0.093      0.018     -5.147      0.000
+
+ Residual Variances
+    OUTCOME            1.210      0.330      3.666      0.000
+    LINEAR             0.519      0.269      1.933      0.053
+    QUAD               0.017      0.010      1.595      0.111
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.757E-07
+       (ratio of smallest to largest eigenvalue)
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  11:15:11
+        Ending Time:  11:15:43
+       Elapsed Time:  00:00:32
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen
