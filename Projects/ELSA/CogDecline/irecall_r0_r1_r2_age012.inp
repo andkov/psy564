@@ -1,0 +1,41 @@
+TITLE:
+ Modeling Cognitive Decline in ELSA study: irecall
+
+DATA:
+  FILE = dsL_ELSA.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  linear = wave;
+  quad = wave*wave;
+  y = irecall;
+
+
+!123456789!123456789!123456789!123456789!123456789!123456789!123456789!123456789!
+VARIABLE:
+  NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A 
+  evrsmk1A htnw1A dmw1A time irecall animal prospect drecall age80 edu11 hptn
+  dbts condition wave year Age waveF female;
+  USEVARIABLES = id age80 y linear quad;
+  MISSING = ALL (NA);
+  CLUSTER = id;
+  WITHIN = linear quad;
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+  TYPE = TWOLEVEL RANDOM;
+
+MODEL:
+
+%WITHIN%
+  y;
+  linear | y ON age80;
+  quad | y ON age80;
+
+%BETWEEN%
+  [y linear quad] (int bagec18 bagesq);
+  y linear quad;
+  y linear quad WITH y linear quad;
+
+
