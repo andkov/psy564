@@ -1,0 +1,269 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/10/2015   4:14 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   Modeling Cognitive Decline in ELSA study: irecall
+
+  DATA:
+    FILE = dsL_ELSA.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+  ! choose the metric of time
+    timeL = wave;
+  ! choose the outcome
+    outcome = irecall;
+
+  !123456789!123456789!123456789!123456789!123456789!123456789!123456789!123456789!
+  VARIABLE:
+    NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A
+    evrsmk1A htnw1A dmw1A timeToIn irecall animal prospect drecall age80 edu11 hptn
+    dbts condition wave year Age waveF female;
+    USEVARIABLES =  edu11 age80 outcome timeL ;
+    MISSING = ALL (-9999);
+    CLUSTER = id;
+    WITHIN = timeL;
+    BETWEEN = edu11 age80;
+
+
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+    TYPE = TWOLEVEL RANDOM;
+
+  MODEL:
+
+  %WITHIN%
+    outcome;
+    linear | outcome ON timeL;
+
+  %BETWEEN%
+    [outcome linear ] ;
+    outcome linear ;
+    outcome  WITH linear ;
+    outcome linear ON age80 ;
+    outcome linear ON edu11 ;
+
+  PLOT:
+    type =  plot1;
+    type =  plot2;
+    type =  plot3;
+
+
+
+
+
+
+
+
+
+*** WARNING
+  Data set contains cases with missing on x-variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on x-variables:  520
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Modeling Cognitive Decline in ELSA study: irecall
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       21596
+
+Number of dependent variables                                    1
+Number of independent variables                                  3
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   OUTCOME
+
+Observed independent variables
+   EDU11       AGE80       TIMEL
+
+Continuous latent variables
+   LINEAR
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   TIMEL
+
+  Between variables
+   EDU11       AGE80
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  dsL_ELSA.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                       5399
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              OUTCOME       TIMEL         EDU11         AGE80
+              ________      ________      ________      ________
+ OUTCOME        1.000
+ TIMEL          1.000         1.000
+ EDU11          1.000         1.000         1.000
+ AGE80          1.000         1.000         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       10
+
+Loglikelihood
+
+          H0 Value                      -38444.552
+
+Information Criteria
+
+          Akaike (AIC)                   76909.104
+          Bayesian (BIC)                 76988.907
+          Sample-Size Adjusted BIC       76957.127
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Residual Variances
+    OUTCOME            1.569      0.021     73.480      0.000
+
+Between Level
+
+ LINEAR     ON
+    AGE80             -0.008      0.001     -8.584      0.000
+    EDU11              0.001      0.004      0.233      0.816
+
+ OUTCOME    ON
+    AGE80             -0.036      0.003    -13.381      0.000
+    EDU11              0.191      0.014     13.923      0.000
+
+ OUTCOME  WITH
+    LINEAR             0.032      0.020      1.592      0.111
+
+ Intercepts
+    OUTCOME            5.278      0.052    101.487      0.000
+    LINEAR            -0.151      0.017     -8.878      0.000
+
+ Residual Variances
+    OUTCOME            0.600      0.065      9.198      0.000
+    LINEAR             0.002      0.007      0.241      0.809
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.224E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              LINEAR        LINEAR_S      B_OUTCOM      B_OUTCOM
+              ________      ________      ________      ________
+ 1             -0.021         0.026         5.882         0.450
+
+
+           Covariances
+              LINEAR        LINEAR_S      B_OUTCOM      B_OUTCOM
+              ________      ________      ________      ________
+ LINEAR         0.006
+ LINEAR_S       0.000         0.000
+ B_OUTCOM       0.050         0.000         0.675
+ B_OUTCOM       0.000         0.000         0.000         0.000
+
+
+           Correlations
+              LINEAR        LINEAR_S      B_OUTCOM      B_OUTCOM
+              ________      ________      ________      ________
+ LINEAR         1.000
+ LINEAR_S     999.000         1.000
+ B_OUTCOM       0.799       999.000         1.000
+ B_OUTCOM     999.000       999.000       999.000         1.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values, estimated factor scores)
+  Scatterplots (sample values, estimated factor scores)
+  Latent variable distribution plots
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  16:14:42
+        Ending Time:  16:14:45
+       Elapsed Time:  00:00:03
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen
