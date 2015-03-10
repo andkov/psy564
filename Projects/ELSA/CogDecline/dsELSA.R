@@ -29,7 +29,6 @@ dsL <- ds0
  
 ## @knitr DataFilter
 
-
 table(dsL$irecall,dsL$wave, useNA="ifany") # frequency table
 # There are no valid respondes to the focal outcome, so we remove wave 5
 # Wave 0 doesn't not contain observations of interest, so remove wave 0
