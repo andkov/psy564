@@ -1,13 +1,13 @@
 {
-    "path" : "~/GitHub/psy564/Data/Derived/ELSA",
+    "path" : "~/GitHub/psy564/Projects/ELSA/CogDecline",
     "sortOrder" : [
-        {
-            "ascending" : false,
-            "columnIndex" : 1
-        },
         {
             "ascending" : true,
             "columnIndex" : 2
+        },
+        {
+            "ascending" : false,
+            "columnIndex" : 1
         }
     ]
 }

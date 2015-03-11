@@ -19,7 +19,7 @@ library(arm)  # process model objects
 pathDir  <- getwd() # get working directory, e.i. residence of .Rproj file
 pathFile  <- file.path(pathDir,"Chapters/05/SAS_Chapter5/SAS_Chapter5.sas7bdat") # location of the file
 # ds0   <- read.sas7bdat(pathFile, debug=TRUE) # import file 
-ds0 <- readRDS("~/GitHub/psy564/Data/Derived/ELSA/dsM_ELSA.rds")
+ds0 <- readRDS("~/GitHub/psy564/Data/Derived/ELSA/dsL_ELSA.rds")
 ds0 <- data.frame(ds0) # save as a data frame 
 
  
