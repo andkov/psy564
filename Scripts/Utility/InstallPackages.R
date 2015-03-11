@@ -32,6 +32,7 @@ packagesToInstall <- c(
   , "testit" #has the useful `assert()` function
   , "testthat" #Heavier testing framework that's good for package development
   , "yaml" #for gh-pages production
+  , "rhdf5"
 
 ) 
 

@@ -1,0 +1,17 @@
+{
+    "contents" : "# remove all elements for a clean start\nrm(list=ls(all=TRUE))\ncat(\"\\014\")\n\n## @knitr LoadPackages\nrequire(sas7bdat) # for inputting data \nlibrary(dplyr) # for general data manipulation\nlibrary(reshape2) # for data : wide <-> long\nlibrary(psych) # data summary + etc\nlibrary(ggplot2) # graphing\nlibrary(nlme) # estimate fixed models | esp. gls()\nlibrary(lme4) # estimate mixed models | esp. lmer()\nlibrary(arm)  # process model objects\n\nsource(\"./Scripts/Mplus/mplus.R\")\nls()\n\nm0 <- \"./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_NoCovar.gh5\"\n\nmplus.view.plots(m0)\n\na <- mplus.list.variables('./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_NoCovar.gh5')\nb <- mplus.get.data('./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_NoCovar.gh5',variable)\n\nmplus.plot.histogram(m0, \"OUTCOME\")\nmplus.plot.histogram(m0, \"TIMEL\")\nmplus.plot.histogram(m0, \"LINEAR\")\nmplus.plot.histogram(m0, \"B_OUTCOME\")\n\n\nb <- mplus.get.data('./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_NoCovar.gh5',  \"TIMEL\" )\n\n\nm1 <- \"./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_01age80_01edu11.gh5\"\n\nmplus.list.variables(m1)\n\n\na <- mplus.get.data(m1,\"OUTCOME\")\nb <- mplus.get.data(m1,\"TIMEL\")\nc <- mplus.get.data(m1,\"EDU11\")\nd <- mplus.get.data(m1,\"AGE80\")\ne <- mplus.get.data(m1,\"LINEAR\")\nf <- mplus.get.data(m1,\"B_OUTCOME\")\ng <- mplus.get.data(m1,\"ID\")\n\nds <- data.frame(cbind(a, b, c, d, e, f, g))\nnames(ds) <-  c(\"OUTCOME\", \"TIMEL\",\"EDU11\",\"AGE80\",\"LINEAR\",\"B_OUTCOME\",\"ID\")\n\nhead(ds)\n\n\n\n\n\n",
+    "created" : 1426028012622.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1546589739",
+    "id" : "D04C3A18",
+    "lastKnownWriteTime" : 1426031340,
+    "path" : "~/GitHub/psy564/Projects/ELSA/CogDecline/extract from mplus.R",
+    "project_path" : "Projects/ELSA/CogDecline/extract from mplus.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
