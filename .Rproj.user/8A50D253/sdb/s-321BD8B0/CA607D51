@@ -1,0 +1,16 @@
+{
+    "contents" : "---\ntitle: \"Reporting Statistical Models (demo)\"\nauthor: \"Psyc 564\"\ndate: \"Friday, January 30, 2015\"\noutput:\n  html_document:\n    css: ~/GitHub/psy564/libs/css/sidebar.css\n    highlight: haddock\n    theme: spacelab\n    toc: yes\n---\n\n<!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of only one directory.-->\n```{r, echo=F, message=F} \nlibrary(knitr)\nopts_knit$set(root.dir='../../../')  #Don't combine this call with any other chunk -especially one that uses file paths.\n```\n\n<!-- Set the report-wide options, and point to the external script file. -->\n```{r, echo=F, message=T}\nrequire(knitr)\nopts_chunk$set(\n  results='show', \n  message = TRUE,\n  comment = NA, \n  tidy = FALSE,\n#   fig.height = 4.8, \n#   fig.width = 6.5, \n  out.width = NULL,\n  fig.path = 'figure_rmd/',     \n  dev = \"png\",\n  dpi = 70\n)\nechoChunks <- FALSE\nwarningChunks<- FALSE\nmessageChunks<- FALSE\noutwidthChunks <- \"130%\"\noptions(width=120) #So the output is 50% wider than the default.\nread_chunk(\"./Projects/ELSA/CogDecline/dsELSA.R\") # the file to which knitr calls for the chunks\n```\n\n##   LoadPackages\n```{r LoadPackages}\n\n```\n\n\n## Load data\n```{r LoadData}\n\n```\n\n\n##   DataFilter\n```{r DataFilter}\n\n```\n\n\n##   DataFilter2\n```{r DataFilter2}\n\n```\n\n##   DataExportLong\n```{r DataExportLong, eval=F}\n\n```\n\n##   DataExportWide\n```{r DataExportWide, eval=F,echo=F}\n\n```\nNOTE: the export of the wide data is suppressed for brevity\n\n##   LoadGraphThemes\n```{r LoadGraphThemes}\n\n```\n\n##   CrossSectionDist\n```{r CrossSectionDist, out.width=\"900px\"}\n\n```\n\n##   CrossSectionCount\n```{r CrossSectionCount, out.width=\"900px\"}\n\n```\n\n##   MakeAgeBins\n```{r MakeAgeBins}\n\n```\n\n##   EasyData\n```{r EasyData}\n\n```\n\n##   BasicLinePlot\n```{r BasicLinePlot, warning=F,out.width=\"900px\"}\n\n```\n\n##    DefineModelData\n```{r DefineModelData,  warning=F}\n\n```\n\n##   IndividualPredictionsAge\n```{r IndividualPredictionsAge,  warning=F, out.width=\"900px\"}\n\n```\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n\n  \n \n",
+    "created" : 1426275651616.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2052330624",
+    "id" : "CA607D51",
+    "lastKnownWriteTime" : 1426276982,
+    "path" : "~/GitHub/psy564/Projects/ELSA/CogDecline/ELSA_report.Rmd",
+    "project_path" : "Projects/ELSA/CogDecline/ELSA_report.Rmd",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}

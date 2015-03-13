@@ -52,7 +52,7 @@ length(unique(dsL$id))
 table(dsL$wave)
 
 
-## @knitr DataExport
+## @knitr DataExportLong
 
 # save data for use in R
 saveRDS(object=dsL, file="~/GitHub/psy564/Data/Derived/ELSA/dsL_ELSA.rds", compress="xz")  
@@ -65,7 +65,7 @@ varNamesL <- colnames(dsL) # get variable names
 cat(varNamesL) # print, copy, paste into Mplus
 write.csv(t(varNamesL), file="~/GitHub/psy564/Projects/ELSA/CogDecline/dsL_ELSA_varNames.csv") # export as a csv
 
-
+## @knitr DataExportWide
 #### save WIDE data for MPlus ####
 
 ## Transform 
@@ -160,7 +160,6 @@ p <- p + geom_line(aes(group=id), color='firebrick',
 p <- p + geom_point(shape=1, color="black", fill=NA,                 
                     alpha=.4, size=2, 
                     position=position_jitter(w=0.1, h=0.2))
-p <- p + plotTheme
 p <- p + scale_x_continuous(limits=c(1,4),
                             breaks=c(1:4))
 p <- p + scale_y_continuous(limits=c(0,10), 
@@ -174,7 +173,7 @@ p
 
 
 
-# define modeling data
+## @knitr  DefineModelData
 dsM <- dplyr::select(dsL, id, dob, age, age80, agecat, Age, female, year, time, wave,irecall,animal,prospect, drecall ) %>%
   dplyr::mutate(int =   4.929 , slope = -0.146 , Iage80 =   -0.055, Sage80 =  -0.008, 
                 ypred = int + Iage80*age80 + wave*(slope + Sage80*age80),
@@ -201,7 +200,6 @@ p <- p + labs(list(title="Score on immediate recall",
                    x="Wave of the observation"))
 p <- p + theme1
 p
-
 
 
 ## @knitr IndividualPredictionsAge
