@@ -12,37 +12,37 @@ library(nlme) # estimate fixed models | esp. gls()
 library(lme4) # estimate mixed models | esp. lmer()
 library(arm)  # process model objects
 
-source("./Scripts/Mplus/mplus.R")
-ls()
+# source("./Scripts/Mplus/mplus.R")
+source("http://www.statmodel.com/mplus-R/mplus.R")
+ls() # list the availible function in mplus.R
 
-m0 <- "./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_NoCovar.gh5"
-
-mplus.view.plots(m0)
-
-a <- mplus.list.variables('./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_NoCovar.gh5')
-b <- mplus.get.data('./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_NoCovar.gh5',variable)
-
-mplus.plot.histogram(m0, "OUTCOME")
-mplus.plot.histogram(m0, "TIMEL")
-mplus.plot.histogram(m0, "LINEAR")
-mplus.plot.histogram(m0, "B_OUTCOME")
+m0 <- "./Projects/ELSA/CogDecline/irecall/irecall_r(i)_r(s)_nocovar.gh5"
+m1 <- "./Projects/ELSA/CogDecline/irecall/irecall_r(i)_r(s)_(is)age80.gh5"
+m2 <- "./Projects/ELSA/CogDecline/irecall/irecall_r(i)_r(s)_(is)age80_(is)edu11.gh5"
+m3 <- "./Projects/ELSA/CogDecline/irecall/irecall_r(i)_r(s)_(is)age80_(is)edu11_(is)smoked.gh5"
 
 
-b <- mplus.get.data('./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_NoCovar.gh5',  "TIMEL" )
+mplus.view.plots(m3)
+model <- m3
 
+mplus.list.variables(m3)
 
-m1 <- "./Projects/ELSA/CogDecline/irecall/irecall_0r_1r_01age80_01edu11.gh5"
+mplus.plot.histogram(model, "OUTCOME")
+mplus.plot.histogram(model, "TIMEL")
+mplus.plot.histogram(model, "EVRSMK1A")
+mplus.plot.histogram(model, "EDU11")
+mplus.plot.histogram(model, "AGE80")
+mplus.plot.histogram(model, "LINEAR")
+mplus.plot.histogram(model, "B_OUTCOME")
 
-mplus.list.variables(m1)
-
-
-a <- mplus.get.data(m1,"OUTCOME")
-b <- mplus.get.data(m1,"TIMEL")
-c <- mplus.get.data(m1,"EDU11")
-d <- mplus.get.data(m1,"AGE80")
-e <- mplus.get.data(m1,"LINEAR")
-f <- mplus.get.data(m1,"B_OUTCOME")
-g <- mplus.get.data(m1,"ID")
+# extract raw data
+a <- mplus.get.data(m2,"OUTCOME")
+b <- mplus.get.data(m2,"TIMEL")
+c <- mplus.get.data(m2,"EDU11")
+d <- mplus.get.data(m2,"AGE80")
+e <- mplus.get.data(m2,"LINEAR")
+f <- mplus.get.data(m2,"B_OUTCOME")
+g <- mplus.get.data(m2,"ID")
 
 ds <- data.frame(cbind(a, b, c, d, e, f, g))
 names(ds) <-  c("OUTCOME", "TIMEL","EDU11","AGE80","LINEAR","B_OUTCOME","ID")
@@ -50,6 +50,10 @@ names(ds) <-  c("OUTCOME", "TIMEL","EDU11","AGE80","LINEAR","B_OUTCOME","ID")
 head(ds)
 
 
+
+######   ########
+mplus.load(m1)
+mplus.plot.loop(m1, ypred)
 
 
 

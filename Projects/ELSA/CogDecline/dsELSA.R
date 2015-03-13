@@ -135,12 +135,24 @@ p <- p + theme1
 p
 
 
+## @knitr MakeAgeBins
+attach(dsL)
+dsL$agecat[age <= 59] <- "under 60"
+dsL$agecat[age >= 60 & age <= 69] <- "60 - 69"
+dsL$agecat[age >= 70 & age <= 79] <- "70 - 79"
+dsL$agecat[age >= 80] <- "over 80"
+detach(dsL)
+dsL$agecat <- ordered(dsL$agecat, levels= c("under 60", "60 - 69", "70 - 79","over 80"),
+                      labels =c("under 60", "60 - 69", "70 - 79","over 80"))
+table(dsL$agecat)
+
 ## @knitr EasyData
-ds <- dplyr::filter(dsL, id %in% sample(unique(id),100)) %>% # select only N ids
-  dplyr::select(id, dob, female, hptn, dbts, condition, year, time,wave, Age, irecall,animal,prospect, drecall)
+dsM <- dplyr::select(dsL,id, dob, age, age80, agecat, Age, female, year, time, wave,irecall,animal,prospect, drecall ) # subset variables
+ds <- dplyr::filter(dsM, id %in% sample(unique(id),100))   # select only N ids
 head(ds)
 
 ## @knitr BasicLinePlot
+
 p <- ggplot2::ggplot(ds,aes(x=wave,y=irecall))
 p <- p + geom_line(aes(group=id), color='firebrick',
                    alpha=.2,
@@ -149,8 +161,8 @@ p <- p + geom_point(shape=1, color="black", fill=NA,
                     alpha=.4, size=2, 
                     position=position_jitter(w=0.1, h=0.2))
 p <- p + plotTheme
-p <- p + scale_x_continuous(limits=c(0,5),
-                            breaks=c(0:5))
+p <- p + scale_x_continuous(limits=c(1,4),
+                            breaks=c(1:4))
 p <- p + scale_y_continuous(limits=c(0,10), 
                             breaks=seq(1,10, by=1))
 p <- p + labs(list(title="Score on immediate recall",
@@ -158,19 +170,21 @@ p <- p + labs(list(title="Score on immediate recall",
 p <- p + theme1
 p
 
-ds <- dplyr::filter(dsL, id %in% sample(unique(id),100)) %>% # select only N ids
-  dplyr::select(id, dob, female, year, time, wave, age80, Age, irecall,animal,prospect, drecall) %>%
-  dplyr::mutate(int =   4.929 , slope = -0.146 , Iage80 =   -0.055, Sage80 =  -0.008, 
-                intCovar = int + Iage80*age80,
-                slopeCovar = slope + Sage80*age80,
-                ypred = intCovar + wave*slopeCovar,
-                ) %>%
-  dplyr::mutate(yfixed)
-head(ds)
 
-library(plyr)
-library(dplyr)
-## @knitr BasicLinePlot
+
+
+
+# define modeling data
+dsM <- dplyr::select(dsL, id, dob, age, age80, agecat, Age, female, year, time, wave,irecall,animal,prospect, drecall ) %>%
+  dplyr::mutate(int =   4.929 , slope = -0.146 , Iage80 =   -0.055, Sage80 =  -0.008, 
+                ypred = int + Iage80*age80 + wave*(slope + Sage80*age80),
+                yp_low = int + Iage80*(-10) + wave*(slope + Sage80*(-10)),
+                yp_mid = int + Iage80*(0) + wave*(slope + Sage80*(0)),
+                yp_high = int + Iage80*(10) + wave*(slope + Sage80*(10))) 
+head(dsM)
+
+## @knitr ProtoLines
+ds <- dplyr::filter(dsM, id %in% sample(unique(id),100)) # %>% # select only N ids
 p <- ggplot2::ggplot(ds,aes(x=wave,y=ypred, group=id))
 p <- p + geom_line(aes(group=id), color='blue', alpha=.2)
 # p <- p + geom_point(shape=1, color="black", fill=NA,                 
@@ -180,14 +194,34 @@ p <- p + scale_x_continuous(limits=c(1,4),
                             breaks=c(1:4))
 p <- p + scale_y_continuous(limits=c(3,8), 
                             breaks=seq(3,8, by=1))
-# p <- p + geom_line(aes(y=ypred, group=id, subset =.(age80==1)), color = "red")
-p <- p + geom_line(aes(y=ypred, group=id, subset(ds, age80 ==1)))
+p <- p + geom_line(aes(y=yp_low), color = "red", linetype="longdash", size=1)
+p <- p + geom_line(aes(y=yp_mid), color = "red",  size=1.5)
+p <- p + geom_line(aes(y=yp_high), color = "red", linetype="longdash", size=1)
 p <- p + labs(list(title="Score on immediate recall",
                    x="Wave of the observation"))
 p <- p + theme1
 p
 
 
+
+## @knitr IndividualPredictionsAge
+colorValues <- c("under 60"="#1b9e77", 
+                 "60 - 69"="#d95f02", 
+                 "70 - 79"="#7570b3",
+                 "over 80"="#e7298a")
+ds <- dplyr::filter(dsM, id %in% sample(unique(id),900)) # %>% # select only N ids
+p <- ggplot2::ggplot(ds,aes(x=wave,y=ypred, group=id, color=agecat))
+p <- p + scale_x_continuous(limits=c(1,4),
+                            breaks=c(1:4))
+p <- p + scale_y_continuous(limits=c(3,8), 
+                            breaks=seq(3,8, by=1))
+p <- p + geom_line(alpha=.5, position=position_jitter(w=.1, h=.1))
+p <- p + scale_color_manual(values=colorValues)
+p <- p + labs(title="Score on immediate recall",
+                   x="Wave of the observation", color="Age Category")
+p <- p + guides(colour = guide_legend(override.aes = list(alpha = 1, size=4)))
+p <- p + theme1
+p
 
 
 
