@@ -7,7 +7,7 @@ DATA:
 
 DEFINE:
 ! choose the metric of time
-  timeL = wave;
+  timeL = wave - 1;
 ! choose the outcome
   outcome = irecall;
 
@@ -40,14 +40,17 @@ MODEL:
   outcome linear ;
   outcome  WITH linear ;
 
-PLOT:
-  type =  plot1;
-  type =  plot2;
-  type =  plot3;
+OUTPUT: TECH1 TECH8;
+!PLOT: 
+!  TYPE =  plot2;
+!  SERIES = outcome(*) ;
 
-SAVEDATA:
-  results are results.dat;
+!MODEL CONSTRAINT:
+!  PLOT (ypred);
+!  LOOP (age80,-10,10,1) :
+! ypred = btimeL*age80;
 
+!SAVEDATA: FSCORES ; 
 
 
 

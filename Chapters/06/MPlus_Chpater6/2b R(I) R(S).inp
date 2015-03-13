@@ -1,0 +1,49 @@
+TITLE:
+  Ch 6: 2b: Random Linear Time Model
+
+DATA:
+  FILE = MPLUS_Chapter6.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  ! Rescale rt so Mplus will show all results
+  rt = rt/10;
+  time1 = session - 1;
+
+VARIABLE:
+  NAMES = PersonID session rt;
+  USEVARIABLES = rt time1;
+  MISSING = ALL (-9999);
+  CLUSTER = PersonID;
+  WITHIN = time1;
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+  TYPE = TWOLEVEL RANDOM;
+
+MODEL:
+
+%WITHIN%
+  rt;
+  linear | rt ON time1;
+
+%BETWEEN%
+  [rt linear] (int btime1);
+  rt linear;
+  rt WITH linear;
+
+MODEL CONSTRAINT:
+  NEW(est1-est6);
+! est1: Intercept at Session=1 Time=0
+  est1 = int*1 + btime1*0;
+! est2: Intercept at Session=2 Time=1
+  est2 = int*1 + btime1*1;
+! est3: Intercept at Session=3 Time=2
+  est3 = int*1 + btime1*2;
+! est4: Intercept at Session=4 Time=3
+  est4 = int*1 + btime1*3;
+! est5: Intercept at Session=5 Time=4
+  est5 = int*1 + btime1*4;
+! est6: Intercept at Session=6 Time=5
+  est6 = int*1 + btime1*5;

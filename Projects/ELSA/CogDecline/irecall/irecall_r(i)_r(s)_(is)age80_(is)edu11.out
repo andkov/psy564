@@ -1,6 +1,6 @@
 Mplus VERSION 7.3
 MUTHEN & MUTHEN
-03/10/2015   4:14 PM
+03/13/2015   8:51 AM
 
 INPUT INSTRUCTIONS
 
@@ -13,7 +13,7 @@ INPUT INSTRUCTIONS
 
   DEFINE:
   ! choose the metric of time
-    timeL = wave;
+    timeL = wave - 1;
   ! choose the outcome
     outcome = irecall;
 
@@ -42,7 +42,7 @@ INPUT INSTRUCTIONS
     linear | outcome ON timeL;
 
   %BETWEEN%
-    [outcome linear ] ;
+    [outcome linear ] (int btimeL );
     outcome linear ;
     outcome  WITH linear ;
     outcome linear ON age80 ;
@@ -52,7 +52,6 @@ INPUT INSTRUCTIONS
     type =  plot1;
     type =  plot2;
     type =  plot3;
-
 
 
 
@@ -177,7 +176,7 @@ MODEL RESULTS
 Within Level
 
  Residual Variances
-    OUTCOME            1.569      0.021     73.480      0.000
+    OUTCOME            1.569      0.021     73.485      0.000
 
 Between Level
 
@@ -186,24 +185,24 @@ Between Level
     EDU11              0.001      0.004      0.233      0.816
 
  OUTCOME    ON
-    AGE80             -0.036      0.003    -13.381      0.000
-    EDU11              0.191      0.014     13.923      0.000
+    AGE80             -0.044      0.002    -20.950      0.000
+    EDU11              0.192      0.011     18.119      0.000
 
  OUTCOME  WITH
-    LINEAR             0.032      0.020      1.592      0.111
+    LINEAR             0.033      0.013      2.484      0.013
 
  Intercepts
-    OUTCOME            5.278      0.052    101.487      0.000
+    OUTCOME            5.127      0.040    127.596      0.000
     LINEAR            -0.151      0.017     -8.878      0.000
 
  Residual Variances
-    OUTCOME            0.600      0.065      9.198      0.000
-    LINEAR             0.002      0.007      0.241      0.809
+    OUTCOME            0.665      0.037     17.934      0.000
+    LINEAR             0.002      0.007      0.242      0.809
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.224E-04
+     Condition Number for the Information Matrix              0.251E-04
        (ratio of smallest to largest eigenvalue)
 
 
@@ -216,7 +215,7 @@ SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
            Means
               LINEAR        LINEAR_S      B_OUTCOM      B_OUTCOM
               ________      ________      ________      ________
- 1             -0.021         0.026         5.882         0.450
+ 1             -0.021         0.026         5.861         0.474
 
 
            Covariances
@@ -224,7 +223,7 @@ SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
               ________      ________      ________      ________
  LINEAR         0.006
  LINEAR_S       0.000         0.000
- B_OUTCOM       0.050         0.000         0.675
+ B_OUTCOM       0.056         0.000         0.781
  B_OUTCOM       0.000         0.000         0.000         0.000
 
 
@@ -233,7 +232,7 @@ SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
               ________      ________      ________      ________
  LINEAR         1.000
  LINEAR_S     999.000         1.000
- B_OUTCOM       0.799       999.000         1.000
+ B_OUTCOM       0.829       999.000         1.000
  B_OUTCOM     999.000       999.000       999.000         1.000
 
 
@@ -251,8 +250,8 @@ DIAGRAM INFORMATION
   No diagram output was produced.
 
 
-     Beginning Time:  16:14:42
-        Ending Time:  16:14:45
+     Beginning Time:  08:51:41
+        Ending Time:  08:51:44
        Elapsed Time:  00:00:03
 
 

@@ -1,0 +1,16 @@
+{
+    "contents" : "# p <- ggplot2::ggplot(dsM,aes(x=time,y=attend, group=id))\n# p <- p + geom_line() \n# p <- p + geom_point(pch=20, size=2.5)\n# p <- p + plotTheme\n# p <- p + scale_x_continuous(limits=c(0,11),\n#                             breaks=c(0:11))\n# p <- p + scale_y_continuous(limits=c(1,8), \n#                             breaks=seq(1,8, by=1))\n# p <- p + labs(list(\n#   title=\"How often did you attend worship last year?\",\n#   x=\"Time scale: years since 2000\", y=\"Church attendance\"))\n\n\n# dsM <- dplyr::filter(dsL, id <=300, \n#                      raceF != \"Mixed (Non-H)\") %>% \n#   dplyr::select(id,sexF,raceF,year,attend,attendF) %>%\n#   dplyr::mutate(yearc = year - 2000)\n#  \np <- ggplot2::ggplot(dsM,aes(x=time,y=attend))\np <- p + geom_line(aes(group=id), color='firebrick',\n                   alpha=.2,\n                   position=position_jitter(w=0.3, h=0.3))\np <- p + geom_point(shape=1, color=\"black\", fill=NA,                 \n                    alpha=.4, size=2, \n                    position=position_jitter(w=0.3, h=0.3))\np <- p + plotTheme\np <- p + scale_x_continuous(limits=c(0,11),\n                            breaks=c(0:11))\np <- p + scale_y_continuous(limits=c(0,8), \n                            breaks=seq(1,8, by=1))\np <- p + labs(list(\n  title=\"How often did you attend worship last year?\",\n  x=\"Time scale: years since 2000\", y=\"Church attendance\"))\np\n",
+    "created" : 1426265100156.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3582181915",
+    "id" : "21EBB49B",
+    "lastKnownWriteTime" : 1425589641,
+    "path" : "~/GitHub/psy564/Scripts/Graphs/basicTrajectory300.R",
+    "project_path" : "Scripts/Graphs/basicTrajectory300.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

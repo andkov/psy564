@@ -1,0 +1,447 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/13/2015   9:56 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   Modeling Cognitive Decline in ELSA study: irecall
+
+  DATA:
+    FILE = dsL_ELSA.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+  ! choose the metric of time
+    timeL = wave - 1;
+  ! choose the outcome
+    outcome = irecall;
+
+  !123456789!123456789!123456789!123456789!123456789!123456789!123456789!123456789!
+  VARIABLE:
+    NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A
+    evrsmk1A htnw1A dmw1A timeToIn irecall animal prospect drecall age80 edu11 hptn
+    dbts condition wave year Age waveF female;
+    USEVARIABLES =  outcome timeL ;
+    MISSING = ALL (-9999);
+    CLUSTER = id;
+    WITHIN = timeL;
+  ! BETWEEN = age80;
+
+
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+    TYPE = TWOLEVEL RANDOM;
+
+  MODEL:
+
+  %WITHIN%
+    outcome;
+    linear | outcome ON timeL;
+
+  %BETWEEN%
+    [outcome linear ] (int btimeL );
+    outcome linear ;
+    outcome  WITH linear ;
+
+  OUTPUT: TECH1 TECH8;
+  !PLOT:
+  !  TYPE =  plot2;
+  !  SERIES = outcome(*) ;
+
+  !MODEL CONSTRAINT:
+  !  PLOT (ypred);
+  !  LOOP (age80,-10,10,1) :
+  ! ypred = btimeL*age80;
+
+  !SAVEDATA: FSCORES ;
+
+
+
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Modeling Cognitive Decline in ELSA study: irecall
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       22116
+
+Number of dependent variables                                    1
+Number of independent variables                                  1
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   OUTCOME
+
+Observed independent variables
+   TIMEL
+
+Continuous latent variables
+   LINEAR
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   TIMEL
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  dsL_ELSA.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                       5529
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              OUTCOME       TIMEL
+              ________      ________
+ OUTCOME        1.000
+ TIMEL          1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        6
+
+Loglikelihood
+
+          H0 Value                      -40299.902
+
+Information Criteria
+
+          Akaike (AIC)                   80611.803
+          Bayesian (BIC)                 80659.828
+          Sample-Size Adjusted BIC       80640.760
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Residual Variances
+    OUTCOME            1.563      0.021     74.382      0.000
+
+Between Level
+
+ OUTCOME  WITH
+    LINEAR             0.062      0.014      4.455      0.000
+
+ Means
+    OUTCOME            5.853      0.020    299.278      0.000
+    LINEAR            -0.019      0.008     -2.490      0.013
+
+ Variances
+    OUTCOME            1.021      0.043     23.837      0.000
+    LINEAR             0.009      0.007      1.250      0.211
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.112E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              OUTCOME       TIMEL
+              ________      ________
+ 1                  0             0
+
+
+           LAMBDA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ OUTCOME            0             0             0
+ TIMEL              0             0             0
+
+
+           THETA
+              OUTCOME       TIMEL
+              ________      ________
+ OUTCOME            0
+ TIMEL              0             0
+
+
+           ALPHA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ 1                  0             0             0
+
+
+           BETA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ LINEAR             0             0             0
+ OUTCOME            0             0             0
+ TIMEL              0             0             0
+
+
+           PSI
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ LINEAR             0
+ OUTCOME            0             1
+ TIMEL              0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              OUTCOME       TIMEL
+              ________      ________
+ 1                  0             0
+
+
+           LAMBDA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ OUTCOME            0             0             0
+ TIMEL              0             0             0
+
+
+           THETA
+              OUTCOME       TIMEL
+              ________      ________
+ OUTCOME            0
+ TIMEL              0             0
+
+
+           ALPHA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ 1                  2             3             0
+
+
+           BETA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ LINEAR             0             0             0
+ OUTCOME            0             0             0
+ TIMEL              0             0             0
+
+
+           PSI
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ LINEAR             4
+ OUTCOME            5             6
+ TIMEL              0             0             0
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              OUTCOME       TIMEL
+              ________      ________
+ 1              0.000         0.000
+
+
+           LAMBDA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ OUTCOME        0.000         1.000         0.000
+ TIMEL          0.000         0.000         1.000
+
+
+           THETA
+              OUTCOME       TIMEL
+              ________      ________
+ OUTCOME        0.000
+ TIMEL          0.000         0.000
+
+
+           ALPHA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ 1              0.000         0.000         0.000
+
+
+           BETA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ LINEAR         0.000         0.000         0.000
+ OUTCOME        0.000         0.000         0.000
+ TIMEL          0.000         0.000         0.000
+
+
+           PSI
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ LINEAR         0.000
+ OUTCOME        0.000         1.401
+ TIMEL          0.000         0.000         0.625
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              OUTCOME       TIMEL
+              ________      ________
+ 1              0.000         0.000
+
+
+           LAMBDA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ OUTCOME        0.000         1.000         0.000
+ TIMEL          0.000         0.000         1.000
+
+
+           THETA
+              OUTCOME       TIMEL
+              ________      ________
+ OUTCOME        0.000
+ TIMEL          0.000         0.000
+
+
+           ALPHA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ 1              0.000         5.824         0.000
+
+
+           BETA
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ LINEAR         0.000         0.000         0.000
+ OUTCOME        0.000         0.000         0.000
+ TIMEL          0.000         0.000         0.000
+
+
+           PSI
+              LINEAR        OUTCOME       TIMEL
+              ________      ________      ________
+ LINEAR         1.000
+ OUTCOME        0.000         1.401
+ TIMEL          0.000         0.000         0.000
+
+
+TECHNICAL 8 OUTPUT
+
+
+   E STEP  ITER  LOGLIKELIHOOD    ABS CHANGE   REL CHANGE  ALGORITHM
+              1 -0.42572027D+05    0.0000000    0.0000000  EM
+              2 -0.40862773D+05 1709.2544642    0.0401497  EM
+              3 -0.40618286D+05  244.4863262    0.0059831  EM
+              4 -0.40521634D+05   96.6519722    0.0023795  EM
+              5 -0.40469740D+05   51.8947231    0.0012807  EM
+              6 -0.40437488D+05   32.2517449    0.0007969  EM
+              7 -0.40415537D+05   21.9506404    0.0005428  EM
+              8 -0.40399616D+05   15.9207205    0.0003939  EM
+              9 -0.40387519D+05   12.0970282    0.0002994  EM
+             10 -0.40378001D+05    9.5185484    0.0002357  EM
+             11 -0.40370307D+05    7.6937813    0.0001905  EM
+             12 -0.40363955D+05    6.3523669    0.0001574  EM
+             13 -0.40358619D+05    5.3356331    0.0001322  EM
+             14 -0.40354074D+05    4.5455765    0.0001126  EM
+             15 -0.40350155D+05    3.9188517    0.0000971  EM
+             16 -0.40346742D+05    3.4130850    0.0000846  EM
+             17 -0.40343743D+05    2.9987784    0.0000743  EM
+             18 -0.40341088D+05    2.6550593    0.0000658  EM
+             19 -0.40338721D+05    2.3667326    0.0000587  EM
+             20 -0.40336599D+05    2.1224866    0.0000526  EM
+             21 -0.40334685D+05    1.9137568    0.0000474  EM
+             22 -0.40332951D+05    1.7340260    0.0000430  EM
+             23 -0.40331373D+05    1.5781336    0.0000391  EM
+             24 -0.40329931D+05    1.4420878    0.0000358  EM
+             25 -0.40328608D+05    1.3226524    0.0000328  EM
+             26 -0.40327391D+05    1.2172508    0.0000302  EM
+             27 -0.40326267D+05    1.1237740    0.0000279  EM
+             28 -0.40325226D+05    1.0405076    0.0000258  EM
+             29 -0.40324260D+05    0.9660194    0.0000240  EM
+             30 -0.40323361D+05    0.8991103    0.0000223  EM
+             31 -0.40322522D+05    0.8388414    0.0000208  EM
+             32 -0.40321738D+05    0.7843244    0.0000195  EM
+             33 -0.40321003D+05    0.7348634    0.0000182  EM
+             34 -0.40320313D+05    0.6898653    0.0000171  EM
+             35 -0.40319665D+05    0.6488166    0.0000161  EM
+             36 -0.40300550D+05   19.1142246    0.0004741  FS
+             37 -0.40300023D+05    0.5274069    0.0000131  FS
+             38 -0.40299936D+05    0.0873219    0.0000022  FS
+             39 -0.40299912D+05    0.0233942    0.0000006  FS
+             40 -0.40299905D+05    0.0073472    0.0000002  FS
+             41 -0.40299902D+05    0.0023898    0.0000001  FS
+             42 -0.40299902D+05    0.0007822    0.0000000  FS
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  09:56:24
+        Ending Time:  09:56:26
+       Elapsed Time:  00:00:02
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

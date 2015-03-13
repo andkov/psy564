@@ -1,6 +1,6 @@
 Mplus VERSION 7.3
 MUTHEN & MUTHEN
-03/10/2015   4:39 PM
+03/13/2015  10:01 AM
 
 INPUT INSTRUCTIONS
 
@@ -13,7 +13,7 @@ INPUT INSTRUCTIONS
 
   DEFINE:
   ! choose the metric of time
-    timeL = wave;
+    timeL = wave - 1;
   ! choose the outcome
     outcome = irecall;
 
@@ -22,11 +22,11 @@ INPUT INSTRUCTIONS
     NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A
     evrsmk1A htnw1A dmw1A timeToIn irecall animal prospect drecall age80 edu11 hptn
     dbts condition wave year Age waveF female;
-    USEVARIABLES =  evrsmk1A edu11 age80 outcome timeL ;
+    USEVARIABLES =  age80 outcome timeL ;
     MISSING = ALL (-9999);
     CLUSTER = id;
     WITHIN = timeL;
-    BETWEEN = evrsmk1A edu11 age80;
+    BETWEEN = age80;
 
 
 
@@ -42,17 +42,12 @@ INPUT INSTRUCTIONS
     linear | outcome ON timeL;
 
   %BETWEEN%
-    [outcome linear ] ;
+    [outcome linear ] (int btimeL );
     outcome linear ;
     outcome  WITH linear ;
     outcome linear ON age80 ;
-    outcome linear ON edu11 ;
-    outcome linear ON evrsmk1A;
 
-  PLOT:
-    type =  plot1;
-    type =  plot2;
-    type =  plot3;
+
 
 
 
@@ -65,7 +60,7 @@ INPUT INSTRUCTIONS
 *** WARNING
   Data set contains cases with missing on x-variables.
   These cases were not included in the analysis.
-  Number of cases with missing on x-variables:  520
+  Number of cases with missing on x-variables:  4
    1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
@@ -76,10 +71,10 @@ Modeling Cognitive Decline in ELSA study: irecall
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                       21596
+Number of observations                                       22112
 
 Number of dependent variables                                    1
-Number of independent variables                                  4
+Number of independent variables                                  2
 Number of continuous latent variables                            1
 
 Observed dependent variables
@@ -88,7 +83,7 @@ Observed dependent variables
    OUTCOME
 
 Observed independent variables
-   EVRSMK1A    EDU11       AGE80       TIMEL
+   AGE80       TIMEL
 
 Continuous latent variables
    LINEAR
@@ -101,7 +96,7 @@ Variables with special functions
    TIMEL
 
   Between variables
-   EVRSMK1A    EDU11       AGE80
+   AGE80
 
 
 Estimator                                                       ML
@@ -127,7 +122,7 @@ Input data format  FREE
 SUMMARY OF DATA
 
      Number of missing data patterns             1
-     Number of clusters                       5399
+     Number of clusters                       5528
 
 
 
@@ -140,13 +135,11 @@ Minimum covariance coverage value   0.100
 
 
            Covariance Coverage
-              OUTCOME       TIMEL         EVRSMK1A      EDU11         AGE80
-              ________      ________      ________      ________      ________
+              OUTCOME       TIMEL         AGE80
+              ________      ________      ________
  OUTCOME        1.000
  TIMEL          1.000         1.000
- EVRSMK1A       1.000         1.000         1.000
- EDU11          1.000         1.000         1.000         1.000
- AGE80          1.000         1.000         1.000         1.000         1.000
+ AGE80          1.000         1.000         1.000
 
 
 
@@ -156,17 +149,17 @@ THE MODEL ESTIMATION TERMINATED NORMALLY
 
 MODEL FIT INFORMATION
 
-Number of Free Parameters                       12
+Number of Free Parameters                        8
 
 Loglikelihood
 
-          H0 Value                      -38438.065
+          H0 Value                      -39608.515
 
 Information Criteria
 
-          Akaike (AIC)                   76900.130
-          Bayesian (BIC)                 76995.893
-          Sample-Size Adjusted BIC       76957.757
+          Akaike (AIC)                   79233.031
+          Bayesian (BIC)                 79297.062
+          Sample-Size Adjusted BIC       79271.638
             (n* = (n + 2) / 24)
 
 
@@ -179,75 +172,33 @@ MODEL RESULTS
 Within Level
 
  Residual Variances
-    OUTCOME            1.569      0.021     73.479      0.000
+    OUTCOME            1.563      0.021     74.355      0.000
 
 Between Level
 
  LINEAR     ON
-    AGE80             -0.008      0.001     -8.585      0.000
-    EDU11              0.001      0.004      0.205      0.837
-    EVRSMK1A          -0.008      0.016     -0.516      0.606
+    AGE80             -0.008      0.001     -8.837      0.000
 
  OUTCOME    ON
-    AGE80             -0.036      0.003    -13.386      0.000
-    EDU11              0.190      0.014     13.812      0.000
-    EVRSMK1A          -0.088      0.048     -1.828      0.068
+    AGE80             -0.055      0.002    -26.391      0.000
 
  OUTCOME  WITH
-    LINEAR             0.031      0.020      1.583      0.113
+    LINEAR             0.029      0.014      2.142      0.032
 
  Intercepts
-    OUTCOME            5.333      0.060     88.937      0.000
-    LINEAR            -0.146      0.020     -7.441      0.000
+    OUTCOME            4.929      0.040    124.506      0.000
+    LINEAR            -0.146      0.016     -8.974      0.000
 
  Residual Variances
-    OUTCOME            0.598      0.065      9.174      0.000
-    LINEAR             0.002      0.007      0.239      0.811
+    OUTCOME            0.784      0.039     20.294      0.000
+    LINEAR             0.005      0.007      0.620      0.535
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.551E-05
+     Condition Number for the Information Matrix              0.275E-04
        (ratio of smallest to largest eigenvalue)
 
-
-SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
-
-
-     SAMPLE STATISTICS
-
-
-           Means
-              LINEAR        LINEAR_S      B_OUTCOM      B_OUTCOM
-              ________      ________      ________      ________
- 1             -0.021         0.026         5.882         0.450
-
-
-           Covariances
-              LINEAR        LINEAR_S      B_OUTCOM      B_OUTCOM
-              ________      ________      ________      ________
- LINEAR         0.006
- LINEAR_S       0.000         0.000
- B_OUTCOM       0.050         0.000         0.676
- B_OUTCOM       0.000         0.000         0.000         0.000
-
-
-           Correlations
-              LINEAR        LINEAR_S      B_OUTCOM      B_OUTCOM
-              ________      ________      ________      ________
- LINEAR         1.000
- LINEAR_S     999.000         1.000
- B_OUTCOM       0.799       999.000         1.000
- B_OUTCOM     999.000       999.000       999.000         1.000
-
-
-PLOT INFORMATION
-
-The following plots are available:
-
-  Histograms (sample values, estimated factor scores)
-  Scatterplots (sample values, estimated factor scores)
-  Latent variable distribution plots
 
 DIAGRAM INFORMATION
 
@@ -255,8 +206,8 @@ DIAGRAM INFORMATION
   No diagram output was produced.
 
 
-     Beginning Time:  16:39:43
-        Ending Time:  16:39:46
+     Beginning Time:  10:01:17
+        Ending Time:  10:01:20
        Elapsed Time:  00:00:03
 
 

@@ -137,8 +137,56 @@ p
 
 ## @knitr EasyData
 ds <- dplyr::filter(dsL, id %in% sample(unique(id),100)) %>% # select only N ids
-  dplyr::select(id, dob, female, hptn, dbts, condition, year, time, Age, irecall,animal,prospect, drecall)
+  dplyr::select(id, dob, female, hptn, dbts, condition, year, time,wave, Age, irecall,animal,prospect, drecall)
 head(ds)
+
+## @knitr BasicLinePlot
+p <- ggplot2::ggplot(ds,aes(x=wave,y=irecall))
+p <- p + geom_line(aes(group=id), color='firebrick',
+                   alpha=.2,
+                   position=position_jitter(w=0.1, h=0.1))
+p <- p + geom_point(shape=1, color="black", fill=NA,                 
+                    alpha=.4, size=2, 
+                    position=position_jitter(w=0.1, h=0.2))
+p <- p + plotTheme
+p <- p + scale_x_continuous(limits=c(0,5),
+                            breaks=c(0:5))
+p <- p + scale_y_continuous(limits=c(0,10), 
+                            breaks=seq(1,10, by=1))
+p <- p + labs(list(title="Score on immediate recall",
+  x="Wave of the observation"))
+p <- p + theme1
+p
+
+ds <- dplyr::filter(dsL, id %in% sample(unique(id),100)) %>% # select only N ids
+  dplyr::select(id, dob, female, year, time, wave, age80, Age, irecall,animal,prospect, drecall) %>%
+  dplyr::mutate(int =   4.929 , slope = -0.146 , Iage80 =   -0.055, Sage80 =  -0.008, 
+                intCovar = int + Iage80*age80,
+                slopeCovar = slope + Sage80*age80,
+                ypred = intCovar + wave*slopeCovar,
+                ) %>%
+  dplyr::mutate(yfixed)
+head(ds)
+
+library(plyr)
+library(dplyr)
+## @knitr BasicLinePlot
+p <- ggplot2::ggplot(ds,aes(x=wave,y=ypred, group=id))
+p <- p + geom_line(aes(group=id), color='blue', alpha=.2)
+# p <- p + geom_point(shape=1, color="black", fill=NA,                 
+#                     alpha=.4, size=2, 
+#                     position=position_jitter(w=0.1, h=0.2))
+p <- p + scale_x_continuous(limits=c(1,4),
+                            breaks=c(1:4))
+p <- p + scale_y_continuous(limits=c(3,8), 
+                            breaks=seq(3,8, by=1))
+# p <- p + geom_line(aes(y=ypred, group=id, subset =.(age80==1)), color = "red")
+p <- p + geom_line(aes(y=ypred, group=id, subset(ds, age80 ==1)))
+p <- p + labs(list(title="Score on immediate recall",
+                   x="Wave of the observation"))
+p <- p + theme1
+p
+
 
 
 

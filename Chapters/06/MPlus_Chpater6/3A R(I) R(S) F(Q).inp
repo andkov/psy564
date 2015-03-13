@@ -1,0 +1,63 @@
+TITLE:
+  Ch 6: 3a: Fixed Quadratic, Random Linear Time Model
+
+DATA:
+  FILE = MPLUS_Chapter6.csv;
+  FORMAT = FREE;
+
+DEFINE:
+  ! Rescale rt so Mplus will show all results
+  rt = rt/10;
+  time1 = (session - 1)/100;
+  time1sq = time1*time1/100;
+
+VARIABLE:
+  NAMES = PersonID session rt;
+  USEVARIABLES = rt time1 time1sq;
+  MISSING = ALL (-9999);
+  CLUSTER = PersonID;
+  WITHIN = time1 time1sq;
+
+ANALYSIS:
+  ESTIMATOR = ML;
+  PROCESSORS = 4;
+  TYPE = TWOLEVEL RANDOM;
+
+MODEL:
+
+%WITHIN%
+  rt;
+  linear | rt ON time1;
+  quad | rt ON time1sq;
+
+%BETWEEN%
+  [rt linear quad] (int btime1 btime1sq);
+  rt linear quad@0;
+  rt WITH linear;
+
+MODEL CONSTRAINT:
+  NEW(est1-est12);
+! est1: Intercept at Session=1 Time=0
+  est1 = int*1 + btime1*0 + btime1sq*0;
+! est2: Intercept at Session=2 Time=1
+  est2 = int*1 + btime1*1 + btime1sq*1;
+! est3: Intercept at Session=3 Time=2
+  est3 = int*1 + btime1*2 + btime1sq*4;
+! est4: Intercept at Session=4 Time=3
+  est4 = int*1 + btime1*3 + btime1sq*9;
+! est5: Intercept at Session=5 Time=4
+  est5 = int*1 + btime1*4 + btime1sq*16;
+! est6: Intercept at Session=6 Time=5
+  est6 = int*1 + btime1*5 + btime1sq*25;
+! est7: Linear Slope at Session=1 Time=0
+  est7 = btime1*1 + btime1sq*0;
+! est8: Linear Slope at Session=2 Time=1
+  est8 = btime1*1 + btime1sq*2;
+! est9: Linear Slope at Session=3 Time=2
+  est9 = btime1*1 + btime1sq*4;
+! est10: Linear Slope at Session=4 Time=3
+  est10 = btime1*1 + btime1sq*6;
+! est11: Linear Slope at Session=5 Time=4
+  est11 = btime1*1 + btime1sq*8;
+! est12: Linear Slope at Session=6 Time=5
+  est12 = btime1*1 + btime1sq*10;

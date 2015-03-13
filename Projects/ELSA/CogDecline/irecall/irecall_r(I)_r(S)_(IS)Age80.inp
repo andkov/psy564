@@ -7,7 +7,7 @@ DATA:
 
 DEFINE:
 ! choose the metric of time
-  timeL = wave;
+  timeL = wave - 1;
 ! choose the outcome
   outcome = irecall;
 
@@ -16,11 +16,11 @@ VARIABLE:
   NAMES = id dob sex age1B edu ht db htdb nocase ang1A chf1A mi1A stk1A cogflg1A 
   evrsmk1A htnw1A dmw1A timeToIn irecall animal prospect drecall age80 edu11 hptn
   dbts condition wave year Age waveF female;
-  USEVARIABLES =  evrsmk1A edu11 age80 outcome timeL ;
+  USEVARIABLES =  age80 outcome timeL ;
   MISSING = ALL (-9999);
   CLUSTER = id;
   WITHIN = timeL;
-  BETWEEN = evrsmk1A edu11 age80;
+  BETWEEN = age80;
 
 
 
@@ -36,17 +36,12 @@ MODEL:
   linear | outcome ON timeL;
 
 %BETWEEN%
-  [outcome linear ] ;
+  [outcome linear ] (int btimeL );
   outcome linear ;
   outcome  WITH linear ;
   outcome linear ON age80 ;
-  outcome linear ON edu11 ;
-  outcome linear ON evrsmk1A;
 
-PLOT:
-  type =  plot1;
-  type =  plot2;
-  type =  plot3;
+
 
 
 

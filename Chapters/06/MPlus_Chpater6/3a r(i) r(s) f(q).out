@@ -1,0 +1,496 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/13/2015   8:44 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Ch 6: 3a: Fixed Quadratic, Random Linear Time Model
+
+  DATA:
+    FILE = MPLUS_Chapter6.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+    ! Rescale rt so Mplus will show all results
+    rt = rt/10;
+    time1 = (session - 1)/100;
+    time1sq = time1*time1/100;
+
+  VARIABLE:
+    NAMES = PersonID session rt;
+    USEVARIABLES = rt time1 time1sq;
+    MISSING = ALL (-9999);
+    CLUSTER = PersonID;
+    WITHIN = time1 time1sq;
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+    TYPE = TWOLEVEL RANDOM;
+
+  MODEL:
+
+  %WITHIN%
+    rt;
+    linear | rt ON time1;
+    quad | rt ON time1sq;
+
+  %BETWEEN%
+    [rt linear quad] (int btime1 btime1sq);
+    rt linear quad@0;
+    rt WITH linear;
+
+  MODEL CONSTRAINT:
+    NEW(est1-est12);
+  ! est1: Intercept at Session=1 Time=0
+    est1 = int*1 + btime1*0 + btime1sq*0;
+  ! est2: Intercept at Session=2 Time=1
+    est2 = int*1 + btime1*1 + btime1sq*1;
+  ! est3: Intercept at Session=3 Time=2
+    est3 = int*1 + btime1*2 + btime1sq*4;
+  ! est4: Intercept at Session=4 Time=3
+    est4 = int*1 + btime1*3 + btime1sq*9;
+  ! est5: Intercept at Session=5 Time=4
+    est5 = int*1 + btime1*4 + btime1sq*16;
+  ! est6: Intercept at Session=6 Time=5
+    est6 = int*1 + btime1*5 + btime1sq*25;
+  ! est7: Linear Slope at Session=1 Time=0
+    est7 = btime1*1 + btime1sq*0;
+  ! est8: Linear Slope at Session=2 Time=1
+    est8 = btime1*1 + btime1sq*2;
+  ! est9: Linear Slope at Session=3 Time=2
+    est9 = btime1*1 + btime1sq*4;
+  ! est10: Linear Slope at Session=4 Time=3
+    est10 = btime1*1 + btime1sq*6;
+  ! est11: Linear Slope at Session=5 Time=4
+    est11 = btime1*1 + btime1sq*8;
+  ! est12: Linear Slope at Session=6 Time=5
+    est12 = btime1*1 + btime1sq*10;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Ch 6: 3a: Fixed Quadratic, Random Linear Time Model
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         606
+
+Number of dependent variables                                    1
+Number of independent variables                                  2
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   RT
+
+Observed independent variables
+   TIME1       TIME1SQ
+
+Continuous latent variables
+   LINEAR      QUAD
+
+Variables with special functions
+
+  Cluster variable      PERSONID
+
+  Within variables
+   TIME1       TIME1SQ
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  MPLUS_Chapter6.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                        606
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              RT            TIME1         TIME1SQ
+              ________      ________      ________
+ RT             1.000
+ TIME1          1.000         1.000
+ TIME1SQ        1.000         1.000         1.000
+
+
+     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES MAY NOT BE
+     TRUSTWORTHY FOR SOME PARAMETERS DUE TO A NON-POSITIVE DEFINITE
+     FIRST-ORDER DERIVATIVE PRODUCT MATRIX.  THIS MAY BE DUE TO THE STARTING
+     VALUES BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE
+     CONDITION NUMBER IS       0.810D-16.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 7, %BETWEEN%: RT
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        7
+
+Loglikelihood
+
+          H0 Value                         211.032
+
+Information Criteria
+
+          Akaike (AIC)                    -408.063
+          Bayesian (BIC)                  -377.215
+          Sample-Size Adjusted BIC        -399.438
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Residual Variances
+    RT                 0.014      0.007      2.025      0.043
+
+Between Level
+
+ RT       WITH
+    LINEAR            -0.004      0.008     -0.475      0.635
+
+ Means
+    RT                 0.350      0.069      5.056      0.000
+    LINEAR             0.000      0.066      0.000      1.000
+    QUAD               0.000      1.000      0.000      1.000
+
+ Variances
+    RT                 0.023      0.018      1.254      0.210
+    LINEAR             0.001      0.002      0.476      0.634
+    QUAD               0.000      0.000    999.000    999.000
+
+New/Additional Parameters
+    EST1               0.350      0.069      5.056      0.000
+    EST2               0.350      1.001      0.350      0.727
+    EST3               0.350      3.934      0.089      0.929
+    EST4               0.350      8.866      0.039      0.969
+    EST5               0.350     15.797      0.022      0.982
+    EST6               0.350     24.727      0.014      0.989
+    EST7               0.000      0.066      0.000      1.000
+    EST8               0.000      1.933      0.000      1.000
+    EST9               0.000      3.932      0.000      1.000
+    EST10              0.000      5.932      0.000      1.000
+    EST11              0.000      7.931      0.000      1.000
+    EST12              0.000      9.930      0.000      1.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.810E-16
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              RT            TIME1         TIME1SQ
+              ________      ________      ________
+ 1                  0             0             0
+
+
+           LAMBDA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ RT                 0             0             0             0             0
+ TIME1              0             0             0             0             0
+ TIME1SQ            0             0             0             0             0
+
+
+           THETA
+              RT            TIME1         TIME1SQ
+              ________      ________      ________
+ RT                 0
+ TIME1              0             0
+ TIME1SQ            0             0             0
+
+
+           ALPHA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           BETA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ LINEAR             0             0             0             0             0
+ QUAD               0             0             0             0             0
+ RT                 0             0             0             0             0
+ TIME1              0             0             0             0             0
+ TIME1SQ            0             0             0             0             0
+
+
+           PSI
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ LINEAR             0
+ QUAD               0             0
+ RT                 0             0             1
+ TIME1              0             0             0             0
+ TIME1SQ            0             0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              RT            TIME1         TIME1SQ
+              ________      ________      ________
+ 1                  0             0             0
+
+
+           LAMBDA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ RT                 0             0             0             0             0
+ TIME1              0             0             0             0             0
+ TIME1SQ            0             0             0             0             0
+
+
+           THETA
+              RT            TIME1         TIME1SQ
+              ________      ________      ________
+ RT                 0
+ TIME1              0             0
+ TIME1SQ            0             0             0
+
+
+           ALPHA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ 1                  2             3             4             0             0
+
+
+           BETA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ LINEAR             0             0             0             0             0
+ QUAD               0             0             0             0             0
+ RT                 0             0             0             0             0
+ TIME1              0             0             0             0             0
+ TIME1SQ            0             0             0             0             0
+
+
+           PSI
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ LINEAR             5
+ QUAD               0             0
+ RT                 6             0             7
+ TIME1              0             0             0             0
+ TIME1SQ            0             0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR THE ADDITIONAL PARAMETERS
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST1          EST2          EST3          EST4          EST5
+              ________      ________      ________      ________      ________
+ 1                  8             9            10            11            12
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST6          EST7          EST8          EST9          EST10
+              ________      ________      ________      ________      ________
+ 1                 13            14            15            16            17
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST11         EST12
+              ________      ________
+ 1                 18            19
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              RT            TIME1         TIME1SQ
+              ________      ________      ________
+ 1              0.000         0.000         0.000
+
+
+           LAMBDA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ RT             0.000         0.000         1.000         0.000         0.000
+ TIME1          0.000         0.000         0.000         1.000         0.000
+ TIME1SQ        0.000         0.000         0.000         0.000         1.000
+
+
+           THETA
+              RT            TIME1         TIME1SQ
+              ________      ________      ________
+ RT             0.000
+ TIME1          0.000         0.000
+ TIME1SQ        0.000         0.000         0.000
+
+
+           ALPHA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ LINEAR         0.000         0.000         0.000         0.000         0.000
+ QUAD           0.000         0.000         0.000         0.000         0.000
+ RT             0.000         0.000         0.000         0.000         0.000
+ TIME1          0.000         0.000         0.000         0.000         0.000
+ TIME1SQ        0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ LINEAR         0.000
+ QUAD           0.000         0.000
+ RT             0.000         0.000         0.015
+ TIME1          0.000         0.000         0.000         2.001
+ TIME1SQ        0.000         0.000         0.000         0.000         0.009
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              RT            TIME1         TIME1SQ
+              ________      ________      ________
+ 1              0.000         0.000         0.000
+
+
+           LAMBDA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ RT             0.000         0.000         1.000         0.000         0.000
+ TIME1          0.000         0.000         0.000         1.000         0.000
+ TIME1SQ        0.000         0.000         0.000         0.000         1.000
+
+
+           THETA
+              RT            TIME1         TIME1SQ
+              ________      ________      ________
+ RT             0.000
+ TIME1          0.000         0.000
+ TIME1SQ        0.000         0.000         0.000
+
+
+           ALPHA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.350         0.000         0.000
+
+
+           BETA
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ LINEAR         0.000         0.000         0.000         0.000         0.000
+ QUAD           0.000         0.000         0.000         0.000         0.000
+ RT             0.000         0.000         0.000         0.000         0.000
+ TIME1          0.000         0.000         0.000         0.000         0.000
+ TIME1SQ        0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              LINEAR        QUAD          RT            TIME1         TIME1SQ
+              ________      ________      ________      ________      ________
+ LINEAR         1.000
+ QUAD           0.000         0.000
+ RT             0.000         0.000         0.015
+ TIME1          0.000         0.000         0.000         0.000
+ TIME1SQ        0.000         0.000         0.000         0.000         0.000
+
+
+     STARTING VALUES FOR THE ADDITIONAL PARAMETERS
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST1          EST2          EST3          EST4          EST5
+              ________      ________      ________      ________      ________
+ 1              0.500         0.500         0.500         0.500         0.500
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST6          EST7          EST8          EST9          EST10
+              ________      ________      ________      ________      ________
+ 1              0.500         0.500         0.500         0.500         0.500
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST11         EST12
+              ________      ________
+ 1              0.500         0.500
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  08:44:18
+        Ending Time:  08:44:19
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

@@ -1,0 +1,449 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/13/2015   8:34 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+    Ch 6: 2b: Random Linear Time Model
+
+  DATA:
+    FILE = MPLUS_Chpater6.csv;
+    FORMAT = FREE;
+
+  DEFINE:
+    ! Rescale rt so Mplus will show all results
+    rt = rt/10;
+    time1 = session - 1;
+
+  VARIABLE:
+    NAMES = PersonID session rt;
+    USEVARIABLES = rt time1;
+    MISSING = ALL (-9999);
+    CLUSTER = PersonID;
+    WITHIN = time1;
+
+  ANALYSIS:
+    ESTIMATOR = ML;
+    PROCESSORS = 4;
+    TYPE = TWOLEVEL RANDOM;
+
+  MODEL:
+
+  %WITHIN%
+    rt;
+    linear | rt ON time1;
+
+  %BETWEEN%
+    [rt linear] (int btime1);
+    rt linear;
+    rt WITH linear;
+
+  MODEL CONSTRAINT:
+    NEW(est1-est6);
+  ! est1: Intercept at Session=1 Time=0
+    est1 = int*1 + btime1*0;
+  ! est2: Intercept at Session=2 Time=1
+    est2 = int*1 + btime1*1;
+  ! est3: Intercept at Session=3 Time=2
+    est3 = int*1 + btime1*2;
+  ! est4: Intercept at Session=4 Time=3
+    est4 = int*1 + btime1*3;
+  ! est5: Intercept at Session=5 Time=4
+    est5 = int*1 + btime1*4;
+  ! est6: Intercept at Session=6 Time=5
+    est6 = int*1 + btime1*5;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Ch 6: 2b: Random Linear Time Model
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         606
+
+Number of dependent variables                                    1
+Number of independent variables                                  1
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   RT
+
+Observed independent variables
+   TIME1
+
+Continuous latent variables
+   LINEAR
+
+Variables with special functions
+
+  Cluster variable      PERSONID
+
+  Within variables
+   TIME1
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  MPLUS_Chpater6.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                        606
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              RT            TIME1
+              ________      ________
+ RT             1.000
+ TIME1          1.000         1.000
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ILL-CONDITIONED
+     FISHER INFORMATION MATRIX.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO A NON-POSITIVE
+     DEFINITE FISHER INFORMATION MATRIX.  THIS MAY BE DUE TO THE STARTING VALUES
+     BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE CONDITION
+     NUMBER IS       0.232D-18.
+
+     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES COULD NOT BE
+     COMPUTED.  THIS IS OFTEN DUE TO THE STARTING VALUES BUT MAY ALSO BE
+     AN INDICATION OF MODEL NONIDENTIFICATION.  CHANGE YOUR MODEL AND/OR
+     STARTING VALUES.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 3, %BETWEEN%: [ RT ] (equality/label)
+
+
+
+
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Within Level
+
+ Residual Variances
+    RT                 0.014
+
+Between Level
+
+ RT       WITH
+    LINEAR             0.000
+
+ Means
+    RT                 0.350
+    LINEAR             0.000
+
+ Variances
+    RT                 0.023
+    LINEAR             0.000
+
+New/Additional Parameters
+    EST1               0.350
+    EST2               0.350
+    EST3               0.350
+    EST4               0.350
+    EST5               0.350
+    EST6               0.350
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %WITHIN%
+
+     linear | rt ON time1;
+
+     rt*0.01408;
+
+     %BETWEEN%
+
+     rt WITH linear*-0.00004;
+
+     [ rt*0.35000 ] (int);
+     [ linear*0.00000 ] (btime1);
+
+     rt*0.02285;
+     linear*0.00000;
+
+     ! NEW statements in MODEL CONSTRAINT
+     NEW(est1*0.35000);
+     NEW(est2*0.35000);
+     NEW(est3*0.35000);
+     NEW(est4*0.35000);
+     NEW(est5*0.35000);
+     NEW(est6*0.35000);
+
+
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              RT            TIME1
+              ________      ________
+ 1                  0             0
+
+
+           LAMBDA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ RT                 0             0             0
+ TIME1              0             0             0
+
+
+           THETA
+              RT            TIME1
+              ________      ________
+ RT                 0
+ TIME1              0             0
+
+
+           ALPHA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ 1                  0             0             0
+
+
+           BETA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ LINEAR             0             0             0
+ RT                 0             0             0
+ TIME1              0             0             0
+
+
+           PSI
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ LINEAR             0
+ RT                 0             1
+ TIME1              0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              RT            TIME1
+              ________      ________
+ 1                  0             0
+
+
+           LAMBDA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ RT                 0             0             0
+ TIME1              0             0             0
+
+
+           THETA
+              RT            TIME1
+              ________      ________
+ RT                 0
+ TIME1              0             0
+
+
+           ALPHA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ 1                  2             3             0
+
+
+           BETA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ LINEAR             0             0             0
+ RT                 0             0             0
+ TIME1              0             0             0
+
+
+           PSI
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ LINEAR             4
+ RT                 5             6
+ TIME1              0             0             0
+
+
+     PARAMETER SPECIFICATION FOR THE ADDITIONAL PARAMETERS
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST1          EST2          EST3          EST4          EST5
+              ________      ________      ________      ________      ________
+ 1                  7             8             9            10            11
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST6
+              ________
+ 1                 12
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              RT            TIME1
+              ________      ________
+ 1              0.000         0.000
+
+
+           LAMBDA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ RT             0.000         1.000         0.000
+ TIME1          0.000         0.000         1.000
+
+
+           THETA
+              RT            TIME1
+              ________      ________
+ RT             0.000
+ TIME1          0.000         0.000
+
+
+           ALPHA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ 1              0.000         0.000         0.000
+
+
+           BETA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ LINEAR         0.000         0.000         0.000
+ RT             0.000         0.000         0.000
+ TIME1          0.000         0.000         0.000
+
+
+           PSI
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ LINEAR         0.000
+ RT             0.000         0.015
+ TIME1          0.000         0.000     20010.076
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              RT            TIME1
+              ________      ________
+ 1              0.000         0.000
+
+
+           LAMBDA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ RT             0.000         1.000         0.000
+ TIME1          0.000         0.000         1.000
+
+
+           THETA
+              RT            TIME1
+              ________      ________
+ RT             0.000
+ TIME1          0.000         0.000
+
+
+           ALPHA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ 1              0.000         0.350         0.000
+
+
+           BETA
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ LINEAR         0.000         0.000         0.000
+ RT             0.000         0.000         0.000
+ TIME1          0.000         0.000         0.000
+
+
+           PSI
+              LINEAR        RT            TIME1
+              ________      ________      ________
+ LINEAR         1.000
+ RT             0.000         0.015
+ TIME1          0.000         0.000         0.000
+
+
+     STARTING VALUES FOR THE ADDITIONAL PARAMETERS
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST1          EST2          EST3          EST4          EST5
+              ________      ________      ________      ________      ________
+ 1              0.500         0.500         0.500         0.500         0.500
+
+
+           NEW/ADDITIONAL PARAMETERS
+              EST6
+              ________
+ 1              0.500
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  08:34:04
+        Ending Time:  08:34:05
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen
