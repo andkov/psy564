@@ -108,6 +108,11 @@ NOTE: the export of the wide data is suppressed for brevity
 
 ```
 
+## ProtoLines
+```{r ProtoLines,  warning=F}
+
+```
+
 ##   IndividualPredictionsAge
 ```{r IndividualPredictionsAge,  warning=F, out.width="900px"}
 
@@ -115,10 +120,20 @@ NOTE: the export of the wide data is suppressed for brevity
 
 
 
+##    DefineModelData2
+```{r DefineModelData2,  warning=F}
 
+```
 
+## ProtoLines2
+```{r ProtoLines2,  warning=F}
 
+```
 
+## IndividualPredictionsAge2
+```{r IndividualPredictionsAge2,  warning=F}
+
+```
 
 
 
