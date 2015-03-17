@@ -28,3 +28,4 @@ namesarePath <- "./Projects/HRS/Various/namesare.txt"
 namesare <- scan (namesarePath, what="character", sep=" ")
 names(ds0) <- namesare
 
+selectVars <- c()
