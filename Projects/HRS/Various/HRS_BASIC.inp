@@ -75,6 +75,7 @@ DEFINE: female=dsex-1;
 
 Output: SAMPSTAT PATTERNS; 
 
-  PLOT: 
-    Type is Plot3; 
-    Series is  cdwrscr4 cdwrscr5 cdwrscr6 cdwrscr7 cdwrscr8(*);
+PLOT: 
+   Type is Plot2 Plot3; 
+   Series is  cdwrscr4 cdwrscr5 cdwrscr6 cdwrscr7 cdwrscr8(*);
+

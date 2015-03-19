@@ -1,0 +1,16 @@
+{
+    "contents" : "# remove all elements for a clean start\nrm(list=ls(all=TRUE))\ncat(\"\\014\")\n\n## @knitr LoadPackages\nrequire(sas7bdat) # for inputting data \nlibrary(dplyr) # for general data manipulation\nlibrary(reshape2) # for data : wide <-> long\nlibrary(psych) # data summary + etc\nlibrary(ggplot2) # graphing\nlibrary(nlme) # estimate fixed models | esp. gls()\nlibrary(lme4) # estimate mixed models | esp. lmer()\nlibrary(arm)  # process model objects\n\n# source(\"./Scripts/Mplus/mplus.R\")\nsource(\"http://www.statmodel.com/mplus-R/mplus.R\")\nls() # list the availible function in mplus.R\n\nm0 <- \"./Projects/ELSA/CogDecline/irecall/irecall_r(i)_r(s)_nocovar.gh5\"\nm1 <- \"./Projects/ELSA/CogDecline/irecall/irecall_r(i)_r(s)_(is)age80.gh5\"\nm2 <- \"./Projects/ELSA/CogDecline/irecall/irecall_r(i)_r(s)_(is)age80_(is)edu11.gh5\"\nm3 <- \"./Projects/ELSA/CogDecline/irecall/irecall_r(i)_r(s)_(is)age80_(is)edu11_(is)smoked.gh5\"\n\n\nmplus.view.plots(m3)\nmodel <- m3\n\nmplus.list.variables(m3)\n\nmplus.plot.histogram(model, \"OUTCOME\")\nmplus.plot.histogram(model, \"TIMEL\")\nmplus.plot.histogram(model, \"EVRSMK1A\")\nmplus.plot.histogram(model, \"EDU11\")\nmplus.plot.histogram(model, \"AGE80\")\nmplus.plot.histogram(model, \"LINEAR\")\nmplus.plot.histogram(model, \"B_OUTCOME\")\n\n# extract raw data\na <- mplus.get.data(m2,\"OUTCOME\")\nb <- mplus.get.data(m2,\"TIMEL\")\nc <- mplus.get.data(m2,\"EDU11\")\nd <- mplus.get.data(m2,\"AGE80\")\ne <- mplus.get.data(m2,\"LINEAR\")\nf <- mplus.get.data(m2,\"B_OUTCOME\")\ng <- mplus.get.data(m2,\"ID\")\n\nds <- data.frame(cbind(a, b, c, d, e, f, g))\nnames(ds) <-  c(\"OUTCOME\", \"TIMEL\",\"EDU11\",\"AGE80\",\"LINEAR\",\"B_OUTCOME\",\"ID\")\n\nhead(ds)\n\n\n\n######   ########\nmplus.load(m1)\nmplus.plot.loop(m1, ypred)\n\nsource(\"http://www.statmodel.com/mplus-R/mplus.R\")\nls() # list the availible function in mplus.R\n\n# create objects containing the paths to gh5 files\nmodel_basic <- './Projects/HRS/Various/HRS_BASIC.gh5'\nmodel_growth <- './Projects/HRS/Various/hrs_lgmgrowth.gh5'\n\n# choose what model to work with\nmodel <- model_basic\nmodel <- model_growth\n\n\nmplus.list.variables(model)\nmplus.plot.histogram(model,'CDWR1')\nmplus.plot.histogram(model,'I')\nmplus.plot.histogram(model,'S')\n\nmplus.plot.loop(model)\n\nmplus.plot.scatterplot('HRS_BASIC.gh5','CDWRSCR4','DAGEYRS4')\n\n\n\n\n",
+    "created" : 1426641680033.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "911814083",
+    "id" : "76E77FB2",
+    "lastKnownWriteTime" : 1426714343,
+    "path" : "~/GitHub/psy564/Projects/ELSA/CogDecline/extract from mplus.R",
+    "project_path" : "Projects/ELSA/CogDecline/extract from mplus.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

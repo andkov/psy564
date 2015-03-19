@@ -67,6 +67,7 @@ Variable:
      pn hhid hhidpn;
 
   Missing are all (-9999) ; 
+  Missing are all (-999) ; 
 
 USEVAR are  t1 t2 t3 t4 t5 
             CDWR1 CDWR2 CDWR3 CDWR4 CDWR5 ;! age65  female agefem;
@@ -87,5 +88,8 @@ Model: I S | cdwr1-cdwr5 AT  t1-t5;
         CDWR4(2);
         CDWR5(2);
 
-
+PLOT: 
+   Type is Plot1 Plot2 Plot3; 
+   Series is  CDWR1-CDWR5(*); 
+  
 

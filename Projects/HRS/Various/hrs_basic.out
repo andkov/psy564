@@ -1,0 +1,497 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/17/2015   7:33 PM
+
+INPUT INSTRUCTIONS
+
+  Title: HRS_WIDE_BASIC;
+  Data:
+    File is HRS_WIDE_n2000.dat ;
+  Variable:
+    Names are
+       secu idstrat idstudy idcohort
+       wgtr4 wgtr5 wgtr6 wgtr7 wgtr8 wgtrbase wgt_pos
+
+       ddobmth ddobyr dndimtch dndimth dndiyr ddodyrs ddthflg dfrstint
+       dintmth4 dintmth5 dintmth6 dintmth7 dintmth8
+       dsex dedudgr deduyrs
+       dracehsp dracecnt dracewht draceblk draceoth
+
+       dageyrs4 dageyrs5 dageyrs6 dageyrs7 dageyrs8
+       dagecnt4 dagecnt5 dagecnt6 dagecnt7 dagecnt8
+       dagesqr4 dagesqr5 dagesqr6 dagesqr7 dagesqr8
+       dagec2_4 dagec2_5 dagec2_6 dagec2_7 dagec2_8
+
+       dhhsize4 dhhsize5 dhhsize6 dhhsize7 dhhsize8
+       dmarint4 dmarint5 dmarint6 dmarint7 dmarint8
+       ewthfin4 ewthfin5 ewthfin6 ewthfin7 ewthfin8
+       eincind4 einchh4 eincind5 einchh5 eincind6 einchh6
+       eincind7 einchh7 eincind8 einchh8
+
+       bexcfrq4 bexcfrq5 bexcfrq6 bexcfrq7 bexcfrq8
+       bsmkevr4 bsmkevr5 bsmkevr6 bsmkevr7 bsmkevr8
+       bsmknow4 bsmknow5 bsmknow6 bsmknow7 bsmknow8
+       balcevr4 balcevr5 balcevr6 balcevr7 balcevr8
+       balcdwk4 balcdwk5 balcdwk6 balcdwk7 balcdwk8
+       balcddy4 balcddy5 balcddy6 balcddy7 balcddy8
+
+       hvtlsts4 hvtlsts5 hvtlsts6 hvtlsts7 hvtlsts8
+       hbmi4 hbmi5 hbmi6 hbmi7 hbmi8
+       hsrhscr4 hsrhscr5 hsrhscr6 hsrhscr7 hsrhscr8
+       hbrkhip4 hbrkhip5 hbrkhip6 hbrkhip7 hbrkhip8
+       hbcksym4 hbcksym5 hbcksym6 hbcksym7 hbcksym8
+       hhbpdia4 hhbpdia5 hhbpdia6 hhbpdia7 hhbpdia8
+       hdibdia4 hdibdia5 hdibdia6 hdibdia7 hdibdia8
+       hcandia4 hcandia5 hcandia6 hcandia7 hcandia8
+       hlngdia4 hlngdia5 hlngdia6 hlngdia7 hlngdia8
+       hpsydia4 hpsydia5 hpsydia6 hpsydia7 hpsydia8
+       hartdia4 hartdia5 hartdia6 hartdia7 hartdia8
+       hstkdia4 hstkdia5 hstkdia6 hstkdia7 hstkdia8
+       hhrtdia4 hhrtdia5 hhrtdia6 hhrtdia7 hhrtdia8
+       hiad3pt4 hiad3pt5 hiad3pt6 hiad3pt7 hiad3pt8
+       hiad5pt4 hiad5pt5 hiad5pt6 hiad5pt7 hiad5pt8
+       hadl3pt4 hadl3pt5 hadl3pt6 hadl3pt7 hadl3pt8
+       hadl5pt4 hadl5pt5 hadl5pt6 hadl5pt7 hadl5pt8
+
+       pcsdsum4 pcsdsum5 pcsdsum6 pcsdsum7 pcsdsum8
+       csrmscr4 csrmscr5 csrmscr6 csrmscr7 csrmscr8
+       cticlow4 cticlow5 cticlow6 cticlow7 cticlow8
+       ctic9pt4 ctic9pt5 ctic9pt6 ctic9pt7 ctic9pt8
+       ciwrstd4 ciwrstd5 ciwrstd6 ciwrstd7 ciwrstd8
+       cdwrstd4 cdwrstd5 cdwrstd6 cdwrstd7 cdwrstd8
+       ciwrscr4 ciwrscr5 ciwrscr6 ciwrscr7 ciwrscr8
+       cdwrscr4 cdwrscr5 cdwrscr6 cdwrscr7 cdwrscr8
+       cssstd4 cssstd5 cssstd6 cssstd7 cssstd8
+       cssscr4 cssscr5 cssscr6 cssscr7 cssscr8
+       cvcbstd4 cvcbstd5 cvcbstd6 cvcbstd7 cvcbstd8
+       cvcbscr4 cvcbscr5 cvcbscr6 cvcbscr7 cvcbscr8
+
+       t1_age t2_age t3_age t4_age t5_age
+       t1_time t2_time t3_time t4_time t5_time
+       t1_time2 t2_time2 t3_time2 t4_time2 t5_time2
+
+       pn hhid hhidpn;
+
+    MISSING are all (-9999) ;
+
+    USEVAR are cdwrscr4 cdwrscr5 cdwrscr6 cdwrscr7 cdwrscr8
+               dageyrs4 female;
+
+  DEFINE: female=dsex-1;
+
+  Output: SAMPSTAT PATTERNS;
+
+  PLOT:
+     Type is Plot2 Plot3;
+     Series is  cdwrscr4 cdwrscr5 cdwrscr6 cdwrscr7 cdwrscr8(*);
+
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables in the model.
+  Check that this is what is intended.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  182
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+HRS_WIDE_BASIC;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        1818
+
+Number of dependent variables                                    7
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   CDWRSCR4    CDWRSCR5    CDWRSCR6    CDWRSCR7    CDWRSCR8    DAGEYRS4
+   FEMALE
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  HRS_WIDE_n2000.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            44
+
+
+SUMMARY OF MISSING DATA PATTERNS
+
+
+     MISSING DATA PATTERNS (x = not missing)
+
+           1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+ CDWRSCR4  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ CDWRSCR5  x  x  x  x  x  x  x  x                             x  x  x
+ CDWRSCR6  x  x  x  x              x  x  x  x                 x  x  x
+ CDWRSCR7  x  x        x  x        x  x        x  x           x  x  x
+ CDWRSCR8  x     x     x     x     x     x     x     x        x  x
+ DAGEYRS4  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x     x
+ FEMALE    x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+
+          21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40
+ CDWRSCR4
+ CDWRSCR5  x  x  x  x  x  x  x  x  x
+ CDWRSCR6  x  x                       x  x  x  x  x  x  x
+ CDWRSCR7        x  x  x              x  x  x              x  x  x  x
+ CDWRSCR8        x  x     x  x        x  x     x  x        x  x
+ DAGEYRS4  x     x        x     x     x     x  x     x     x     x
+ FEMALE    x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+
+          41 42 43 44
+ CDWRSCR4
+ CDWRSCR5
+ CDWRSCR6
+ CDWRSCR7
+ CDWRSCR8  x  x
+ DAGEYRS4  x     x
+ FEMALE    x  x  x  x
+
+
+     MISSING DATA PATTERN FREQUENCIES
+
+    Pattern   Frequency     Pattern   Frequency     Pattern   Frequency
+          1         745          16         131          31          11
+          2          92          17           1          32           1
+          3          20          18          10          33           2
+          4          86          19          15          34           3
+          5          20          20           3          35           6
+          6          10          21           1          36           1
+          7           9          22           2          37           6
+          8         121          23           6          38         177
+          9          16          24           2          39           2
+         10           5          25           1          40          27
+         11           2          26           1          41          11
+         12           3          27           1          42          19
+         13           6          28           2          43          85
+         14           7          29           4          44         137
+         15           3          30           5
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              CDWRSCR4      CDWRSCR5      CDWRSCR6      CDWRSCR7      CDWRSCR8
+              ________      ________      ________      ________      ________
+ CDWRSCR4       0.702
+ CDWRSCR5       0.607         0.633
+ CDWRSCR6       0.533         0.536         0.566
+ CDWRSCR7       0.496         0.497         0.497         0.642
+ CDWRSCR8       0.452         0.456         0.456         0.561         0.600
+ DAGEYRS4       0.702         0.618         0.547         0.512         0.474
+ FEMALE         0.702         0.633         0.566         0.642         0.600
+
+
+           Covariance Coverage
+              DAGEYRS4      FEMALE
+              ________      ________
+ DAGEYRS4       0.778
+ FEMALE         0.778         1.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              CDWRSCR4      CDWRSCR5      CDWRSCR6      CDWRSCR7      CDWRSCR8
+              ________      ________      ________      ________      ________
+      1         4.571         4.239         4.259         3.984         3.912
+
+
+           Means
+              DAGEYRS4      FEMALE
+              ________      ________
+      1        65.126         0.556
+
+
+           Covariances
+              CDWRSCR4      CDWRSCR5      CDWRSCR6      CDWRSCR7      CDWRSCR8
+              ________      ________      ________      ________      ________
+ CDWRSCR4       5.061
+ CDWRSCR5       2.661         4.724
+ CDWRSCR6       2.567         2.669         5.065
+ CDWRSCR7       2.308         2.394         2.545         4.327
+ CDWRSCR8       2.732         2.526         2.733         2.970         5.011
+ DAGEYRS4     -10.201       -10.510       -10.561       -11.229       -13.220
+ FEMALE         0.133         0.148         0.111         0.084         0.112
+
+
+           Covariances
+              DAGEYRS4      FEMALE
+              ________      ________
+ DAGEYRS4     121.627
+ FEMALE        -0.134         0.247
+
+
+           Correlations
+              CDWRSCR4      CDWRSCR5      CDWRSCR6      CDWRSCR7      CDWRSCR8
+              ________      ________      ________      ________      ________
+ CDWRSCR4       1.000
+ CDWRSCR5       0.544         1.000
+ CDWRSCR6       0.507         0.546         1.000
+ CDWRSCR7       0.493         0.530         0.544         1.000
+ CDWRSCR8       0.542         0.519         0.542         0.638         1.000
+ DAGEYRS4      -0.411        -0.438        -0.425        -0.489        -0.535
+ FEMALE         0.119         0.137         0.099         0.082         0.101
+
+
+           Correlations
+              DAGEYRS4      FEMALE
+              ________      ________
+ DAGEYRS4       1.000
+ FEMALE        -0.024         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -18046.817
+
+
+UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     CDWRSCR4              4.532      -0.212       0.000    7.91%       3.000      4.000      5.000
+            1277.000       5.060      -0.234      10.000    1.10%       5.000      6.000
+     CDWRSCR5              4.336      -0.205       0.000    7.82%       3.000      4.000      4.000
+            1151.000       4.526      -0.154      10.000    0.52%       5.000      6.000
+     CDWRSCR6              4.454      -0.194       0.000    7.48%       3.000      4.000      5.000
+            1029.000       4.784      -0.254      10.000    0.78%       5.000      6.000
+     CDWRSCR7              4.289      -0.255       0.000    6.17%       3.000      4.000      4.000
+            1167.000       3.912      -0.054      10.000    0.17%       5.000      6.000
+     CDWRSCR8              4.354      -0.288       0.000    6.88%       3.000      4.000      5.000
+            1090.000       4.320      -0.214      10.000    0.28%       5.000      6.000
+     DAGEYRS4             65.561       0.217      29.000    0.07%      56.000     61.000     65.000
+            1414.000     122.294      -0.271      99.000    0.07%      68.000     75.000
+     FEMALE                0.556      -0.226       0.000   44.39%       0.000      0.000      1.000
+            1818.000       0.247      -1.949       1.000   55.61%       1.000      1.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES MAY NOT BE
+     TRUSTWORTHY FOR SOME PARAMETERS DUE TO A NON-POSITIVE DEFINITE
+     FIRST-ORDER DERIVATIVE PRODUCT MATRIX.  THIS MAY BE DUE TO THE STARTING
+     VALUES BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE
+     CONDITION NUMBER IS       0.596D-12.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 14, FEMALE
+
+     THIS IS MOST LIKELY DUE TO VARIABLE FEMALE BEING DICHOTOMOUS BUT
+     DECLARED AS CONTINUOUS.
+
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       14
+
+Loglikelihood
+
+          H0 Value                      -19123.312
+          H1 Value                      -18046.817
+
+Information Criteria
+
+          Akaike (AIC)                   38274.624
+          Bayesian (BIC)                 38351.700
+          Sample-Size Adjusted BIC       38307.223
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                           2152.989
+          Degrees of Freedom                    21
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.236
+          90 Percent C.I.                    0.228  0.245
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                0.000
+          TLI                                0.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           2152.989
+          Degrees of Freedom                    21
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.351
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ Means
+    CDWRSCR4           4.532      0.063     71.990      0.000
+    CDWRSCR5           4.336      0.063     69.154      0.000
+    CDWRSCR6           4.454      0.068     65.318      0.000
+    CDWRSCR7           4.289      0.058     74.071      0.000
+    CDWRSCR8           4.354      0.063     69.159      0.000
+    DAGEYRS4          65.561      0.294    222.929      0.000
+    FEMALE             0.556      0.012     47.724      0.000
+
+ Variances
+    CDWRSCR4           5.060      0.200     25.269      0.000
+    CDWRSCR5           4.526      0.189     23.990      0.000
+    CDWRSCR6           4.784      0.211     22.682      0.000
+    CDWRSCR7           3.912      0.162     24.156      0.000
+    CDWRSCR8           4.320      0.185     23.345      0.000
+    DAGEYRS4         122.295      4.599     26.589      0.000
+    FEMALE             0.247      0.008     30.150      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.862E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              CDWRSCR4      CDWRSCR5      CDWRSCR6      CDWRSCR7      CDWRSCR8
+              ________      ________      ________      ________      ________
+      1           1             2             3             4             5
+
+
+           NU
+              DAGEYRS4      FEMALE
+              ________      ________
+      1           6             7
+
+
+           THETA
+              CDWRSCR4      CDWRSCR5      CDWRSCR6      CDWRSCR7      CDWRSCR8
+              ________      ________      ________      ________      ________
+ CDWRSCR4           8
+ CDWRSCR5           0             9
+ CDWRSCR6           0             0            10
+ CDWRSCR7           0             0             0            11
+ CDWRSCR8           0             0             0             0            12
+ DAGEYRS4           0             0             0             0             0
+ FEMALE             0             0             0             0             0
+
+
+           THETA
+              DAGEYRS4      FEMALE
+              ________      ________
+ DAGEYRS4          13
+ FEMALE             0            14
+
+
+     STARTING VALUES
+
+
+           NU
+              CDWRSCR4      CDWRSCR5      CDWRSCR6      CDWRSCR7      CDWRSCR8
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              DAGEYRS4      FEMALE
+              ________      ________
+      1         0.000         0.000
+
+
+           THETA
+              CDWRSCR4      CDWRSCR5      CDWRSCR6      CDWRSCR7      CDWRSCR8
+              ________      ________      ________      ________      ________
+ CDWRSCR4       2.530
+ CDWRSCR5       0.000         2.263
+ CDWRSCR6       0.000         0.000         2.392
+ CDWRSCR7       0.000         0.000         0.000         1.956
+ CDWRSCR8       0.000         0.000         0.000         0.000         2.160
+ DAGEYRS4       0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              DAGEYRS4      FEMALE
+              ________      ________
+ DAGEYRS4      61.147
+ FEMALE         0.000         0.123
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values)
+  Scatterplots (sample values)
+  Sample means
+  Estimated means
+  Sample and estimated means
+  Observed individual values
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\koval_000\documents\github\psy564\projects\hrs\various\hrs_basic.dgm
+
+     Beginning Time:  19:33:41
+        Ending Time:  19:33:42
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen
