@@ -1,0 +1,159 @@
+---
+title: "Reporting Statistical Models (demo)"
+author: "Psyc 564"
+date: "Friday, January 30, 2015"
+output:
+  html_document:
+    css: ~/GitHub/psy564/libs/css/sidebar.css
+    highlight: haddock
+    theme: spacelab
+    toc: yes
+---
+
+<!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of only one directory.-->
+```{r, echo=F, message=F} 
+library(knitr)
+opts_knit$set(root.dir='../../../')  #Don't combine this call with any other chunk -especially one that uses file paths.
+```
+
+<!-- Set the report-wide options, and point to the external script file. -->
+```{r, echo=F, message=T}
+require(knitr)
+opts_chunk$set(
+  results='show', 
+  message = TRUE,
+  comment = NA, 
+  tidy = FALSE,
+#   fig.height = 4.8, 
+#   fig.width = 6.5, 
+  out.width = NULL,
+  fig.path = 'figure_rmd/',     
+  dev = "png",
+  dpi = 70
+)
+echoChunks <- FALSE
+warningChunks<- FALSE
+messageChunks<- FALSE
+outwidthChunks <- "130%"
+options(width=120) #So the output is 50% wider than the default.
+read_chunk("./Projects/ELSA/CogDecline/dsELSA.R") # the file to which knitr calls for the chunks
+```
+
+##   LoadPackages
+```{r LoadPackages}
+
+```
+
+
+## Load data
+```{r LoadData}
+
+```
+
+
+##   DataFilter
+```{r DataFilter}
+
+```
+
+
+##   DataFilter2
+```{r DataFilter2}
+
+```
+
+##   DataExportLong
+```{r DataExportLong, eval=F}
+
+```
+
+##   DataExportWide
+```{r DataExportWide, eval=F,echo=F}
+
+```
+NOTE: the export of the wide data is suppressed for brevity
+
+##   LoadGraphThemes
+```{r LoadGraphThemes}
+
+```
+
+##   CrossSectionDist
+```{r CrossSectionDist, out.width="900px"}
+
+```
+
+##   CrossSectionCount
+```{r CrossSectionCount, out.width="900px"}
+
+```
+
+##   MakeAgeBins
+```{r MakeAgeBins}
+
+```
+
+##   EasyData
+```{r EasyData}
+
+```
+
+##   BasicLinePlot
+```{r BasicLinePlot, warning=F,out.width="900px"}
+
+```
+
+##    DefineModelData
+```{r DefineModelData,  warning=F}
+
+```
+
+## ProtoLines
+```{r ProtoLines,  warning=F}
+
+```
+
+##   IndividualPredictionsAge
+```{r IndividualPredictionsAge,  warning=F, out.width="900px"}
+
+```
+
+
+
+##    DefineModelData2
+```{r DefineModelData2,  warning=F}
+
+```
+
+## ProtoLines2
+```{r ProtoLines2,  warning=F}
+
+```
+
+## IndividualPredictionsAge2
+```{r IndividualPredictionsAge2,  warning=F}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+ 

@@ -55,5 +55,27 @@ head(ds)
 mplus.load(m1)
 mplus.plot.loop(m1, ypred)
 
+source("http://www.statmodel.com/mplus-R/mplus.R")
+ls() # list the availible function in mplus.R
+
+# create objects containing the paths to gh5 files
+model_basic <- './Projects/HRS/Various/HRS_BASIC.gh5'
+model_growth <- './Projects/HRS/Various/hrs_lgmgrowth.gh5'
+
+# choose what model to work with
+model <- model_basic
+model <- model_growth
+
+
+mplus.list.variables(model)
+mplus.plot.histogram(model,'CDWR1')
+mplus.plot.histogram(model,'I')
+mplus.plot.histogram(model,'S')
+
+mplus.plot.loop(model)
+
+mplus.plot.scatterplot('HRS_BASIC.gh5','CDWRSCR4','DAGEYRS4')
+
+
 
 

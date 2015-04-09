@@ -1,0 +1,308 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+03/17/2015   7:31 PM
+
+INPUT INSTRUCTIONS
+
+  Title: HRS_SEMGROWTH
+  Data:
+    File is HRS_WIDE_n2000.dat ;
+  Variable:
+    Names are
+       secu idstrat idstudy idcohort
+       wgtr4 wgtr5 wgtr6 wgtr7 wgtr8 wgtrbase wgt_pos
+
+       ddobmth ddobyr dndimtch dndimth dndiyr ddodyrs ddthflg dfrstint
+       dintmth4 dintmth5 dintmth6 dintmth7 dintmth8
+       dsex dedudgr deduyrs
+       dracehsp dracecnt dracewht draceblk draceoth
+
+       dageyrs4 dageyrs5 dageyrs6 dageyrs7 dageyrs8
+       dagecnt4 dagecnt5 dagecnt6 dagecnt7 dagecnt8
+       dagesqr4 dagesqr5 dagesqr6 dagesqr7 dagesqr8
+       dagec2_4 dagec2_5 dagec2_6 dagec2_7 dagec2_8
+
+       dhhsize4 dhhsize5 dhhsize6 dhhsize7 dhhsize8
+       dmarint4 dmarint5 dmarint6 dmarint7 dmarint8
+       ewthfin4 ewthfin5 ewthfin6 ewthfin7 ewthfin8
+       eincind4 einchh4 eincind5 einchh5 eincind6 einchh6
+       eincind7 einchh7 eincind8 einchh8
+
+       bexcfrq4 bexcfrq5 bexcfrq6 bexcfrq7 bexcfrq8
+       bsmkevr4 bsmkevr5 bsmkevr6 bsmkevr7 bsmkevr8
+       bsmknow4 bsmknow5 bsmknow6 bsmknow7 bsmknow8
+       balcevr4 balcevr5 balcevr6 balcevr7 balcevr8
+       balcdwk4 balcdwk5 balcdwk6 balcdwk7 balcdwk8
+       balcddy4 balcddy5 balcddy6 balcddy7 balcddy8
+
+       hvtlsts4 hvtlsts5 hvtlsts6 hvtlsts7 hvtlsts8
+       hbmi4 hbmi5 hbmi6 hbmi7 hbmi8
+       hsrhscr4 hsrhscr5 hsrhscr6 hsrhscr7 hsrhscr8
+       hbrkhip4 hbrkhip5 hbrkhip6 hbrkhip7 hbrkhip8
+       hbcksym4 hbcksym5 hbcksym6 hbcksym7 hbcksym8
+       hhbpdia4 hhbpdia5 hhbpdia6 hhbpdia7 hhbpdia8
+       hdibdia4 hdibdia5 hdibdia6 hdibdia7 hdibdia8
+       hcandia4 hcandia5 hcandia6 hcandia7 hcandia8
+       hlngdia4 hlngdia5 hlngdia6 hlngdia7 hlngdia8
+       hpsydia4 hpsydia5 hpsydia6 hpsydia7 hpsydia8
+       hartdia4 hartdia5 hartdia6 hartdia7 hartdia8
+       hstkdia4 hstkdia5 hstkdia6 hstkdia7 hstkdia8
+       hhrtdia4 hhrtdia5 hhrtdia6 hhrtdia7 hhrtdia8
+       hiad3pt4 hiad3pt5 hiad3pt6 hiad3pt7 hiad3pt8
+       hiad5pt4 hiad5pt5 hiad5pt6 hiad5pt7 hiad5pt8
+       hadl3pt4 hadl3pt5 hadl3pt6 hadl3pt7 hadl3pt8
+       hadl5pt4 hadl5pt5 hadl5pt6 hadl5pt7 hadl5pt8
+
+       pcsdsum4 pcsdsum5 pcsdsum6 pcsdsum7 pcsdsum8
+       csrmscr4 csrmscr5 csrmscr6 csrmscr7 csrmscr8
+       cticlow4 cticlow5 cticlow6 cticlow7 cticlow8
+       ctic9pt4 ctic9pt5 ctic9pt6 ctic9pt7 ctic9pt8
+       ciwrstd4 ciwrstd5 ciwrstd6 ciwrstd7 ciwrstd8
+       cdwrstd4 cdwrstd5 cdwrstd6 cdwrstd7 cdwrstd8
+       ciwrscr4 ciwrscr5 ciwrscr6 ciwrscr7 ciwrscr8
+       cdwrscr4 cdwrscr5 cdwrscr6 cdwrscr7 cdwrscr8
+       cssstd4 cssstd5 cssstd6 cssstd7 cssstd8
+       cssscr4 cssscr5 cssscr6 cssscr7 cssscr8
+       cvcbstd4 cvcbstd5 cvcbstd6 cvcbstd7 cvcbstd8
+       cvcbscr4 cvcbscr5 cvcbscr6 cvcbscr7 cvcbscr8
+
+       t1age t2age t3age t4age t5age
+       t1 t2 t3 t4 t5
+       t1_time2 t2_time2 t3_time2 t4_time2 t5_time2
+
+       pn hhid hhidpn;
+
+    Missing are all (-9999) ;
+    Missing are all (-999) ;
+
+  USEVAR are  t1 t2 t3 t4 t5
+              CDWR1 CDWR2 CDWR3 CDWR4 CDWR5 ;! age65  female agefem;
+
+  TSCORES = t1 t2 t3 t4 t5;
+
+  Define: age65=dagecnt4; female=dsex-1; agefem=age65*female;
+    CDWR1=cdwrscr4; CDWR2=cdwrscr5; CDWR3=cdwrscr6; CDWR4=cdwrscr7; CDWR5=cdwrscr8;
+
+  Analysis:
+    Type =  RANDOM;
+
+  Model: I S | cdwr1-cdwr5 AT  t1-t5;
+
+          CDWR1(2);
+          CDWR2(2);
+          CDWR3(2);
+          CDWR4(2);
+          CDWR5(2);
+
+  PLOT:
+     Type is Plot1 Plot2 Plot3;
+     Series is  CDWR1-CDWR5(*);
+
+
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  404
+*** WARNING
+  Data set contains cases with missing on time scores but non-missing on the
+  corresponding dependent variables.  These cases were not included in the analysis.
+  Number of such cases:  266
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+HRS_SEMGROWTH
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        1330
+
+Number of dependent variables                                    5
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   CDWR1       CDWR2       CDWR3       CDWR4       CDWR5
+
+Continuous latent variables
+   I           S
+
+Variables with special functions
+
+  Time scores
+   T1          T2          T3          T4          T5
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  HRS_WIDE_n2000.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            28
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              CDWR1         CDWR2         CDWR3         CDWR4         CDWR5
+              ________      ________      ________      ________      ________
+ CDWR1          0.960
+ CDWR2          0.829         0.844
+ CDWR3          0.729         0.717         0.747
+ CDWR4          0.677         0.664         0.657         0.700
+ CDWR5          0.617         0.610         0.602         0.612         0.648
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        6
+
+Loglikelihood
+
+          H0 Value                      -10528.711
+          H0 Scaling Correction Factor      1.2491
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   21069.422
+          Bayesian (BIC)                 21100.580
+          Sample-Size Adjusted BIC       21081.520
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ S        WITH
+    I                 -0.048      0.021     -2.281      0.023
+
+ Means
+    I                  4.472      0.057     79.033      0.000
+    S                 -0.080      0.008     -9.603      0.000
+
+ Intercepts
+    CDWR1              0.000      0.000    999.000    999.000
+    CDWR2              0.000      0.000    999.000    999.000
+    CDWR3              0.000      0.000    999.000    999.000
+    CDWR4              0.000      0.000    999.000    999.000
+    CDWR5              0.000      0.000    999.000    999.000
+
+ Variances
+    I                  2.733      0.170     16.047      0.000
+    S                  0.012      0.004      3.005      0.003
+
+ Residual Variances
+    CDWR1              2.126      0.084     25.178      0.000
+    CDWR2              2.126      0.084     25.178      0.000
+    CDWR3              2.126      0.084     25.178      0.000
+    CDWR4              2.126      0.084     25.178      0.000
+    CDWR5              2.126      0.084     25.178      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.267E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              I             I_SE          S             S_SE
+              ________      ________      ________      ________
+ 1              4.472         0.800        -0.080         0.103
+
+
+           Covariances
+              I             I_SE          S             S_SE
+              ________      ________      ________      ________
+ I              2.076
+ I_SE          -0.055         0.017
+ S             -0.012         0.001         0.002
+ S_SE          -0.002         0.000         0.000         0.000
+
+
+           Correlations
+              I             I_SE          S             S_SE
+              ________      ________      ________      ________
+ I              1.000
+ I_SE          -0.294         1.000
+ S             -0.199         0.118         1.000
+ S_SE          -0.342         0.799         0.089         1.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values, estimated factor scores)
+  Scatterplots (sample values, estimated factor scores)
+  Latent variable distribution plots
+  Observed individual values
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\koval_000\documents\github\psy564\projects\hrs\various\hrs_lgmgrowth.dgm
+
+     Beginning Time:  19:31:11
+        Ending Time:  19:31:12
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

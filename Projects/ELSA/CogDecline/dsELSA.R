@@ -11,12 +11,12 @@ cat("\014")
 ## @knitr LoadPackages
 require(sas7bdat) # for inputting data 
 library(dplyr) # for general data manipulation
-library(reshape2) # for data : wide <-> long
-library(psych) # data summary + etc
+# library(reshape2) # for data : wide <-> long
+# library(psych) # data summary + etc
 library(ggplot2) # graphing
-library(nlme) # estimate fixed models | esp. gls()
-library(lme4) # estimate mixed models | esp. lmer()
-library(arm)  # process model objects
+# library(nlme) # estimate fixed models | esp. gls()
+# library(lme4) # estimate mixed models | esp. lmer()
+# library(arm)  # process model objects
 
 
 ## @knitr LoadData
@@ -26,7 +26,7 @@ length(unique(ds0$PID))
 head(ds0)
 
 dsL <- ds0
- 
+
 ## @knitr DataFilter
 
 table(dsL$irecall,dsL$wave, useNA="ifany") # frequency table
@@ -52,7 +52,7 @@ length(unique(dsL$id))
 table(dsL$wave)
 
 
-## @knitr DataExport
+## @knitr DataExportLong
 
 # save data for use in R
 saveRDS(object=dsL, file="~/GitHub/psy564/Data/Derived/ELSA/dsL_ELSA.rds", compress="xz")  
@@ -65,7 +65,7 @@ varNamesL <- colnames(dsL) # get variable names
 cat(varNamesL) # print, copy, paste into Mplus
 write.csv(t(varNamesL), file="~/GitHub/psy564/Projects/ELSA/CogDecline/dsL_ELSA_varNames.csv") # export as a csv
 
-
+## @knitr DataExportWide
 #### save WIDE data for MPlus ####
 
 ## Transform 
@@ -160,13 +160,12 @@ p <- p + geom_line(aes(group=id), color='firebrick',
 p <- p + geom_point(shape=1, color="black", fill=NA,                 
                     alpha=.4, size=2, 
                     position=position_jitter(w=0.1, h=0.2))
-p <- p + plotTheme
 p <- p + scale_x_continuous(limits=c(1,4),
                             breaks=c(1:4))
 p <- p + scale_y_continuous(limits=c(0,10), 
                             breaks=seq(1,10, by=1))
 p <- p + labs(list(title="Score on immediate recall",
-  x="Wave of the observation"))
+                   x="Wave of the observation"))
 p <- p + theme1
 p
 
@@ -174,10 +173,11 @@ p
 
 
 
-# define modeling data
+## @knitr  DefineModelData
 dsM <- dplyr::select(dsL, id, dob, age, age80, agecat, Age, female, year, time, wave,irecall,animal,prospect, drecall ) %>%
   dplyr::mutate(int =   4.929 , slope = -0.146 , Iage80 =   -0.055, Sage80 =  -0.008, 
                 ypred = int + Iage80*age80 + wave*(slope + Sage80*age80),
+                
                 yp_low = int + Iage80*(-10) + wave*(slope + Sage80*(-10)),
                 yp_mid = int + Iage80*(0) + wave*(slope + Sage80*(0)),
                 yp_high = int + Iage80*(10) + wave*(slope + Sage80*(10))) 
@@ -203,7 +203,6 @@ p <- p + theme1
 p
 
 
-
 ## @knitr IndividualPredictionsAge
 colorValues <- c("under 60"="#1b9e77", 
                  "60 - 69"="#d95f02", 
@@ -218,10 +217,76 @@ p <- p + scale_y_continuous(limits=c(3,8),
 p <- p + geom_line(alpha=.5, position=position_jitter(w=.1, h=.1))
 p <- p + scale_color_manual(values=colorValues)
 p <- p + labs(title="Score on immediate recall",
-                   x="Wave of the observation", color="Age Category")
+              x="Wave of the observation", color="Age Category")
+p <- p + guides(colour = guide_legend(override.aes = list(alpha = 1, size=4)))
+p <- p + theme1
+p
+
+
+## @knitr  DefineModelData2
+dsM <- dplyr::select(dsL, id, dob, age, age80, edu11, agecat, Age, female, year, time, wave,irecall,animal,prospect, drecall ) %>%
+  dplyr::mutate(int =   5.127 , slope = -0.151 , Iage80 =   -0.044 , Sage80 =  -0.008, Iedu11 = 0.192, Sedu11 = 0.001 , 
+            ypred = int + Iage80*age80 + Iedu11*edu11 + wave*(slope + Sage80*age80 + Sedu11*edu11),
+            
+            yp_low = int  + Iage80*(-10) + Iedu11*(-2) + wave*(slope + Sage80*(-10) + Sedu11*(-2)),
+            yp_mid = int  + Iage80*(0)   + Iedu11*(-2) + wave*(slope + Sage80*(0)   + Sedu11*(-2)),
+            yp_high = int + Iage80*(10)  + Iedu11*(-2) + wave*(slope + Sage80*(10)  + Sedu11*(-2))) 
+head(dsM)
+
+
+## @knitr ProtoLines2
+ds <- dplyr::filter(dsM, id %in% sample(unique(id),100)) # %>% # select only N ids
+p <- ggplot2::ggplot(ds,aes(x=wave,y=ypred, group=id))
+p <- p + geom_line(aes(group=id), color='blue', alpha=.2)
+# p <- p + geom_point(shape=1, color="black", fill=NA,                 
+#                     alpha=.4, size=2, 
+#                     position=position_jitter(w=0.1, h=0.2))
+p <- p + scale_x_continuous(limits=c(1,4),
+                            breaks=c(1:4))
+p <- p + scale_y_continuous(limits=c(3,8), 
+                            breaks=seq(3,8, by=1))
+p <- p + geom_line(aes(y=yp_low), color = "red", linetype="longdash", size=1)
+p <- p + geom_line(aes(y=yp_mid), color = "red",  size=1.5)
+p <- p + geom_line(aes(y=yp_high), color = "red", linetype="longdash", size=1)
+p <- p + labs(list(title="Score on immediate recall",
+                   x="Wave of the observation"))
+p <- p + theme1
+p
+
+
+## @knitr IndividualPredictionsAge2
+colorValues <- c("under 60"="#1b9e77", 
+                 "60 - 69"="#d95f02", 
+                 "70 - 79"="#7570b3",
+                 "over 80"="#e7298a")
+ds <- dplyr::filter(dsM, id %in% sample(unique(id),900)) # %>% # select only N ids
+p <- ggplot2::ggplot(ds,aes(x=wave,y=ypred, group=id, color=agecat))
+p <- p + scale_x_continuous(limits=c(1,4),
+                            breaks=c(1:4))
+p <- p + scale_y_continuous(limits=c(3,8), 
+                            breaks=seq(3,8, by=1))
+p <- p + geom_line(alpha=.5, position=position_jitter(w=.1, h=.1))
+p <- p + scale_color_manual(values=colorValues)
+p <- p + labs(title="Score on immediate recall",
+              x="Wave of the observation", color="Age Category")
 p <- p + guides(colour = guide_legend(override.aes = list(alpha = 1, size=4)))
 p <- p + theme1
 p
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
