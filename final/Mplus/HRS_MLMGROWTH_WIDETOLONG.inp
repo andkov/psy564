@@ -1,0 +1,151 @@
+Title: HRS_MLMGROWTH
+Data:
+  File is HRS_WIDE_n2000.dat ;
+
+DATA WIDETOLONG:
+    WIDE = cdwrscr4 - cdwrscr8 | ciwrscr4 - ciwrscr8 | t1 - t5;
+    LONG = CDWR | ciwrscr | time;
+    IDVARIABLE = hhidpn;
+    REPETITION = wave;
+
+Variable:
+  Names are 
+     secu idstrat idstudy idcohort 
+     wgtr4 wgtr5 wgtr6 wgtr7 wgtr8 wgtrbase wgt_pos 
+
+     ddobmth ddobyr dndimtch dndimth dndiyr ddodyrs ddthflg dfrstint
+     dintmth4 dintmth5 dintmth6 dintmth7 dintmth8 
+     dsex dedudgr deduyrs
+     dracehsp dracecnt dracewht draceblk draceoth 
+
+     dageyrs4 dageyrs5 dageyrs6 dageyrs7 dageyrs8 
+     dagecnt4 dagecnt5 dagecnt6 dagecnt7 dagecnt8 
+     dagesqr4 dagesqr5 dagesqr6 dagesqr7 dagesqr8 
+     dagec2_4 dagec2_5 dagec2_6 dagec2_7 dagec2_8 
+
+     dhhsize4 dhhsize5 dhhsize6 dhhsize7 dhhsize8 
+     dmarint4 dmarint5 dmarint6 dmarint7 dmarint8 
+     ewthfin4 ewthfin5 ewthfin6 ewthfin7 ewthfin8
+     eincind4 einchh4 eincind5 einchh5 eincind6 einchh6 
+     eincind7 einchh7 eincind8 einchh8 
+
+     bexcfrq4 bexcfrq5 bexcfrq6 bexcfrq7 bexcfrq8 
+     bsmkevr4 bsmkevr5 bsmkevr6 bsmkevr7 bsmkevr8 
+     bsmknow4 bsmknow5 bsmknow6 bsmknow7 bsmknow8 
+     balcevr4 balcevr5 balcevr6 balcevr7 balcevr8 
+     balcdwk4 balcdwk5 balcdwk6 balcdwk7 balcdwk8 
+     balcddy4 balcddy5 balcddy6 balcddy7 balcddy8
+
+     hvtlsts4 hvtlsts5 hvtlsts6 hvtlsts7 hvtlsts8 
+     hbmi4 hbmi5 hbmi6 hbmi7 hbmi8 
+     hsrhscr4 hsrhscr5 hsrhscr6 hsrhscr7 hsrhscr8 
+     hbrkhip4 hbrkhip5 hbrkhip6 hbrkhip7 hbrkhip8 
+     hbcksym4 hbcksym5 hbcksym6 hbcksym7 hbcksym8
+     hhbpdia4 hhbpdia5 hhbpdia6 hhbpdia7 hhbpdia8 
+     hdibdia4 hdibdia5 hdibdia6 hdibdia7 hdibdia8 
+     hcandia4 hcandia5 hcandia6 hcandia7 hcandia8 
+     hlngdia4 hlngdia5 hlngdia6 hlngdia7 hlngdia8 
+     hpsydia4 hpsydia5 hpsydia6 hpsydia7 hpsydia8 
+     hartdia4 hartdia5 hartdia6 hartdia7 hartdia8 
+     hstkdia4 hstkdia5 hstkdia6 hstkdia7 hstkdia8 
+     hhrtdia4 hhrtdia5 hhrtdia6 hhrtdia7 hhrtdia8
+     hiad3pt4 hiad3pt5 hiad3pt6 hiad3pt7 hiad3pt8 
+     hiad5pt4 hiad5pt5 hiad5pt6 hiad5pt7 hiad5pt8 
+     hadl3pt4 hadl3pt5 hadl3pt6 hadl3pt7 hadl3pt8 
+     hadl5pt4 hadl5pt5 hadl5pt6 hadl5pt7 hadl5pt8 
+     
+     pcsdsum4 pcsdsum5 pcsdsum6 pcsdsum7 pcsdsum8 
+     csrmscr4 csrmscr5 csrmscr6 csrmscr7 csrmscr8 
+     cticlow4 cticlow5 cticlow6 cticlow7 cticlow8 
+     ctic9pt4 ctic9pt5 ctic9pt6 ctic9pt7 ctic9pt8
+     ciwrstd4 ciwrstd5 ciwrstd6 ciwrstd7 ciwrstd8 
+     cdwrstd4 cdwrstd5 cdwrstd6 cdwrstd7 cdwrstd8 
+     ciwrscr4 ciwrscr5 ciwrscr6 ciwrscr7 ciwrscr8 
+     cdwrscr4 cdwrscr5 cdwrscr6 cdwrscr7 cdwrscr8 
+     cssstd4 cssstd5 cssstd6 cssstd7 cssstd8 
+     cssscr4 cssscr5 cssscr6 cssscr7 cssscr8 
+     cvcbstd4 cvcbstd5 cvcbstd6 cvcbstd7 cvcbstd8 
+     cvcbscr4 cvcbscr5 cvcbscr6 cvcbscr7 cvcbscr8
+
+     t1age t2age t3age t4age t5age 
+     t1 t2 t3 t4 t5 
+     t1_time2 t2_time2 t3_time2 t4_time2 t5_time2 
+     
+     pn hhid hhidpn;
+
+  Missing are all (-9999) ; 
+
+! List of ALL variables used in model;
+    !USEVARIABLES ARE CDWR;              ! Use in random int model;
+    USEVARIABLES ARE time CDWR;    ! Use in linear models;
+    !USEVARIABLES ARE time  time2  CDWR;  ! Use in quadratic models;
+
+! Identify person-level nesting;
+    CLUSTER = hhidpn;
+! Predictor variables measured within-persons (just time for now);
+    !WITHIN =  ;                         ! Use in random int model;
+    WITHIN = time;                    ! Use in linear models;
+    !WITHIN = time time2;           ! Use in quadratic models;
+! Predictor variables measured between-persons (none right now);
+    BETWEEN = ;
+
+ANALYSIS:   TYPE IS TWOLEVEL RANDOM;     ! 2-level model with random slopes;
+            ESTIMATOR IS ML;
+MODEL:	 
+!!!!! Model 1: Empty, Random Intercept Only Model;  
+     ! Level-1, time-level model;
+!        %WITHIN%                       ! Residual included by default;
+!            ;
+     ! Level-2, person-level model;
+!        %BETWEEN%
+!           CDWR*;                          ! Random int included by default;
+               
+
+!!!!! Model 2: Fixed Linear, Random Intercept Model;  
+    ! Level-1, time-level model;
+!        %WITHIN%                         ! Residual included by default;
+!            linear | CDWR ON time;    ! Fixed linear slope;
+    ! Level-2, person-level model;
+!        %BETWEEN%
+!            CDWR*                     ! Random int included by default;
+!            linear@0;                    ! No random linear variance;
+
+!!!!! Model 3: Random Linear Only Model;  
+    ! Level-1, time-level model;
+        %WITHIN%                         ! Residual included by default;
+            linear | CDWR ON time;          ! Fixed linear slope;
+    ! Level-2, person-level model;
+        %BETWEEN%
+            CDWR*                           ! Random int included by default;
+            linear*;                     ! Random linear variance;
+            CDWR WITH linear;               ! Int-Linear covariance; 
+ 
+
+!!!!! Model 4: Fixed Quadratic, Random Linear Model;  
+    ! Level-1, time-level model;
+!        %WITHIN%                         ! Residual included by default;
+!            linear | CDWR ON time;          ! Fixed linear slope;
+!            quad | CDWR ON time2;           ! Fixed quadratic slope;
+    ! Level-2, person-level model;
+!        %BETWEEN%
+!            CDWR*                           ! Random int included by default;
+!            linear*;                     ! Random linear variance;
+!            CDWR WITH linear;               ! Int-Linear covariance; 
+!            quad@0;                      ! No random quadratic variance;
+
+ 
+!!!!! Model 5: Random Quadratic Model;  
+    ! Level-1, time-level model;
+!        %WITHIN%                         ! Residual included by default;
+!            linear | CDWR ON time;          ! Fixed linear slope;
+!            quad | CDWR ON time2;           ! Fixed quadratic slope;
+    ! Level-2, person-level model;
+!        %BETWEEN%
+!            CDWR*                           ! Random int included by default;
+!            linear*;                     ! Random linear variance;
+!            CDWR WITH linear;               ! Int-Linear covariance; 
+!            quad*;                       ! Random quadratic variance;
+!            quad WITH CDWR linear;          ! Int-Quad and Lin-Quad covariance;
+
+Output: sampstat  ; 
+
